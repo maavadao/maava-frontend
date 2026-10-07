@@ -4,14 +4,14 @@ import { BadgeCheck, GraduationCap, Plus, Search, Star, Store } from 'lucide-rea
 import { PageContainer } from '@/components/layout';
 import { Badge, Button, Card, Input } from '@/components/ui';
 import { categoryLabel, marketplaceAgents } from '@/lib/marketplace';
-import { pricingSummary } from '@/lib/pricing';
+import { CONTACT_URL } from '@/lib/pricing';
 import { REGISTRY_REPO } from '@/lib/registry';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Agent marketplace',
-  description: 'AI agents built by the community. Free for education; businesses pay to support the developers.',
+  description: 'AI agents built by the community, free for schools, orphanages, educators and small businesses.',
 };
 
 interface Params {
@@ -40,8 +40,9 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
               Agent marketplace
             </h1>
             <p className="text-muted-foreground max-w-3xl">
-              AI agents built by the community. Every agent is free for students, teachers, schools, orphanages and
-              non-profits. Companies and businesses pay the price set by the developer, which supports their work.
+              AI agents built by the community. Students, teachers, schools, orphanages, community educators and small
+              businesses use them free of charge. Using agents in a larger organisation?{' '}
+              <a href={CONTACT_URL} className="text-primary hover:underline">Talk to us</a>.
             </p>
           </div>
           <a href={`${REGISTRY_REPO}/blob/main/templates/agent.yaml`}>
@@ -106,7 +107,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
                     </div>
                     <p className="text-xs inline-flex items-center gap-1 text-muted-foreground">
                       <GraduationCap className="h-3.5 w-3.5" aria-hidden />
-                      {pricingSummary(a.pricing)}
+                      Free for education
                     </p>
                   </Card>
                 </Link>

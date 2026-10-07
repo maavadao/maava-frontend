@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, BadgeCheck, ExternalLink, Github, Languages, ShieldCheck, Users } from 'lucide-react';
 import { PageContainer } from '@/components/layout';
-import { PricingTable } from '@/components/pricing-table';
+import { AgentAccess } from '@/components/agent-access';
 import { Badge, Button, Card } from '@/components/ui';
 import { MEMBER_SPACE_URL } from '@/lib/constants';
 import { categoryLabel, marketplaceAgent } from '@/lib/marketplace';
@@ -54,11 +54,8 @@ export default async function MarketplaceAgentPage({ params }: { params: { slug:
         </header>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Pricing and usage</h2>
-          <PricingTable pricing={agent.pricing} />
-          <p className="text-xs text-muted-foreground">
-            Agents on mawaDao are always free for education. Payments from companies and businesses go to the developer.
-          </p>
+          <h2 className="text-xl font-semibold">Who can use it</h2>
+          <AgentAccess />
         </section>
 
         {(agent.audience || agent.languages?.length || agent.dataCollected) && (
