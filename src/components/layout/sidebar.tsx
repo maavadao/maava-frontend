@@ -86,7 +86,7 @@ function SidebarLogo({ collapsed, onToggleCollapse }: { collapsed?: boolean; onT
     <div className="flex items-center justify-between px-5 py-5">
       <Link href={ROUTES.HOME} className="flex items-center gap-2.5">
         <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
-          <span className="text-white font-bold text-sm">B</span>
+          <span className="text-white font-bold text-sm">m</span>
         </div>
         <span className="text-lg font-bold text-foreground">{APP_NAME}</span>
       </Link>
@@ -748,7 +748,7 @@ export function AgentDetailNav() {
         <div className="flex items-center gap-8">
           <Link href={ROUTES.HOME} className="flex items-center gap-2.5">
             <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-white font-bold text-sm">B</span>
+              <span className="text-white font-bold text-sm">m</span>
             </div>
             <span className="text-lg font-bold text-foreground">{APP_NAME}</span>
           </Link>
