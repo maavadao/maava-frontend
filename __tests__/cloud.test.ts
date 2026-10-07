@@ -188,7 +188,7 @@ describe('Subdomain Validation', () => {
   }
 
   it('accepts valid subdomains', () => {
-    expect(isValidSubdomain('raj')).toBe(true);
+    expect(isValidSubdomain('carol')).toBe(true);
     expect(isValidSubdomain('my-workspace')).toBe(true);
     expect(isValidSubdomain('user123')).toBe(true);
     expect(isValidSubdomain('a-long-but-valid-subdomain-name')).toBe(true);

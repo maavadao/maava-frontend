@@ -90,7 +90,7 @@ describe('transfer token on subdomain (pass-through)', () => {
         const res = await mw(req);
         // Should rewrite (200), NOT redirect — let the client-side JS handle the exchange
         expect(res?.status).toBe(200);
-        expect(res?.headers.get('x-subdomain')).toBe('aliko');
+        expect(res?.headers.get('x-subdomain')).toBe('alice');
         expect(res?.headers.get('x-needs-token-exchange')).toBe('1');
     });
 
@@ -99,7 +99,7 @@ describe('transfer token on subdomain (pass-through)', () => {
         mockedAuth.validateJWT.mockResolvedValue({
             userId: 'user-1',
             email: 'ali@example.com',
-            subdomain: 'aliko',
+            subdomain: 'alice',
             tenantId: 'tenant-1',
         });
 
@@ -127,7 +127,7 @@ describe('authenticated user on subdomain', () => {
         mockedAuth.validateJWT.mockResolvedValue({
             userId: 'user-1',
             email: 'ali@example.com',
-            subdomain: 'aliko',
+            subdomain: 'alice',
             tenantId: 'tenant-1',
         });
 
@@ -138,7 +138,7 @@ describe('authenticated user on subdomain', () => {
 
         const res = await mw(req);
         expect(res?.status).toBe(200);
-        expect(res?.headers.get('x-subdomain')).toBe('aliko');
+        expect(res?.headers.get('x-subdomain')).toBe('alice');
         expect(res?.headers.get('x-tenant-id')).toBe('tenant-1');
     });
 
@@ -167,7 +167,7 @@ describe('main domain with authenticated user and subdomain', () => {
         mockedAuth.validateJWT.mockResolvedValue({
             userId: 'user-1',
             email: 'ali@example.com',
-            subdomain: 'aliko',
+            subdomain: 'alice',
             tenantId: 'tenant-1',
         });
         mockedAuth.createTransferToken.mockResolvedValue('xfer-token-123');

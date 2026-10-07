@@ -54,8 +54,8 @@ describe('Cloud Store (Zustand)', () => {
     // Build a fake JWT with a valid base64url payload (no signature verification in store)
     const payload = {
       userId: 'user-123',
-      email: 'raj@mawadao.com',
-      subdomain: 'raj',
+      email: 'carol@mawadao.com',
+      subdomain: 'carol',
       tenantId: 'tenant-xyz',
       iss: 'mawadao-auth',
       exp: Math.floor(Date.now() / 1000) + 3600,
@@ -68,7 +68,7 @@ describe('Cloud Store (Zustand)', () => {
 
     const state = useCloudStore.getState();
     expect(state.jwtToken).toBe(fakeToken);
-    expect(state.subdomain).toBe('raj');
+    expect(state.subdomain).toBe('carol');
     expect(state.tenantId).toBe('tenant-xyz');
     expect(state.tenantStatus).toBe('active');
   });
@@ -130,7 +130,7 @@ describe('Multi-Tenant Middleware Logic', () => {
   }
 
   it('extracts subdomain from alice.mawadao.com', () => {
-    expect(extractSubdomain('alice.mawadao.com')).toBe('raj');
+    expect(extractSubdomain('alice.mawadao.com')).toBe('alice');
   });
 
   it('extracts subdomain from workspace-1.mawadao.com:3000', () => {
@@ -153,8 +153,8 @@ describe('Multi-Tenant Middleware Logic', () => {
   });
 
   it('validates JWT subdomain matches URL subdomain', () => {
-    const jwtSubdomain = 'raj';
-    const urlSubdomain = 'raj';
+    const jwtSubdomain = 'carol';
+    const urlSubdomain = 'carol';
     expect(jwtSubdomain === urlSubdomain).toBe(true);
 
     // Mismatch should deny access
@@ -165,7 +165,7 @@ describe('Multi-Tenant Middleware Logic', () => {
   it('unauthenticated subdomain access redirects to login', () => {
     // Simulate: alice.mawadao.com with no JWT → should redirect
     const user = null;
-    const subdomain = 'raj';
+    const subdomain = 'carol';
     const shouldRedirect = subdomain && !user;
     expect(shouldRedirect).toBe(true);
   });
@@ -261,7 +261,7 @@ describe('Multi-Tenant Architecture Invariants', () => {
 
   it('subdomain uniqueness prevents tenant conflicts', () => {
     const subdomains = new Set<string>();
-    const testSubs = ['raj', 'alice', 'bob', 'workspace-1'];
+    const testSubs = ['carol', 'alice', 'bob', 'workspace-1'];
 
     for (const sub of testSubs) {
       expect(subdomains.has(sub)).toBe(false);
@@ -269,7 +269,7 @@ describe('Multi-Tenant Architecture Invariants', () => {
     }
 
     // Duplicate should be caught
-    subdomains.add('raj');
+    subdomains.add('carol');
     expect(subdomains.size).toBe(4); // Set deduplicates
   });
 
@@ -484,10 +484,10 @@ describe('Database Schema Constraints', () => {
 describe('Cloud Run Deployment Model', () => {
   it('each tenant gets unique service name', () => {
     const serviceName = (subdomain: string) => `mawadao-${subdomain}`;
-    expect(serviceName('raj')).toBe('mawadao-alice');
+    expect(serviceName('carol')).toBe('mawadao-carol');
     expect(serviceName('alice')).toBe('mawadao-alice');
     // Should not collide
-    expect(serviceName('raj')).not.toBe(serviceName('alice'));
+    expect(serviceName('carol')).not.toBe(serviceName('alice'));
   });
 
   it('backend URL follows Cloud Run pattern', () => {
