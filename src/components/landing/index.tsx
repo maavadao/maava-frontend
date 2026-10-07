@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button, Input } from '@/components/ui';
 import { MawadaoLogo } from '@/components/layout';
-import { ROUTES, APP_NAME, MEMBER_SPACE_URL, MEMBER_SPACE_HOST } from '@/lib/constants';
+import { ROUTES, APP_NAME, MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
 import { useAuthStore, useSetupStore } from '@/store';
 import { useCloudStore } from '@/store/cloud';
 import { cn } from '@/lib/utils';
@@ -341,7 +341,7 @@ function GuidedSetup() {
     if (!user) return;
     const existingSub = useCloudStore.getState().subdomain;
     if (existingSub) {
-      window.location.href = MEMBER_SPACE_URL;
+      window.location.href = memberSpaceUrl(existingSub);
       return;
     }
     // Check httpOnly cookie for subdomain
@@ -350,7 +350,7 @@ function GuidedSetup() {
       .then((data) => {
         if (data?.subdomain) {
           useCloudStore.getState().setSubdomain(data.subdomain);
-          window.location.href = MEMBER_SPACE_URL;
+          window.location.href = memberSpaceUrl(data.subdomain);
         }
       })
       .catch(() => {});
@@ -431,7 +431,7 @@ function GuidedSetup() {
       // If user already has a subdomain, redirect to their tenant
       const existingSub = useCloudStore.getState().subdomain;
       if (existingSub) {
-        window.location.href = MEMBER_SPACE_URL;
+        window.location.href = memberSpaceUrl(existingSub);
         return;
       }
       goTo('subdomain');
@@ -550,7 +550,7 @@ function GuidedSetup() {
   const redirectToProvisionedTenant = React.useCallback((targetSubdomain: string) => {
     completeSetup();
     useCloudStore.getState().setSubdomain(targetSubdomain);
-    window.location.href = `${MEMBER_SPACE_URL}?onboarding=true`;
+    window.location.href = `${memberSpaceUrl(targetSubdomain)}?onboarding=true`;
   }, [completeSetup]);
 
   const handleSubdomainProvision = React.useCallback(async () => {
@@ -1011,17 +1011,14 @@ function GuidedSetup() {
                   {subdomain && isValidSubdomain(subdomain) && (
                     <div className="rounded-lg border bg-muted/50 p-4 mb-4 space-y-1.5">
                       <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                        Your workspace name
+                        Your workspace URL
                       </p>
                       <div className="flex items-center gap-2">
                         <Globe className="h-4 w-4 text-primary shrink-0" />
                         <p className="text-sm font-mono font-medium text-foreground">
-                          {subdomain}
+                          {MEMBER_SPACE_HOST}/{subdomain}
                         </p>
                       </div>
-                      <p className="text-xs text-muted-foreground">
-                        You&apos;ll open your workspace at {MEMBER_SPACE_HOST}.
-                      </p>
                     </div>
                   )}
 

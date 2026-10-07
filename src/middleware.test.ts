@@ -74,7 +74,7 @@ afterEach(() => jest.restoreAllMocks());
 // ── Tests ──────────────────────────────────────────────────────────
 
 describe('member with a workspace', () => {
-    test('is sent from the main site to the member space', async () => {
+    test('is sent from the main site to their own space', async () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(member);
 
@@ -85,7 +85,7 @@ describe('member with a workspace', () => {
 
         const res = await mw(req);
         expect(res?.status).toBe(307);
-        expect(res?.headers.get('location')).toBe('https://agent.mawadao.com/');
+        expect(res?.headers.get('location')).toBe('https://agent.mawadao.com/alice');
     });
 
     test('can still use the marketplace on the main site', async () => {

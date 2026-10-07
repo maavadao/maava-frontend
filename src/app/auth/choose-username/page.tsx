@@ -232,7 +232,7 @@ export default function ChooseUsernamePage() {
                   <div className="flex items-center gap-2">
                     <Globe className="h-4 w-4 text-primary shrink-0" />
                     <p className="text-sm font-mono font-medium text-foreground">
-                      {MEMBER_SPACE_HOST}/chat/{username}
+                      {MEMBER_SPACE_HOST}/{username}
                     </p>
                   </div>
                   <p className="text-xs text-muted-foreground">

@@ -12,12 +12,62 @@ export const MEMBER_SPACE_URL = (
 ).replace(/\/+$/, "");
 export const MEMBER_SPACE_HOST = MEMBER_SPACE_URL.replace(/^https?:\/\//, "");
 
+/**
+ * Names that can't be claimed as a username: infrastructure names, plus paths the
+ * member space serves itself (agent.mawadao.com/<username> shares the URL space).
+ */
+export const RESERVED_USERNAMES: ReadonlySet<string> = new Set([
+  "_next",
+  "admin",
+  "api",
+  "app",
+  "assets",
+  "auth",
+  "beta",
+  "blog",
+  "c",
+  "cdn",
+  "channels",
+  "chat",
+  "console",
+  "dashboard",
+  "demo",
+  "dev",
+  "docs",
+  "favicon.ico",
+  "ftp",
+  "health",
+  "help",
+  "images",
+  "inbox",
+  "integrations",
+  "mail",
+  "marketplace",
+  "media",
+  "mission-control",
+  "panel",
+  "seller",
+  "settings",
+  "site.webmanifest",
+  "staging",
+  "static",
+  "status",
+  "support",
+  "test",
+  "www",
+]);
+
+/** A member's own space: https://agent.mawadao.com/<username>. */
+export function memberSpaceUrl(username: string | undefined | null): string {
+  return username ? `${MEMBER_SPACE_URL}/${encodeURIComponent(username)}` : MEMBER_SPACE_URL;
+}
+
 /** Build the member-space chat URL for a given username. */
 export function getUserChatUrl(username: string | undefined | null): string {
   if (!username) return "/chat";
   const safe = username.toLowerCase().replace(/[^a-z0-9-]/g, "");
   if (!safe) return "/chat";
-  return `${MEMBER_SPACE_URL}/chat/${safe}`;
+  return `${MEMBER_SPACE_URL}/${safe}`;
 }
 
 // API

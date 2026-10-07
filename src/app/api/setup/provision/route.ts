@@ -16,6 +16,7 @@ import { debugLog, debugWarn } from "@/lib/logger";
 import { isSubdomainAvailable } from "@/lib/tenant-lookup";
 import { invalidateBackendUrl } from "@/lib/redis";
 import { checkRateLimit, RATE_LIMITS } from "@/lib/rate-limit";
+import { RESERVED_USERNAMES } from "@/lib/constants";
 
 const DEPLOYER_URL =
   process.env.CLOUD_RUN_DEPLOYER_URL || "http://localhost:3002/api/v1";
@@ -34,34 +35,6 @@ const LOCAL_BACKEND_URL =
   process.env.NEXT_PUBLIC_OPENCLAW_GATEWAY_URL ||
   "http://localhost:19001";
 
-/** Reserved subdomains that cannot be claimed */
-const RESERVED = new Set([
-  "www",
-  "api",
-  "auth",
-  "admin",
-  "app",
-  "mail",
-  "ftp",
-  "blog",
-  "docs",
-  "help",
-  "support",
-  "status",
-  "cdn",
-  "static",
-  "assets",
-  "media",
-  "images",
-  "test",
-  "staging",
-  "dev",
-  "demo",
-  "beta",
-  "dashboard",
-  "console",
-  "panel",
-]);
 
 /**
  * GET /api/setup/provision — Redirects browser navigation to the onboarding page.
@@ -184,9 +157,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (RESERVED.has(subdomain)) {
+  if (RESERVED_USERNAMES.has(subdomain)) {
     return NextResponse.json(
-      { error: "This subdomain is reserved" },
+      { error: "This name is reserved" },
       { status: 400 }
     );
   }

@@ -1,6 +1,6 @@
 import { api } from "@/lib/api";
 import { configApi } from "@/lib/config-api";
-import { MEMBER_SPACE_URL, MEMBER_SPACE_HOST } from '@/lib/constants';
+import { MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
 import { useAuthStore } from "@/store";
 import { useCloudStore } from "@/store/cloud";
 import type { User } from "@/types";
@@ -68,7 +68,7 @@ function buildDestination(
   const { subdomain, pendingSubdomain } = session.user;
 
   if (subdomain) {
-    const targetUrl = new URL(MEMBER_SPACE_URL);
+    const targetUrl = new URL(memberSpaceUrl(subdomain));
     if (session.transferToken) {
       targetUrl.searchParams.set("auth_token", session.transferToken);
       targetUrl.searchParams.set("state", crypto.randomUUID());
@@ -77,7 +77,7 @@ function buildDestination(
     if (redirectTo) {
       try {
         const redirectUrl = new URL(redirectTo, window.location.origin);
-        if (redirectUrl.host === MEMBER_SPACE_HOST) {
+        if (redirectUrl.host === MEMBER_SPACE_HOST && redirectUrl.pathname.startsWith(targetUrl.pathname)) {
           targetUrl.pathname = redirectUrl.pathname;
           redirectUrl.searchParams.forEach((value, key) => {
             if (key !== "auth_token" && key !== "state") {

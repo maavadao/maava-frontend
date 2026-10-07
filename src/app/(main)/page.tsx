@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/hooks';
-import { MEMBER_SPACE_URL } from '@/lib/constants';
+import { memberSpaceUrl } from '@/lib/constants';
 import { useCloudStore } from '@/store/cloud';
 import { useAuthStore } from '@/store';
 import { debugLog } from '@/lib/logger';
@@ -144,7 +144,7 @@ export default function HomePage() {
     if (!checkedSession) return;
     if (isAuthenticated && cloudSubdomain && !redirectingRef.current) {
       redirectingRef.current = true;
-      const target = MEMBER_SPACE_URL;
+      const target = memberSpaceUrl(cloudSubdomain);
       debugLog('[Home] Redirecting authenticated user to the member space:', target);
       window.location.href = target;
     }

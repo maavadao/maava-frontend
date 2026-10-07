@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { validateJWT } from '@/lib/auth';
-import { MEMBER_SPACE_URL, MEMBER_SPACE_HOST } from '@/lib/constants';
+import { MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
 
 // Routes that require authentication
 const protectedRoutes = ['/settings', '/channels', '/onboarding'];
@@ -37,11 +37,11 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get('auth-token')?.value;
     const user = token ? await validateJWT(token) : null;
 
-    // Members with a workspace belong in the member space. The auth cookie is
-    // scoped to the parent domain, so the member space shares the session.
+    // Members with a workspace belong in their space, agent.mawadao.com/<username>.
+    // The auth cookie is scoped to the parent domain, so the member space shares the session.
     const onMemberSpace = resolveExternalHost(request) === MEMBER_SPACE_HOST;
     if (user?.subdomain && !onMemberSpace && !mainSitePaths.some(p => pathname.startsWith(p))) {
-      return NextResponse.redirect(new URL(MEMBER_SPACE_URL));
+      return NextResponse.redirect(new URL(memberSpaceUrl(user.subdomain)));
     }
 
     // Never keep authenticated users on login routes.

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Loader2, ExternalLink, Store } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { useCloudStore } from '@/store/cloud';
-import { MEMBER_SPACE_URL, MEMBER_SPACE_HOST } from '@/lib/constants';
+import { MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
 
 /**
  * MarketplaceTab — redirects the user to the marketplace in their member space.
@@ -14,7 +14,7 @@ export default function MarketplaceTab() {
 
   useEffect(() => {
     if (subdomain) {
-      window.location.href = `${MEMBER_SPACE_URL}/marketplace`;
+      window.location.href = `${memberSpaceUrl(subdomain)}/marketplace`;
     }
   }, [subdomain]);
 
@@ -26,11 +26,11 @@ export default function MarketplaceTab() {
           Redirecting to your marketplace&hellip;
         </p>
         <a
-          href={`${MEMBER_SPACE_URL}/marketplace`}
+          href={`${memberSpaceUrl(subdomain)}/marketplace`}
           className="text-xs text-primary hover:underline inline-flex items-center gap-1"
         >
           <ExternalLink className="h-3 w-3" />
-          {MEMBER_SPACE_HOST}/marketplace
+          {MEMBER_SPACE_HOST}/{subdomain}/marketplace
         </a>
       </div>
     );

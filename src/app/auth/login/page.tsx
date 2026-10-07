@@ -8,7 +8,7 @@ import { debugLog, debugWarn } from '@/lib/logger';
 import { useAuthStore } from '@/store';
 import { Button, Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui';
 import { AlertCircle, User, Lock } from 'lucide-react';
-import { APP_NAME, ROUTES, MEMBER_SPACE_URL } from '@/lib/constants';
+import { APP_NAME, memberSpaceUrl } from '@/lib/constants';
 
 /** Sanitize redirect URL — only allow same-origin or *.mawadao.com */
 function sanitizeRedirect(raw: string | null): string | null {
@@ -67,7 +67,7 @@ export default function LoginPage() {
           if (lastAttempt && Date.now() - Number(lastAttempt) < 10_000) {
             console.error('[Login] Redirect attempted too recently — likely a loop. Last attempt:', new Date(Number(lastAttempt)).toISOString());
             setError(
-              'Unable to reach your workspace. Please wait a few seconds and refresh, or try opening your workspace directly at ' + MEMBER_SPACE_URL,
+              'Unable to reach your workspace. Please wait a few seconds and refresh, or try opening your workspace directly at ' + memberSpaceUrl(data.subdomain),
             );
             return;
           }
@@ -79,7 +79,7 @@ export default function LoginPage() {
             debugLog('[Login] transfer-token response status:', ttRes.status);
             if (ttRes.ok) {
               const ttData = await ttRes.json();
-              const targetUrl = new URL(MEMBER_SPACE_URL);
+              const targetUrl = new URL(memberSpaceUrl(data.subdomain));
               targetUrl.searchParams.set('auth_token', ttData.transferToken);
               targetUrl.searchParams.set('state', crypto.randomUUID());
               debugLog('[Login] Redirecting to the member space with transfer token:', targetUrl.toString());
@@ -93,7 +93,7 @@ export default function LoginPage() {
           }
           // Fallback: redirect without transfer token (relies on .mawadao.com cookie)
           debugLog('[Login] Falling back to direct member-space redirect (no transfer token)');
-          window.location.href = MEMBER_SPACE_URL;
+          window.location.href = memberSpaceUrl(data.subdomain);
         } else if (data?.authenticated) {
           debugLog('[Login] Already authenticated (no subdomain) — redirect to /');
           window.location.href = '/';

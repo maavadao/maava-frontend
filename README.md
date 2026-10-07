@@ -11,7 +11,7 @@ Part of [mawaDao Agent](https://github.com/mawadao/mawadao-agent), the open-sour
 - **Marketplace:** browse and install ready-made agents and skills.
 - **Agent builder:** create an agent, pick a model and add skills.
 - **Accounts:** Google and Microsoft sign-in through `mawadao-agent-auth`, a waitlist with admin approval, and username selection.
-- **Provisioning:** creates each member's hosted agent through `mawadao-agent-deployer` and sends them to the member space (`mawadao-agent-dashboard`, at `agent.mawadao.com`).
+- **Provisioning:** creates each member's hosted agent through `mawadao-agent-deployer` and sends them to their space in the member space (`mawadao-agent-dashboard`, at `agent.mawadao.com/<username>`).
 
 ## How it fits
 
