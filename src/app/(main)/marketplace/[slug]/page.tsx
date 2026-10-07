@@ -28,11 +28,11 @@ export default async function MarketplaceAgentPage({ params }: { params: { slug:
 
         <header className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-3xl font-bold">{agent.name}</h1>
+            <h1 className="text-display">{agent.name}</h1>
             {agent.verified && <BadgeCheck className="h-6 w-6 text-primary" aria-label="Verified" />}
             <Badge variant="secondary">{categoryLabel(agent.category)}</Badge>
           </div>
-          <p className="text-lg text-muted-foreground">{agent.summary}</p>
+          <p className="text-lede text-muted-foreground">{agent.summary}</p>
           <p className="text-sm text-muted-foreground">by {agent.developer}</p>
           <div className="flex flex-wrap gap-3">
             {agent.source === 'mawadao' && (
@@ -54,7 +54,7 @@ export default async function MarketplaceAgentPage({ params }: { params: { slug:
         </header>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Who can use it</h2>
+          <h2 className="text-title">Who can use it</h2>
           <AgentAccess />
         </section>
 

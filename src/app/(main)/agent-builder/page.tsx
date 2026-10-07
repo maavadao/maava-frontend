@@ -15,34 +15,34 @@ import { cn } from '@/lib/utils';
 
 const TEMPLATES = [
   {
-    label: 'Customer Support Bot',
-    prompt: 'Create an AI agent that handles customer support inquiries. It should be friendly, patient, and able to answer FAQs, route complex issues to humans, and follow up on tickets. It should work 24/7 and support multiple languages.',
+    label: 'Reading buddy',
+    prompt: 'Create an agent that helps primary pupils aged 6–9 practise reading. It reads short stories with them, asks simple questions about what happened, and gives gentle, encouraging feedback. Keep the language simple and age-appropriate.',
+    category: 'education',
+  },
+  {
+    label: 'Maths tutor',
+    prompt: 'Create a maths tutor for secondary students. It explains each step clearly, checks the student\'s working, and gives a hint before giving the answer. It should be patient and never make the student feel bad for a mistake.',
+    category: 'education',
+  },
+  {
+    label: 'Lesson planner',
+    prompt: 'Create an agent that helps teachers plan lessons. Given a topic, age group and lesson length, it suggests learning objectives, activities, a task for students who need more support and one for those who need a challenge, and a short end-of-lesson check.',
+    category: 'education',
+  },
+  {
+    label: 'Language practice',
+    prompt: 'Create an agent for practising conversational English with learners whose first language is different. It keeps conversations simple, corrects mistakes kindly, and can explain a word in the learner\'s own language when they are stuck.',
+    category: 'education',
+  },
+  {
+    label: 'Science explainer',
+    prompt: 'Create an agent that explains science topics to curious 10–14 year olds using everyday examples and simple experiments they can do at home or school with common materials, with clear safety notes.',
+    category: 'education',
+  },
+  {
+    label: 'Small shop assistant',
+    prompt: 'Create an assistant for a small local shop that answers customer questions about opening hours, products and prices in the customer\'s language, and hands over to a person when it is not sure.',
     category: 'customer-support',
-  },
-  {
-    label: 'Code Review Assistant',
-    prompt: 'Create an AI coding assistant that reviews code for bugs, security issues, and best practices. It should understand TypeScript, Python, and Go. It should provide detailed explanations and suggest fixes.',
-    category: 'coding',
-  },
-  {
-    label: 'Content Writer',
-    prompt: 'Create an AI content writing agent that creates blog posts, social media content, and marketing copy. It should match brand voice, optimize for SEO, and suggest engaging headlines.',
-    category: 'writing',
-  },
-  {
-    label: 'Data Analyst',
-    prompt: 'Create an AI data analysis agent that helps interpret datasets, create visualizations descriptions, identify trends, and generate reports. It should explain findings in plain language.',
-    category: 'data',
-  },
-  {
-    label: 'DevOps Monitor',
-    prompt: 'Create a DevOps monitoring agent that checks server health, monitors CI/CD pipelines, and alerts about failures. It should run on a heartbeat schedule every 5 minutes and provide actionable alerts.',
-    category: 'operations',
-  },
-  {
-    label: 'Sales Outreach Agent',
-    prompt: 'Create a sales outreach AI agent that qualifies leads, drafts personalized outreach emails, follows up on conversations, and tracks pipeline metrics. It should be persuasive but not pushy.',
-    category: 'sales',
   },
 ];
 
@@ -112,7 +112,7 @@ export default function AgentBuilderPage() {
           <Bot className="h-12 w-12 text-primary mb-4" />
           <h1 className="text-xl font-bold mb-2">Sign in to create agents</h1>
           <p className="text-muted-foreground mb-6 max-w-sm">
-            Log in to build custom AI agents with the SOUL/SKILL/HEARTBEAT architecture.
+            Sign in to build your own AI agent.
           </p>
           <Link href={ROUTES.LOGIN}><Button size="lg">Sign in</Button></Link>
         </div>

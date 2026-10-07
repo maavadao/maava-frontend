@@ -599,17 +599,6 @@ export default function IntegrationSetupPage() {
           <div className="space-y-4">
             <LivePreview channelName={channelName} />
 
-            {/* Quick info cards */}
-            <div className="grid grid-cols-2 gap-3">
-              <Card className="p-4 border border-border shadow-sm bg-card">
-                <p className="text-xs text-muted-foreground mb-1">Response Time</p>
-                <p className="text-lg font-bold text-foreground">&lt;2s</p>
-              </Card>
-              <Card className="p-4 border border-border shadow-sm bg-card">
-                <p className="text-xs text-muted-foreground mb-1">Uptime SLA</p>
-                <p className="text-lg font-bold text-foreground">99.9%</p>
-              </Card>
-            </div>
           </div>
         </div>
       </div>

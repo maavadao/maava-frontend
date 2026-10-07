@@ -6,26 +6,31 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button, Input } from '@/components/ui';
 import { MawadaoLogo } from '@/components/layout';
-import { ROUTES, APP_NAME, MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
+import { ROUTES, MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
+import { CONTACT_URL } from '@/lib/pricing';
+import { REGISTRY_REPO } from '@/lib/registry';
 import { useAuthStore, useSetupStore } from '@/store';
 import { useCloudStore } from '@/store/cloud';
 import { cn } from '@/lib/utils';
 import { finalizeEmailPasswordAuth } from '@/lib/email-auth-session';
 import {
   ArrowRight,
-  Bot,
-  LayoutDashboard,
-  Store,
-  ShieldCheck,
-  Play,
   Check,
-  Sparkles,
-  Globe,
+  Compass,
+  GraduationCap,
+  HeartHandshake,
+  Languages,
+  Lightbulb,
   Loader2,
-  X,
-  Mail,
   Lock,
+  Mail,
+  ShieldCheck,
+  Sparkles,
+  Store,
   User,
+  UserRound,
+  Globe,
+  X,
 } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaMicrosoft } from 'react-icons/fa6';
@@ -33,181 +38,48 @@ import { SiTelegram, SiDiscord, SiSlack, SiWhatsapp } from 'react-icons/si';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
-// =============================================================================
-// Animated Background Elements
-// =============================================================================
+const MISSION_URL = 'https://github.com/mawadao/mawadao/blob/main/MISSION.md';
 
-function FloatingOrbs() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <motion.div
-        className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-blue-400/20 via-indigo-300/10 to-transparent blur-3xl"
-        animate={{
-          x: [0, 30, -20, 0],
-          y: [0, -20, 10, 0],
-          scale: [1, 1.1, 0.95, 1],
-        }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-violet-400/15 via-purple-300/10 to-transparent blur-3xl"
-        animate={{
-          x: [0, -25, 15, 0],
-          y: [0, 15, -25, 0],
-          scale: [1, 0.95, 1.05, 1],
-        }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-gradient-to-r from-cyan-300/10 via-blue-200/5 to-transparent blur-3xl"
-        animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.5, 0.8, 0.5],
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-      />
-    </div>
-  );
-}
-
-function GridBackground() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.035]">
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.4) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }}
-      />
-    </div>
-  );
-}
-
-function FloatingParticles() {
-  const [particles, setParticles] = React.useState<
-    Array<{ id: number; x: number; y: number; size: number; duration: number; delay: number }>
-  >([]);
-
-  React.useEffect(() => {
-    setParticles(
-      Array.from({ length: 20 }, (_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: 2 + Math.random() * 3,
-        duration: 10 + Math.random() * 20,
-        delay: Math.random() * 10,
-      })),
-    );
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full bg-blue-500/20"
-          style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0, 0.6, 0],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
-    </div>
-  );
-}
+// Content settles into place once as it scrolls in; critically damped, no bounce.
+const reveal = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-80px' },
+  transition: { type: 'spring', bounce: 0, duration: 0.6 },
+} as const;
 
 // =============================================================================
-// Typing animation for hero
-// =============================================================================
-function TypeWriter({ words, className }: { words: string[]; className?: string }) {
-  const [currentWord, setCurrentWord] = React.useState(0);
-  const [currentText, setCurrentText] = React.useState('');
-  const [isDeleting, setIsDeleting] = React.useState(false);
-
-  React.useEffect(() => {
-    const word = words[currentWord];
-    const timeout = setTimeout(
-      () => {
-        if (!isDeleting) {
-          setCurrentText(word.substring(0, currentText.length + 1));
-          if (currentText === word) {
-            setTimeout(() => setIsDeleting(true), 2000);
-          }
-        } else {
-          setCurrentText(word.substring(0, currentText.length - 1));
-          if (currentText === '') {
-            setIsDeleting(false);
-            setCurrentWord((prev) => (prev + 1) % words.length);
-          }
-        }
-      },
-      isDeleting ? 50 : 100,
-    );
-    return () => clearTimeout(timeout);
-  }, [currentText, isDeleting, currentWord, words]);
-
-  return (
-    <span className={className}>
-      {currentText}
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
-        className="inline-block w-[3px] h-[1em] bg-blue-500 ml-0.5 align-middle"
-      />
-    </span>
-  );
-}
-
-// =============================================================================
-// Landing Nav — simplified, no sign-in buttons (login happens in wizard)
+// Navigation — translucent bar; content scrolls underneath it
 // =============================================================================
 export function LandingNav() {
-  const [scrolled, setScrolled] = React.useState(false);
-
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? 'bg-background/80 dark:bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
-          : 'bg-transparent border-b border-transparent'
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-6 flex h-16 items-center justify-between">
-        <div className="flex items-center gap-10">
+    <header className="material-nav sticky top-0 z-50 w-full border-b border-border/40">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex h-14 items-center justify-between gap-4">
+        <div className="flex items-center gap-8">
           <MawadaoLogo />
-          <nav className="hidden md:flex items-center gap-8">
-            {['How It Works', 'Features', 'Channels'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
+          <nav aria-label="Main" className="hidden md:flex items-center gap-1">
+            {[
+              { href: ROUTES.MARKETPLACE, label: 'Marketplace' },
+              { href: ROUTES.TOOLS, label: 'AI tools' },
+              { href: '#what-you-can-do', label: 'What you can do' },
+              { href: '#safety', label: 'Safety' },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="px-3 py-2 rounded-full text-footnote font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
-                {item}
-              </a>
+                {item.label}
+              </Link>
             ))}
           </nav>
         </div>
         <a
           href="#how-it-works"
-          className="inline-flex items-center gap-2 px-5 h-9 rounded-full text-[13px] font-semibold shadow-sm hover:shadow-md transition-all duration-300 bg-primary hover:bg-primary/90 text-primary-foreground"
+          className="press inline-flex items-center gap-1.5 px-4 h-11 rounded-full text-footnote font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          Get Started
-          <ArrowRight className="h-3.5 w-3.5" />
+          Create your workspace
+          <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </a>
       </div>
     </header>
@@ -261,7 +133,7 @@ const PROVIDER_OPTIONS = [
 // Step progress bar — fixed to 3 steps (Account → Subdomain → Provider)
 function StepProgress({ current, labels: customLabels }: { current: number; labels?: string[] }) {
   const total = 3;
-  const labels = customLabels || ['Account', 'Subdomain', 'Provider'];
+  const labels = customLabels || ['Account', 'Workspace', 'AI model'];
   return (
     <div className="flex items-center justify-between mb-8">
       <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -556,12 +428,12 @@ function GuidedSetup() {
   const handleSubdomainProvision = React.useCallback(async () => {
     setSubdomainError('');
     if (!isValidSubdomain(subdomain)) {
-      setSubdomainError('Subdomain must be 3-63 chars, start with a letter, lowercase letters, numbers, and hyphens only');
+      setSubdomainError('Use 3–63 lowercase letters, numbers or hyphens, starting with a letter.');
       return;
     }
     // Block only when explicitly marked unavailable (not when null/unchecked)
     if (subdomainAvailable === false) {
-      setSubdomainError('This subdomain is already taken');
+      setSubdomainError('This name is already taken');
       return;
     }
     setProvisioning(true);
@@ -592,7 +464,7 @@ function GuidedSetup() {
 
   // Step progress: account(1) → subdomain(2) → provider(3) → provision → redirect to chat
   const totalSteps = 3;
-  const stepLabels = ['Account', 'Subdomain', 'Provider'];
+  const stepLabels = ['Account', 'Workspace', 'AI model'];
   const currentProgress =
     step === 'account' || step === 'email-auth' ? 1 :
     step === 'subdomain' ? 2 :
@@ -609,7 +481,7 @@ function GuidedSetup() {
         <div className="flex items-center justify-between px-8 pt-7 pb-0">
           <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Guided Setup</span>
           <span className="text-[11px] font-medium bg-blue-50/80 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full border border-blue-100/60 dark:border-blue-800/40">
-            Free to start &middot; $5 free credits
+            Free for education
           </span>
         </div>
 
@@ -626,7 +498,7 @@ function GuidedSetup() {
                 transition={pageTransition}
                 className="flex flex-col flex-1"
               >
-                <h3 className="text-[22px] font-bold text-foreground mb-1.5 tracking-tight">
+                <h3 className="text-title text-foreground mb-1.5">
                   Set up your AI agent in 3&nbsp;steps
                 </h3>
                 <p className="text-[13px] text-muted-foreground mb-7 leading-relaxed">
@@ -636,7 +508,7 @@ function GuidedSetup() {
                 <div className="space-y-4 mb-8 flex-1">
                   {[
                     { n: 1, t: 'Create your account', d: 'Quick & free — Google, Microsoft, or email.' },
-                    { n: 2, t: 'Choose your subdomain', d: 'Pick a unique name for your AI agent page.' },
+                    { n: 2, t: 'Choose your workspace name', d: `Your space will be ${MEMBER_SPACE_HOST}/your-name.` },
                     { n: 3, t: 'Select your AI provider', d: 'Moonshot, OpenAI, Claude, or Gemini.' },
                   ].map((s, i) => (
                     <motion.div
@@ -667,7 +539,7 @@ function GuidedSetup() {
                 </Button>
 
                 <p className="text-[11px] text-center text-muted-foreground mt-4">
-                  No credit card required. $5 free credits included.
+                  Free for students, schools, orphanages and educators.
                 </p>
               </motion.div>
             )}
@@ -686,7 +558,7 @@ function GuidedSetup() {
                 <StepProgress current={1} labels={stepLabels} />
 
                 <div className="text-center mb-6">
-                  <h3 className="text-[22px] font-bold text-foreground mb-1 tracking-tight">
+                  <h3 className="text-title text-foreground mb-1">
                     Get started free
                   </h3>
                   <p className="text-[13px] text-muted-foreground">
@@ -765,7 +637,7 @@ function GuidedSetup() {
               >
                 <StepProgress current={1} labels={stepLabels} />
 
-                <h3 className="text-[22px] font-bold text-foreground mb-1 tracking-tight text-center">
+                <h3 className="text-title text-foreground mb-1 text-center">
                   {authMode === 'register' ? 'Create your account' : 'Welcome back'}
                 </h3>
                 <p className="text-[13px] text-muted-foreground mb-5 text-center">
@@ -913,7 +785,7 @@ function GuidedSetup() {
                   🎉
                 </div>
                 <div>
-                  <h3 className="text-[22px] font-bold text-foreground mb-2 tracking-tight">
+                  <h3 className="text-title text-foreground mb-2">
                     You&apos;re on the waitlist!
                   </h3>
                   <p className="text-[13px] text-muted-foreground leading-relaxed max-w-xs mx-auto">
@@ -951,11 +823,11 @@ function GuidedSetup() {
                   <div className="mx-auto mb-3 h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
                     <Globe className="h-7 w-7 text-primary" />
                   </div>
-                  <h3 className="text-[22px] font-bold text-foreground mb-1 tracking-tight">
-                    Choose Your Subdomain
+                  <h3 className="text-title text-foreground mb-1">
+                    Choose your workspace name
                   </h3>
-                  <p className="text-[13px] text-muted-foreground">
-                    This will be your personal AI agent page
+                  <p className="text-footnote text-muted-foreground">
+                    Your space will be {MEMBER_SPACE_HOST}/{subdomain || 'your-name'}
                   </p>
                 </div>
 
@@ -1001,7 +873,7 @@ function GuidedSetup() {
                     )}
                     {!subdomainChecking && subdomainAvailable === false && (
                       <p className="text-xs text-red-600 flex items-center gap-1">
-                        <X className="h-3 w-3" /> {subdomainReason || 'This subdomain is already taken'}
+                        <X className="h-3 w-3" /> {subdomainReason || 'This name is already taken'}
                       </p>
                     )}
                     {subdomainError && <p className="text-xs text-red-600">{subdomainError}</p>}
@@ -1056,7 +928,7 @@ function GuidedSetup() {
                   <div className="mx-auto mb-3 h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
                     <Sparkles className="h-7 w-7 text-primary" />
                   </div>
-                  <h3 className="text-[22px] font-bold text-foreground mb-1 tracking-tight">
+                  <h3 className="text-title text-foreground mb-1">
                     Choose Your AI Provider
                   </h3>
                   <p className="text-[13px] text-muted-foreground">
@@ -1114,7 +986,7 @@ function GuidedSetup() {
                   {provisioning ? (
                     <><Loader2 className="h-4 w-4 animate-spin" /> Launching...</>
                   ) : (
-                    <><span>Launch Workspace</span><ArrowRight className="h-4 w-4" /></>
+                    <><span>Create workspace</span><ArrowRight className="h-4 w-4" /></>
                   )}
                 </Button>
 
@@ -1154,66 +1026,44 @@ function GuidedSetup() {
 // =============================================================================
 // Hero Section (with tech animations + embedded wizard)
 // =============================================================================
+
+// =============================================================================
+// Hero
+// =============================================================================
 export function LandingHero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50/80 via-white to-white dark:from-background dark:via-background dark:to-background pt-20 pb-4 md:pt-28 md:pb-8">
-      <GridBackground />
-      <FloatingOrbs />
-      <FloatingParticles />
-
-      <div className="relative max-w-6xl mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1, duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/80 dark:bg-blue-950/60 border border-blue-100/60 dark:border-blue-800/40 text-blue-600 dark:text-blue-400 text-[12px] font-semibold mb-6"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              Powered by AI &middot; Built for the future
-            </motion.div>
-
-            <h1 className="text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-extrabold tracking-tight text-foreground leading-[1.05] mb-6">
-              Your Own{' '}
-              <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-violet-500 bg-clip-text text-transparent">
-                AI Agents
-              </span>
-              <br />
-              <TypeWriter
-                words={['for support', 'for sales', 'for research', 'for your team']}
-                className="text-foreground"
-              />
-            </h1>
-
-            <p className="text-base md:text-[17px] text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {APP_NAME} runs your agents in the cloud 24/7. Connect Telegram, Slack, WhatsApp &amp; more.{' '}
-              Launch your workspace, connect your channels, and start shipping useful automation fast.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-            className="flex justify-center mb-10"
-          >
+    <section className="relative bg-background pt-16 pb-6 md:pt-24 md:pb-10">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', bounce: 0, duration: 0.7 }}
+          className="max-w-3xl mx-auto text-center mb-12"
+        >
+          <p className="text-footnote font-semibold text-primary mb-4">Free for schools, educators and learners</p>
+          <h1 className="text-hero text-foreground text-balance mb-6">AI agents for every classroom.</h1>
+          <p className="text-lede text-muted-foreground max-w-2xl mx-auto text-balance">
+            Get your own AI agent, find agents reviewed for safety and built for learning, and explore the AI tools
+            worth knowing. Built and owned by the community, for the children who need it most.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
             <a
               href="#how-it-works"
-              className="inline-flex items-center gap-2 px-6 h-11 rounded-full text-[14px] font-semibold shadow-sm hover:shadow-md transition-all duration-300 bg-primary hover:bg-primary/90 text-primary-foreground"
+              className="press inline-flex items-center gap-2 px-6 h-12 rounded-full text-callout font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              Launch your workspace
-              <ArrowRight className="h-4 w-4" />
+              Create your workspace
+              <ArrowRight className="h-4 w-4" aria-hidden />
             </a>
-          </motion.div>
+            <Link
+              href={ROUTES.MARKETPLACE}
+              className="press inline-flex items-center gap-2 px-6 h-12 rounded-full text-callout font-semibold border border-border bg-background hover:bg-muted"
+            >
+              Browse agents
+            </Link>
+          </div>
+        </motion.div>
 
-        </div>
-
-        <Suspense fallback={<div className="max-w-lg mx-auto w-full h-[420px] rounded-2xl border border-border/60 bg-background/80 animate-pulse" />}>
+        <Suspense fallback={<div className="max-w-lg mx-auto w-full h-[420px] rounded-2xl border border-border/60 bg-muted/40" />}>
           <GuidedSetup />
         </Suspense>
       </div>
@@ -1222,346 +1072,184 @@ export function LandingHero() {
 }
 
 // =============================================================================
-// Features Section — Apple-like glassmorphism cards
+// What you can do
 // =============================================================================
 const FEATURES = [
   {
-    icon: Bot,
-    title: 'Put your agent to work',
-    description:
-      'Automate repetitive tasks with ease. Assign your agent to handle inquiries, process data, or manage scheduling while you sleep.',
-    gradient: 'from-primary to-blue-500',
-  },
-  {
-    icon: LayoutDashboard,
-    title: 'Create your space',
-    description:
-      'Build customizable dashboards tailored to your specific needs. Organize your agents, tools, and analytics in one unified workspace.',
-    gradient: 'from-primary to-blue-500',
+    icon: UserRound,
+    title: 'Your own agent',
+    description: `A personal AI agent in your own space at ${MEMBER_SPACE_HOST}/your-name. Chat with it, give it skills, and connect it to the apps you already use.`,
+    href: '#how-it-works',
+    cta: 'Create your workspace',
   },
   {
     icon: Store,
-    title: 'List agent',
+    title: 'Agents for learning',
     description:
-      'Share your creations with the world. Seamlessly integrate with our marketplace to monetize your specialized agents.',
-    gradient: 'from-primary to-blue-500',
+      'Find agents for tutoring, reading, maths and teaching support, reviewed for safety and age suitability. Free for students, schools, orphanages and educators.',
+    href: ROUTES.MARKETPLACE,
+    cta: 'Browse the marketplace',
   },
   {
-    icon: ShieldCheck,
-    title: 'Privacy Preserving',
+    icon: Compass,
+    title: 'Explore AI tools',
     description:
-      'Your data stays yours. Enterprise-grade security ensures your interactions and agent configurations remain private and secure.',
-    gradient: 'from-primary to-blue-500',
+      'Learn what new and trending AI tools do, who they are for and what they cost, before you choose one for your class or project.',
+    href: ROUTES.TOOLS,
+    cta: 'Explore AI tools',
+  },
+  {
+    icon: Lightbulb,
+    title: 'Build and share',
+    description:
+      'Built an agent or know a good tool? List it on mawaDao with a pull request and the community will review it.',
+    href: REGISTRY_REPO,
+    cta: 'List your work',
   },
 ];
 
 export function LandingFeatures() {
   return (
-    <section id="features" className="py-20 md:py-28 bg-background relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-radial from-blue-50/40 dark:from-blue-950/20 via-transparent to-transparent pointer-events-none" />
-
-      <div className="relative max-w-6xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue-600 mb-3 block">
-              Features
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">Everything You Need</h2>
-            <p className="text-muted-foreground max-w-lg mx-auto text-[15px]">
-              A cloud AI platform that adapts to your workflow &mdash; not the other way around.
-            </p>
-          </motion.div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
-          {FEATURES.map((feature, i) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group relative p-6 rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_8px_40px_rgba(0,0,0,0.2)] hover:border-border transition-all duration-500"
-            >
-              <div
-                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`}
-              />
-              <div className="relative">
-                <div
-                  className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.gradient} mb-4 shadow-lg shadow-primary/10`}
-                >
-                  <feature.icon className="h-5 w-5 text-white" />
-                </div>
-                <h3 className="text-[15px] font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-[13px] text-muted-foreground leading-relaxed">{feature.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// =============================================================================
-// Live Demo Section
-// =============================================================================
-export function LandingDemo() {
-  return (
-    <section className="py-20 md:py-28 bg-background">
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
-        >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue-600 mb-3 block">
-            Live Demo
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-3">See It in Action</h2>
-          <p className="text-muted-foreground text-[15px]">Watch a full cloud deployment from start to finish.</p>
+    <section id="what-you-can-do" className="py-20 md:py-28 bg-background scroll-mt-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <motion.div {...reveal} className="max-w-2xl mb-12">
+          <h2 className="text-display text-foreground text-balance">What you can do on mawaDao</h2>
         </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-2xl mx-auto"
-        >
-          <div className="relative aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-amber-200/80 via-amber-100 to-orange-200/80 shadow-[0_8px_60px_rgba(0,0,0,0.1)]">
-            <div className="absolute top-3.5 left-3.5 flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-400/70" />
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/70" />
-              <div className="w-2.5 h-2.5 rounded-full bg-green-400/70" />
-            </div>
-            <div className="absolute top-3 right-3.5 text-[10px] text-gray-600/40 font-mono">
-              <span className="bg-white/40 rounded px-1.5 py-0.5">00:35</span>
-            </div>
-            <button
-              type="button"
-              className="absolute inset-0 flex items-center justify-center group cursor-pointer"
-              aria-label="Play demo video"
-            >
-              <div className="w-16 h-16 rounded-full bg-white/90 shadow-lg flex items-center justify-center group-hover:scale-110 group-active:scale-95 transition-transform duration-300">
-                <Play className="h-6 w-6 text-primary ml-0.5" />
+        <ul className="grid gap-4 sm:grid-cols-2">
+          {FEATURES.map((f) => (
+            <motion.li key={f.title} {...reveal}>
+              <div className="h-full rounded-2xl border border-border/70 bg-card p-6 sm:p-8 flex flex-col">
+                <f.icon className="h-6 w-6 text-primary mb-5" aria-hidden />
+                <h3 className="text-headline text-foreground mb-2">{f.title}</h3>
+                <p className="text-callout text-muted-foreground flex-1">{f.description}</p>
+                <a href={f.href} className="mt-5 inline-flex items-center gap-1 text-callout font-medium text-primary hover:underline">
+                  {f.cta} <ArrowRight className="h-4 w-4" aria-hidden />
+                </a>
               </div>
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// =============================================================================
-// Stats / Social Proof
-// =============================================================================
-export function LandingStats() {
-  const stats = [
-    { value: '10K+', label: 'Agents Deployed' },
-    { value: '50+', label: 'AI Models' },
-    { value: '99.9%', label: 'Uptime' },
-    { value: '<1s', label: 'Response Time' },
-  ];
-
-  return (
-    <section className="py-16 bg-muted/60">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="text-center"
-            >
-              <div className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">{stat.value}</div>
-              <div className="text-[13px] text-muted-foreground mt-1 font-medium">{stat.label}</div>
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
 }
 
 // =============================================================================
-// Connect Channels Section
+// Safety
 // =============================================================================
-function DiscordIconLg() {
+const SAFETY = [
+  {
+    icon: ShieldCheck,
+    title: 'Reviewed before it reaches a child',
+    description: 'Agents used with children pass community safety review, filter content for the age group, and can be suspended the moment a concern is raised.',
+  },
+  {
+    icon: Lock,
+    title: 'Private by design',
+    description: 'Agents must not collect personal data they don’t need, and no personal data about children is ever stored on a public ledger.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Teachers stay in charge',
+    description: 'Agents support teachers and carers; they don’t replace them. Educators decide how and when agents are used.',
+  },
+  {
+    icon: Languages,
+    title: 'Made for every learner',
+    description: 'Agents are tested for bias and built for low-cost devices, slow connections and local languages wherever possible.',
+  },
+];
+
+export function LandingSafety() {
   return (
-    <div className="w-10 h-10 rounded-xl bg-indigo-600 dark:bg-indigo-700 flex items-center justify-center">
-      <SiDiscord className="w-6 h-6 text-white" />
-    </div>
+    <section id="safety" className="py-20 md:py-28 bg-muted/50 scroll-mt-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <motion.div {...reveal} className="max-w-2xl mb-12">
+          <h2 className="text-display text-foreground text-balance mb-4">Safe for children, by design.</h2>
+          <p className="text-lede text-muted-foreground">
+            Because mawaDao serves children, safety isn’t a setting. Every agent is held to the same standards.
+          </p>
+        </motion.div>
+        <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
+          {SAFETY.map((s) => (
+            <motion.li key={s.title} {...reveal} className="flex gap-4">
+              <s.icon className="h-6 w-6 shrink-0 text-primary mt-0.5" aria-hidden />
+              <div>
+                <h3 className="text-headline text-foreground mb-1">{s.title}</h3>
+                <p className="text-callout text-muted-foreground">{s.description}</p>
+              </div>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
 
-function TelegramIconLg() {
-  return (
-    <div className="w-10 h-10 rounded-xl bg-blue-500 dark:bg-blue-600 flex items-center justify-center">
-      <SiTelegram className="w-6 h-6 text-white" />
-    </div>
-  );
-}
-
-function SlackIconLg() {
-  return (
-    <div className="w-10 h-10 rounded-xl bg-gray-600 dark:bg-gray-700 flex items-center justify-center">
-      <SiSlack className="w-6 h-6 text-white" />
-    </div>
-  );
-}
-
-function WhatsAppIconLg() {
-  return (
-    <div className="w-10 h-10 rounded-xl bg-green-500 dark:bg-green-600 flex items-center justify-center">
-      <SiWhatsapp className="w-6 h-6 text-white" />
-    </div>
-  );
-}
-
+// =============================================================================
+// Channels
+// =============================================================================
 const CHANNEL_LIST = [
-  { icon: DiscordIconLg, label: 'Discord', subtitle: 'Integrate communities' },
-  { icon: TelegramIconLg, label: 'Telegram', subtitle: 'Automate messaging' },
-  { icon: SlackIconLg, label: 'Slack', subtitle: 'Business workflows' },
-  { icon: WhatsAppIconLg, label: 'WhatsApp', subtitle: 'Global reach' },
+  { icon: SiWhatsapp, label: 'WhatsApp', color: 'bg-green-600' },
+  { icon: SiTelegram, label: 'Telegram', color: 'bg-sky-600' },
+  { icon: SiDiscord, label: 'Discord', color: 'bg-indigo-600' },
+  { icon: SiSlack, label: 'Slack', color: 'bg-gray-700' },
 ];
 
 export function LandingChannels() {
   return (
-    <section className="py-20 md:py-28 bg-muted/60">
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">
-            Connect Channels to
-            <br />
-            Manage your business
-          </h2>
+    <section id="channels" className="py-20 md:py-28 bg-background scroll-mt-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 grid gap-10 md:grid-cols-2 md:items-center">
+        <motion.div {...reveal}>
+          <h2 className="text-display text-foreground text-balance mb-4">Meet learners where they already are.</h2>
+          <p className="text-lede text-muted-foreground">
+            Connect your agent to the messaging apps students and families already use, so there’s nothing new to install.
+          </p>
         </motion.div>
-
-        <div className="flex justify-center gap-10 md:gap-16 mb-10 flex-wrap">
-          {CHANNEL_LIST.map((ch, i) => (
-            <motion.div
-              key={ch.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="flex flex-col items-center text-center group cursor-default"
-            >
-              <div className="transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1">
-                <ch.icon />
-              </div>
-              <span className="text-sm font-semibold text-foreground mt-3">{ch.label}</span>
-              <span className="text-[12px] text-muted-foreground mt-0.5">{ch.subtitle}</span>
-            </motion.div>
+        <motion.ul {...reveal} className="grid grid-cols-2 gap-3">
+          {CHANNEL_LIST.map((ch) => (
+            <li key={ch.label} className="flex items-center gap-3 rounded-2xl border border-border/70 bg-card p-4">
+              <span className={cn('flex h-10 w-10 items-center justify-center rounded-xl text-white', ch.color)}>
+                <ch.icon className="h-5 w-5" aria-hidden />
+              </span>
+              <span className="text-callout font-medium text-foreground">{ch.label}</span>
+            </li>
           ))}
-        </div>
-
-        <div className="text-center">
-          <Link href={ROUTES.CHANNELS}>
-            <Button
-              variant="outline"
-              className="rounded-full px-6 h-10 text-[13px] font-medium border-border hover:border-border/80 hover:bg-muted transition-all duration-200"
-            >
-              View All Integrations
-            </Button>
-          </Link>
-        </div>
+        </motion.ul>
       </div>
     </section>
   );
 }
 
 // =============================================================================
-// Credits Banner
-// =============================================================================
-export function LandingCreditsBanner() {
-  return (
-    <div className="py-8 bg-background">
-      <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-        $5 Free Credits &middot; No Subscription &middot; Cancel Anytime
-      </p>
-    </div>
-  );
-}
-
-// =============================================================================
-// CTA Section (Dark with tech bg)
+// Call to action
 // =============================================================================
 export function LandingCTA() {
   return (
-    <section className="relative bg-gray-950 text-white py-20 md:py-28 overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.06]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
-      <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-blue-600/20 via-indigo-600/10 to-transparent blur-3xl" />
-      <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-violet-600/20 via-purple-600/10 to-transparent blur-3xl" />
-
-      <div className="relative max-w-6xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
-            Ready to Deploy
-            <br />
-            Your AI Assistant?
-          </h2>
-          <p className="text-gray-400 max-w-lg mx-auto mb-8 text-[15px]">
-            Join others running {APP_NAME} in the cloud. Start free, no technical skills required.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
-            <Link href="#how-it-works">
-              <Button
-                size="lg"
-                className="gap-2 px-8 h-12 text-[15px] font-semibold shadow-lg shadow-blue-600/20 hover:shadow-xl hover:shadow-blue-600/30 transition-all duration-300"
-              >
-                Get Started Free
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="#features">
-              <Button
-                variant="outline"
-                size="lg"
-                className="px-8 h-12 text-[15px] font-semibold border-gray-700 text-white hover:bg-white/10 hover:text-white transition-all duration-300"
-              >
-                Learn More
-              </Button>
-            </Link>
-          </div>
-
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-600">
-            $5 Free Credits &middot; No Subscription Required
-          </p>
-        </motion.div>
-      </div>
+    <section className="py-20 md:py-28 bg-muted/50">
+      <motion.div {...reveal} className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <HeartHandshake className="h-8 w-8 text-primary mx-auto mb-6" aria-hidden />
+        <h2 className="text-display text-foreground text-balance mb-4">
+          Built by the community, for the children who need it most.
+        </h2>
+        <p className="text-lede text-muted-foreground mb-8">
+          mawaDao is non-profit and community-owned. Bring your school, your skills or your ideas.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="#how-it-works"
+            className="press inline-flex items-center justify-center gap-2 px-6 h-12 rounded-full text-callout font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            Create your workspace <ArrowRight className="h-4 w-4" aria-hidden />
+          </a>
+          <a
+            href={MISSION_URL}
+            className="press inline-flex items-center justify-center px-6 h-12 rounded-full text-callout font-semibold border border-border bg-background hover:bg-muted"
+          >
+            Read our mission
+          </a>
+        </div>
+      </motion.div>
     </section>
   );
 }
@@ -1569,77 +1257,61 @@ export function LandingCTA() {
 // =============================================================================
 // Footer
 // =============================================================================
+const FOOTER_LINKS = [
+  {
+    title: 'Use',
+    links: [
+      { href: ROUTES.MARKETPLACE, label: 'Agent marketplace' },
+      { href: ROUTES.TOOLS, label: 'Explore AI tools' },
+      { href: '#how-it-works', label: 'Create your workspace' },
+    ],
+  },
+  {
+    title: 'Contribute',
+    links: [
+      { href: REGISTRY_REPO, label: 'List a tool or agent' },
+      { href: 'https://github.com/mawadao/mawadao-agent', label: 'Source code' },
+      { href: MISSION_URL, label: 'Mission' },
+    ],
+  },
+  {
+    title: 'About',
+    links: [
+      { href: '/privacy', label: 'Privacy' },
+      { href: '/terms', label: 'Terms' },
+      { href: CONTACT_URL, label: 'Contact us' },
+    ],
+  },
+];
+
 export function LandingFooter() {
   return (
     <footer className="border-t border-border bg-background py-14">
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
           <div className="col-span-2 md:col-span-1">
             <MawadaoLogo />
-            <p className="text-[13px] text-muted-foreground mt-3 leading-relaxed max-w-xs">
-              {APP_NAME} in the cloud. Deploy in under 1 minute, built for the future of AI.
+            <p className="text-footnote text-muted-foreground mt-3 max-w-xs">
+              A non-profit, community-owned marketplace for responsible AI agents, built to bring quality education to
+              underserved children and orphans.
             </p>
           </div>
-
-          <div>
-            <h4 className="text-[13px] font-semibold text-foreground mb-4">Product</h4>
-            <ul className="space-y-2.5 text-[13px] text-muted-foreground">
-              <li>
-                <a href="#how-it-works" className="hover:text-foreground transition-colors duration-200">
-                  How It Works
-                </a>
-              </li>
-              <li>
-                <Link href="/security" className="hover:text-foreground transition-colors duration-200">
-                  Security
-                </Link>
-              </li>
-              <li>
-                <a href="#features" className="hover:text-foreground transition-colors duration-200">
-                  Features
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[13px] font-semibold text-foreground mb-4">Legal</h4>
-            <ul className="space-y-2.5 text-[13px] text-muted-foreground">
-              <li>
-                <Link href="/privacy" className="hover:text-foreground transition-colors duration-200">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="hover:text-foreground transition-colors duration-200">
-                  Terms of Service
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-[13px] font-semibold text-foreground mb-4">Support</h4>
-            <ul className="space-y-2.5 text-[13px] text-muted-foreground">
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors duration-200">
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a href="mailto:support@mawadao.ai" className="hover:text-foreground transition-colors duration-200">
-                  support@mawadao.ai
-                </a>
-              </li>
-            </ul>
-          </div>
+          {FOOTER_LINKS.map((col) => (
+            <div key={col.title}>
+              <h2 className="text-footnote font-semibold text-foreground mb-4">{col.title}</h2>
+              <ul className="space-y-3 text-footnote text-muted-foreground">
+                {col.links.map((l) => (
+                  <li key={l.label}>
+                    <a href={l.href} className="hover:text-foreground transition-colors">{l.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-
-        <div className="pt-8 border-t border-border text-center">
-          <p className="text-[12px] text-muted-foreground">
-            &copy; {new Date().getFullYear()} {APP_NAME} Inc. All rights reserved.
-          </p>
-        </div>
+        <p className="pt-8 border-t border-border text-caption text-muted-foreground">
+          © {new Date().getFullYear()} mawaDao contributors. Open source under the Apache 2.0 licence.
+        </p>
       </div>
     </footer>
   );

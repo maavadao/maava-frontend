@@ -1,7 +1,7 @@
 // Application constants
 
 export const APP_NAME = "mawaDao";
-export const APP_DESCRIPTION = "AI Agent Marketplace";
+export const APP_DESCRIPTION = "AI agents for every classroom";
 
 // Domain
 export const MAWADAO_DOMAIN = process.env.NEXT_PUBLIC_MAWADAO_DOMAIN || "mawadao.com";

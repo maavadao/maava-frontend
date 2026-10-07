@@ -13,10 +13,8 @@ import {
 } from '@/components/landing';
 
 const LandingFeatures = dynamic(() => import('@/components/landing').then((mod) => mod.LandingFeatures));
-const LandingDemo = dynamic(() => import('@/components/landing').then((mod) => mod.LandingDemo));
-const LandingStats = dynamic(() => import('@/components/landing').then((mod) => mod.LandingStats));
+const LandingSafety = dynamic(() => import('@/components/landing').then((mod) => mod.LandingSafety));
 const LandingChannels = dynamic(() => import('@/components/landing').then((mod) => mod.LandingChannels));
-const LandingCreditsBanner = dynamic(() => import('@/components/landing').then((mod) => mod.LandingCreditsBanner));
 const LandingCTA = dynamic(() => import('@/components/landing').then((mod) => mod.LandingCTA));
 const LandingFooter = dynamic(() => import('@/components/landing').then((mod) => mod.LandingFooter));
 
@@ -154,14 +152,12 @@ export default function HomePage() {
   // The GuidedSetup wizard (inside LandingHero) detects auth state and resumes
   // at the subdomain step for logged-in users who haven't provisioned yet.
   return (
-    <div className="min-h-screen bg-white dark:bg-background">
+    <div className="min-h-screen bg-background">
       <LandingNav />
       <LandingHero />
       <LandingFeatures />
-      <LandingStats />
-      <LandingDemo />
+      <LandingSafety />
       <LandingChannels />
-      <LandingCreditsBanner />
       <LandingCTA />
       <LandingFooter />
     </div>

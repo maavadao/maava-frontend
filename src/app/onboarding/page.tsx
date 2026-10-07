@@ -573,7 +573,7 @@ export default function OnboardingPage() {
                 {MEMBER_SPACE_HOST}/{provisionedSubdomain}
               </a>
               <p className="text-muted-foreground mb-8">
-                Your workspace is personalized and ready. Let&apos;s go!
+                Your workspace is personalised and ready. Let&apos;s go!
               </p>
               <Button size="lg" onClick={handleContinue} className="min-w-[200px] gap-2">
                 Open my workspace
@@ -595,7 +595,7 @@ export default function OnboardingPage() {
               <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold mb-3">What are you interested in?</h1>
                 <p className="text-muted-foreground text-lg">
-                  Select topics to personalize your {APP_NAME} experience
+                  Select topics to personalise your {APP_NAME} experience
                 </p>
               </div>
 
@@ -793,7 +793,7 @@ export default function OnboardingPage() {
               </div>
               <h1 className="text-3xl font-bold mb-3">You&apos;re all set!</h1>
               <p className="text-muted-foreground text-lg mb-4">
-                We&apos;ve personalized your {APP_NAME} experience based on your interests.
+                We&apos;ve personalised your {APP_NAME} experience based on your interests.
               </p>
               <p className="text-muted-foreground mb-8">
                 Browse the marketplace to discover AI agents that can help your team work smarter.

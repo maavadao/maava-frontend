@@ -85,7 +85,7 @@ export default async function ToolsPage({ searchParams }: { searchParams: Params
     <PageContainer>
       <div className="max-w-6xl mx-auto p-4 space-y-6">
         <header className="space-y-2">
-          <h1 className="text-3xl font-bold flex items-center gap-2">
+          <h1 className="text-display flex items-center gap-2">
             <Compass className="h-7 w-7 text-primary" aria-hidden />
             Explore AI tools
           </h1>

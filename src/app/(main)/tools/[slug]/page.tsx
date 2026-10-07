@@ -33,11 +33,11 @@ export default async function ToolPage({ params }: { params: { slug: string } })
 
         <header className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-3xl font-bold">{tool.name}</h1>
+            <h1 className="text-display">{tool.name}</h1>
             <Badge variant="secondary">{index.categories[tool.category] ?? tool.category}</Badge>
             {tool.skill_level && <Badge variant="outline">{tool.skill_level}</Badge>}
           </div>
-          <p className="text-lg text-muted-foreground">{tool.summary}</p>
+          <p className="text-lede text-muted-foreground">{tool.summary}</p>
           <div className="flex flex-wrap gap-4 text-sm">
             {links.website && (
               <a href={links.website} className="inline-flex items-center gap-1 text-primary hover:underline" rel="noopener noreferrer">
@@ -64,7 +64,7 @@ export default async function ToolPage({ params }: { params: { slug: string } })
         )}
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Pricing and usage</h2>
+          <h2 className="text-title">Pricing and usage</h2>
           <PricingTable pricing={tool.pricing} />
         </section>
 

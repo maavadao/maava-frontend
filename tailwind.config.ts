@@ -63,11 +63,28 @@ const config: Config = {
         ring: "hsl(var(--ring))",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        // The platform font first (optical sizing, tracking tables), Inter where there isn't one.
+        sans: ["-apple-system", "BlinkMacSystemFont", "var(--font-inter)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
       },
       fontSize: {
         "2xs": ["0.625rem", { lineHeight: "0.875rem" }],  // 10px
+        // Type scale shared with mawadao.com. Each step sets size, leading, tracking and weight
+        // together; large text gets tighter leading and negative tracking, small text the reverse.
+        hero: ["clamp(2.5rem, 8vw, 4.5rem)", { lineHeight: "1.04", letterSpacing: "-0.035em", fontWeight: "600" }],
+        display: ["clamp(2rem, 6vw, 3.25rem)", { lineHeight: "1.08", letterSpacing: "-0.028em", fontWeight: "600" }],
+        title: ["clamp(1.375rem, 4vw, 1.75rem)", { lineHeight: "1.14", letterSpacing: "-0.02em", fontWeight: "600" }],
+        headline: ["1.1875rem", { lineHeight: "1.3", letterSpacing: "-0.014em", fontWeight: "600" }],
+        lede: ["clamp(1.0625rem, 2vw, 1.3125rem)", { lineHeight: "1.4", letterSpacing: "-0.012em" }],
+        body: ["1.0625rem", { lineHeight: "1.47", letterSpacing: "-0.01em" }],
+        callout: ["0.9375rem", { lineHeight: "1.45", letterSpacing: "-0.005em" }],
+        footnote: ["0.8125rem", { lineHeight: "1.4", letterSpacing: "0" }],
+        caption: ["0.75rem", { lineHeight: "1.35", letterSpacing: "0.01em" }],
+      },
+      transitionTimingFunction: {
+        // Critically damped spring (no overshoot), sampled for CSS.
+        spring: "linear(0, 0.0667, 0.2048, 0.3577, 0.4991, 0.6189, 0.7154, 0.7905, 0.8475, 0.89, 0.9213, 0.9441, 0.9605, 0.9722, 0.9805, 0.9864, 0.9905, 0.9934, 0.9955, 0.9969, 0.9978, 0.9985, 0.999, 0.9993, 1)",
+        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
       },
       borderRadius: {
         lg: "var(--radius)",

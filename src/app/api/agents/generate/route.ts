@@ -43,7 +43,7 @@ Return ONLY valid JSON with exactly this structure (no markdown, no explanation)
   "slug": "kebab-case-slug",
   "short_description": "One-line description (max 100 chars)",
   "description": "Detailed description (2-3 sentences)",
-  "category": "one of: customer-support, sales, writing, coding, data, hr, finance, operations, legal, creative",
+  "category": "one of: education, customer-support, sales, writing, coding, data, hr, finance, operations, legal, creative",
   "tags": ["tag1", "tag2", "tag3"],
   "capabilities": ["capability1", "capability2", "capability3"],
   "integrations": [],

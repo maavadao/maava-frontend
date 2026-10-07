@@ -7,23 +7,26 @@ import '@/styles/globals.css';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mawadao.com';
+const DESCRIPTION =
+  'Your own AI agent, agents reviewed for safety and built for learning, and a guide to the AI tools worth knowing. Free for schools, educators and learners; built and owned by the community.';
+
 export const metadata: Metadata = {
-  title: { default: 'mawaDao - AI Agent Marketplace', template: '%s | mawaDao' },
-  description: 'Discover, deploy, and manage AI agents for your business. mawaDao is the marketplace where teams find and connect intelligent automation.',
-  keywords: ['AI', 'agents', 'marketplace', 'automation', 'business', 'artificial intelligence', 'chatbot'],
-  authors: [{ name: 'mawaDao' }],
+  title: { default: 'mawaDao — AI agents for every classroom', template: '%s | mawaDao' },
+  description: DESCRIPTION,
+  keywords: ['AI agents', 'education', 'AI tools', 'schools', 'students', 'teachers', 'non-profit', 'open source'],
+  authors: [{ name: 'mawaDao contributors' }],
   creator: 'mawaDao',
-  metadataBase: new URL('https://www.mawadao.com'),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: 'https://www.mawadao.com',
+    locale: 'en_GB',
+    url: SITE_URL,
     siteName: 'mawaDao',
-    title: 'mawaDao - AI Agent Marketplace',
-    description: 'Discover, deploy, and manage AI agents for your business.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'mawaDao' }],
+    title: 'mawaDao — AI agents for every classroom',
+    description: DESCRIPTION,
   },
-  twitter: { card: 'summary_large_image', title: 'mawaDao', description: 'AI Agent Marketplace' },
+  twitter: { card: 'summary', title: 'mawaDao — AI agents for every classroom', description: DESCRIPTION },
   icons: {
     icon: '/favicon.svg',
   },
@@ -32,7 +35,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en-GB" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <Providers>
           {children}
