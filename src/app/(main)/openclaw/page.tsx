@@ -120,7 +120,7 @@ export default function OpenClawPage() {
                     </p>
                     <div className="flex items-center gap-2 mt-2">
                       <code className="text-sm font-mono bg-background/80 border rounded-md px-3 py-1 text-primary">
-                        {isExternalChat ? openclawChatUrl.replace('https://', '') : `${username}.barrsa.com`}
+                        {isExternalChat ? openclawChatUrl.replace('https://', '') : `${username}.mawadao.com`}
                       </code>
                     </div>
                   </div>

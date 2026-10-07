@@ -5,8 +5,8 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button, Input } from '@/components/ui';
-import { BarrsaLogo } from '@/components/layout';
-import { ROUTES, APP_NAME, BARRSA_DOMAIN } from '@/lib/constants';
+import { MawadaoLogo } from '@/components/layout';
+import { ROUTES, APP_NAME, MAWADAO_DOMAIN } from '@/lib/constants';
 import { useAuthStore, useSetupStore } from '@/store';
 import { useCloudStore } from '@/store/cloud';
 import { cn } from '@/lib/utils';
@@ -189,7 +189,7 @@ export function LandingNav() {
     >
       <div className="max-w-6xl mx-auto px-6 flex h-16 items-center justify-between">
         <div className="flex items-center gap-10">
-          <BarrsaLogo />
+          <MawadaoLogo />
           <nav className="hidden md:flex items-center gap-8">
             {['How It Works', 'Features', 'Channels'].map((item) => (
               <a
@@ -252,7 +252,7 @@ function RainbowBar() {
 
 // Provider options for step 3
 const PROVIDER_OPTIONS = [
-  { id: 'moonshot', name: 'Moonshot', description: 'Default — Barrsa optimised engine', badge: 'Default' },
+  { id: 'moonshot', name: 'Moonshot', description: 'Default — mawaDao optimised engine', badge: 'Default' },
   { id: 'openai', name: 'OpenAI', description: 'GPT-4o and GPT-4.1 models', badge: null },
   { id: 'anthropic', name: 'Claude', description: 'Claude Sonnet and Opus models', badge: null },
   { id: 'google', name: 'Gemini', description: 'Google Gemini 2.5 models', badge: null },
@@ -341,7 +341,7 @@ function GuidedSetup() {
     if (!user) return;
     const existingSub = useCloudStore.getState().subdomain;
     if (existingSub) {
-      window.location.href = `https://${existingSub}.${BARRSA_DOMAIN}`;
+      window.location.href = `https://${existingSub}.${MAWADAO_DOMAIN}`;
       return;
     }
     // Check httpOnly cookie for subdomain
@@ -350,7 +350,7 @@ function GuidedSetup() {
       .then((data) => {
         if (data?.subdomain) {
           useCloudStore.getState().setSubdomain(data.subdomain);
-          window.location.href = `https://${data.subdomain}.${BARRSA_DOMAIN}`;
+          window.location.href = `https://${data.subdomain}.${MAWADAO_DOMAIN}`;
         }
       })
       .catch(() => {});
@@ -431,7 +431,7 @@ function GuidedSetup() {
       // If user already has a subdomain, redirect to their tenant
       const existingSub = useCloudStore.getState().subdomain;
       if (existingSub) {
-        window.location.href = `https://${existingSub}.${BARRSA_DOMAIN}`;
+        window.location.href = `https://${existingSub}.${MAWADAO_DOMAIN}`;
         return;
       }
       goTo('subdomain');
@@ -550,7 +550,7 @@ function GuidedSetup() {
   const redirectToProvisionedTenant = React.useCallback((targetSubdomain: string) => {
     completeSetup();
     useCloudStore.getState().setSubdomain(targetSubdomain);
-    window.location.href = `https://${targetSubdomain}.${BARRSA_DOMAIN}?onboarding=true`;
+    window.location.href = `https://${targetSubdomain}.${MAWADAO_DOMAIN}?onboarding=true`;
   }, [completeSetup]);
 
   const handleSubdomainProvision = React.useCallback(async () => {
@@ -769,7 +769,7 @@ function GuidedSetup() {
                   {authMode === 'register' ? 'Create your account' : 'Welcome back'}
                 </h3>
                 <p className="text-[13px] text-muted-foreground mb-5 text-center">
-                  {authMode === 'register' ? 'Set up your Barrsa account' : 'Sign in to your existing account'}
+                  {authMode === 'register' ? 'Set up your mawaDao account' : 'Sign in to your existing account'}
                 </p>
 
                 {/* Mode toggle */}
@@ -1016,7 +1016,7 @@ function GuidedSetup() {
                       <div className="flex items-center gap-2">
                         <Globe className="h-4 w-4 text-primary shrink-0" />
                         <p className="text-sm font-mono font-medium text-foreground">
-                          {subdomain}.{BARRSA_DOMAIN}
+                          {subdomain}.{MAWADAO_DOMAIN}
                         </p>
                       </div>
                     </div>
@@ -1575,7 +1575,7 @@ export function LandingFooter() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
           <div className="col-span-2 md:col-span-1">
-            <BarrsaLogo />
+            <MawadaoLogo />
             <p className="text-[13px] text-muted-foreground mt-3 leading-relaxed max-w-xs">
               {APP_NAME} in the cloud. Deploy in under 1 minute, built for the future of AI.
             </p>
@@ -1627,8 +1627,8 @@ export function LandingFooter() {
                 </a>
               </li>
               <li>
-                <a href="mailto:support@barrsa.ai" className="hover:text-foreground transition-colors duration-200">
-                  support@barrsa.ai
+                <a href="mailto:support@mawadao.ai" className="hover:text-foreground transition-colors duration-200">
+                  support@mawadao.ai
                 </a>
               </li>
             </ul>

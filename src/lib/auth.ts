@@ -2,7 +2,7 @@ import { jwtVerify, SignJWT } from 'jose';
 import type { NextRequest } from 'next/server';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'change-this-jwt-secret';
-const JWT_ISSUER = 'barrsa-auth';
+const JWT_ISSUER = 'mawadao-auth';
 
 export interface JWTPayload {
   userId: string;
@@ -81,8 +81,8 @@ export async function createJWT(payload: JWTPayload, expiresIn = '7d'): Promise<
 
 /**
  * Create a short-lived transfer token for cross-subdomain authentication.
- * This token is passed in the URL when redirecting from barrsa.com to
- * {subdomain}.barrsa.com, avoiding reliance on cross-domain cookie sharing.
+ * This token is passed in the URL when redirecting from mawadao.com to
+ * {subdomain}.mawadao.com, avoiding reliance on cross-domain cookie sharing.
  * Expires in 60 seconds — single-use by design.
  */
 export async function createTransferToken(payload: JWTPayload): Promise<string> {

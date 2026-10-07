@@ -1,7 +1,7 @@
 /**
  * POST /api/auth/logout
  *
- * Clears the auth-token cookie on the current domain and .barrsa.com.
+ * Clears the auth-token cookie on the current domain and .mawadao.com.
  */
 import { NextResponse } from 'next/server';
 
@@ -15,7 +15,7 @@ export async function POST() {
     sameSite: 'lax',
     path: '/',
     maxAge: 0,
-    domain: process.env.NODE_ENV === 'production' ? '.barrsa.com' : undefined,
+    domain: process.env.NODE_ENV === 'production' ? '.mawadao.com' : undefined,
   });
 
   return response;

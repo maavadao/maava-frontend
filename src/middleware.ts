@@ -27,7 +27,7 @@ function resolveExternalProtocol(request: NextRequest): string {
   const proto = firstForwardedValue(request.headers.get('x-forwarded-proto')) || request.nextUrl.protocol.replace(':', '') || 'https';
   const host = stripPort(resolveExternalHost(request)).toLowerCase();
   // Reverse proxies can show internal http while the public domain is https.
-  if (host === 'barrsa.com' || host.endsWith('.barrsa.com')) {
+  if (host === 'mawadao.com' || host.endsWith('.mawadao.com')) {
     return 'https';
   }
   return proto;
@@ -77,7 +77,7 @@ export async function middleware(request: NextRequest) {
       }
 
       // --- Transfer token exchange ---
-      // When redirected from barrsa.com after login, the URL contains
+      // When redirected from mawadao.com after login, the URL contains
       // ?auth_token=TRANSFER_TOKEN&state=RANDOM. Validate the transfer token,
       // set the auth-token cookie, and redirect to the clean URL.
       const authTokenParam = request.nextUrl.searchParams.get('auth_token');
@@ -107,14 +107,14 @@ export async function middleware(request: NextRequest) {
             sameSite: 'lax',
             path: '/',
             maxAge: 7 * 24 * 60 * 60,
-            domain: process.env.NODE_ENV === 'production' ? '.barrsa.com' : undefined,
+            domain: process.env.NODE_ENV === 'production' ? '.mawadao.com' : undefined,
           });
           return response;
         }
         // Invalid transfer token — fall through to normal auth check
       }
 
-      // Subdomain request (e.g., raj.barrsa.com)
+      // Subdomain request (e.g., alice.mawadao.com)
       if (!user) {
         // Not authenticated → redirect to main domain login
         const loginUrl = new URL('/auth/login', `${externalProto}://${rootBase}`);
@@ -156,12 +156,12 @@ export async function middleware(request: NextRequest) {
       return response;
     }
 
-    // Paths that should always stay on the main domain (barrsa.com), even for
+    // Paths that should always stay on the main domain (mawadao.com), even for
     // authenticated users who have a subdomain.
     const mainDomainPaths = ['/marketplace', '/auth', '/api', '/settings'];
     const isMainDomainPath = mainDomainPaths.some(p => pathname.startsWith(p));
 
-    // Main domain (barrsa.com): if user already has subdomain, send them there
+    // Main domain (mawadao.com): if user already has subdomain, send them there
     // — unless they are accessing a main-domain-only path like /marketplace.
     if (user?.subdomain && !isMainDomainPath) {
       const targetHost = `${user.subdomain}.${rootBase}`;
@@ -179,7 +179,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Main domain (barrsa.com) — check if authenticated user needs onboarding
+    // Main domain (mawadao.com) — check if authenticated user needs onboarding
     if (user && !user.subdomain && !pathname.startsWith('/auth') && !pathname.startsWith('/api') && pathname !== '/') {
       // User is logged in but has no tenant yet → redirect to main page
       // where the Guided Setup section handles onboarding inline.

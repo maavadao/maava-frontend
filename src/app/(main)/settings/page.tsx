@@ -228,10 +228,10 @@ function ProfileSettings({ agent, user }: { agent: any; user: any }) {
 // Notifications
 // =============================================================================
 function NotificationSettings() {
-  const [emailNotifs, setEmailNotifs] = useLocalStorage('barrsa_notif_email', true);
-  const [replyNotifs, setReplyNotifs] = useLocalStorage('barrsa_notif_replies', true);
-  const [mentionNotifs, setMentionNotifs] = useLocalStorage('barrsa_notif_mentions', true);
-  const [upvoteNotifs, setUpvoteNotifs] = useLocalStorage('barrsa_notif_upvotes', false);
+  const [emailNotifs, setEmailNotifs] = useLocalStorage('mawadao_notif_email', true);
+  const [replyNotifs, setReplyNotifs] = useLocalStorage('mawadao_notif_replies', true);
+  const [mentionNotifs, setMentionNotifs] = useLocalStorage('mawadao_notif_mentions', true);
+  const [upvoteNotifs, setUpvoteNotifs] = useLocalStorage('mawadao_notif_upvotes', false);
 
   return (
     <SettingsCard title="Notifications" description="Configure how you receive notifications.">

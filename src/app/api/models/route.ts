@@ -9,14 +9,22 @@ export const dynamic = "force-dynamic";
 type ModelEntry = { id: string; name: string; provider: string; contextWindow?: number };
 
 /* ── Encryption helpers (same key derivation as provider-keys route) ─── */
-const ENC_SECRET = process.env.PROVIDER_KEY_SECRET || process.env.JWT_SECRET || "barrsa-default-secret-change-me";
-const ENC_KEY = scryptSync(ENC_SECRET, "barrsa-provider-keys", 32);
+const SALT = "mawadao-provider-keys";
+let encKey: Buffer | undefined;
+function getEncKey(): Buffer {
+  if (!encKey) {
+    const secret = process.env.PROVIDER_KEY_SECRET || process.env.JWT_SECRET;
+    if (!secret) throw new Error("PROVIDER_KEY_SECRET or JWT_SECRET must be set");
+    encKey = scryptSync(secret, SALT, 32);
+  }
+  return encKey;
+}
 
 function decrypt(data: string): string {
   try {
     const [ivHex, encHex] = data.split(":");
     if (!ivHex || !encHex) return "";
-    const decipher = createDecipheriv("aes-256-cbc", ENC_KEY, Buffer.from(ivHex, "hex"));
+    const decipher = createDecipheriv("aes-256-cbc", getEncKey(), Buffer.from(ivHex, "hex"));
     return Buffer.concat([decipher.update(Buffer.from(encHex, "hex")), decipher.final()]).toString("utf8");
   } catch { return ""; }
 }

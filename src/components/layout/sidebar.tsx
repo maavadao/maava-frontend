@@ -128,7 +128,7 @@ function SidebarItem({
     'flex items-center rounded-lg text-sm font-medium transition-colors w-full',
     collapsed ? 'justify-center px-2 py-2.5' : 'justify-start text-left gap-3 px-3 py-2.5',
     isActive
-      ? 'bg-barrsa-50 dark:bg-primary/10 text-primary'
+      ? 'bg-mawadao-50 dark:bg-primary/10 text-primary'
       : 'text-muted-foreground hover:text-foreground hover:bg-muted'
   );
 
@@ -518,7 +518,7 @@ export function ChatSidebar({
           className={cn(
             'flex items-center gap-2 flex-1 min-w-0 px-3 py-2 rounded-lg text-sm transition-colors text-left',
             activeThreadId === t.id
-              ? 'bg-barrsa-50 dark:bg-primary/10 text-primary font-medium'
+              ? 'bg-mawadao-50 dark:bg-primary/10 text-primary font-medium'
               : 'text-muted-foreground hover:bg-muted'
           )}
         >
@@ -758,7 +758,7 @@ export function AgentDetailNav() {
               className={cn(
                 'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
                 pathname.startsWith('/marketplace')
-                  ? 'text-primary bg-barrsa-50 dark:bg-primary/10'
+                  ? 'text-primary bg-mawadao-50 dark:bg-primary/10'
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted'
               )}
             >
@@ -788,7 +788,7 @@ export function AgentDetailNav() {
             <Link href={ROUTES.SETTINGS}>
               <Avatar className="h-8 w-8 cursor-pointer">
                 <AvatarImage src={avatarUrl} />
-                <AvatarFallback className="bg-barrsa-100 text-barrsa-700 text-xs font-medium">
+                <AvatarFallback className="bg-mawadao-100 text-mawadao-700 text-xs font-medium">
                   {initials}
                 </AvatarFallback>
               </Avatar>
@@ -827,7 +827,7 @@ function SidebarUserCard({ compact }: { compact?: boolean }) {
       >
         <Avatar className="h-8 w-8 shrink-0">
           <AvatarImage src={avatarUrl} />
-          <AvatarFallback className="bg-barrsa-100 text-barrsa-700 text-xs font-medium">
+          <AvatarFallback className="bg-mawadao-100 text-mawadao-700 text-xs font-medium">
             {initials}
           </AvatarFallback>
         </Avatar>

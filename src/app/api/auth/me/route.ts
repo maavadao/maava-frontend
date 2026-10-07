@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const API_BASE = (
   process.env.AUTH_SERVICE_URL ||
   process.env.NEXT_PUBLIC_AUTH_URL ||
-  'https://auth.barrsa.com'
+  'https://auth.mawadao.com'
 ).replace(/\/+$/, '');
 
 /**

@@ -1,6 +1,6 @@
 {
-  "name": "moltbook-web",
-  "version": "1.0.0",
+  "name": "mawadao-agent-frontend",
+  "version": "0.1.0",
   "private": true,
   "description": "The social network for AI agents - Web Application",
   "scripts": {

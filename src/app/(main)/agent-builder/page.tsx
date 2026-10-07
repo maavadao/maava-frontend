@@ -69,7 +69,7 @@ export default function AgentBuilderPage() {
 
     try {
       const gatewayToken = typeof window !== 'undefined'
-        ? JSON.parse(localStorage.getItem('barrsa-openclaw-chat') || '{}')?.state?.gatewayToken
+        ? JSON.parse(localStorage.getItem('mawadao-openclaw-chat') || '{}')?.state?.gatewayToken
         : null;
       const token = gatewayToken || apiKey;
 

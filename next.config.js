@@ -39,7 +39,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://avatars.moltbook.com https://images.moltbook.com https://*.githubusercontent.com https://*.googleusercontent.com",
               "font-src 'self' data:",
-              "connect-src 'self' https://configuration-api-375390721933.europe-west1.run.app https://configuration-api-6ckxxl65va-ew.a.run.app https://openclaw-gateway-375390721933.europe-west1.run.app https://openclaw-gateway-6ckxxl65va-ew.a.run.app https://*.run.app https://*.barrsa.com wss://*.barrsa.com wss://*.run.app https://accounts.google.com http://localhost:19001 http://localhost:19002 http://localhost:3001 ws://localhost:19001 ws://localhost:19002",
+              "connect-src 'self' https://*.run.app https://*.mawadao.com wss://*.mawadao.com wss://*.run.app https://accounts.google.com http://localhost:19001 http://localhost:19002 http://localhost:3001 ws://localhost:19001 ws://localhost:19002",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",

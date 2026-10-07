@@ -4,14 +4,14 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Input } from '@/components/ui';
-import { BarrsaLogo } from '@/components/layout';
+import { MawadaoLogo } from '@/components/layout';
 import {
   INTEREST_CATEGORIES,
   ROUTES,
   STORAGE_KEYS,
   APP_NAME,
   CLOUD_MODE,
-  BARRSA_DOMAIN,
+  MAWADAO_DOMAIN,
 } from '@/lib/constants';
 import { useCloudStore } from '@/store/cloud';
 import {
@@ -331,14 +331,14 @@ export default function OnboardingPage() {
         localStorage.setItem(STORAGE_KEYS.INTERESTS, JSON.stringify(selectedInterests));
         setStep('preferences');
       } else if (step === 'preferences') {
-        localStorage.setItem('barrsa_preferences', JSON.stringify(preferences));
+        localStorage.setItem('mawadao_preferences', JSON.stringify(preferences));
         // Now provision — interests and preferences already collected
         handleProvision();
       } else if (step === 'ready') {
         // Provisioning done — redirect to the tenant subdomain
         localStorage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETE, 'true');
         if (provisionedSubdomain) {
-          window.location.href = `https://${provisionedSubdomain}.${BARRSA_DOMAIN}`;
+          window.location.href = `https://${provisionedSubdomain}.${MAWADAO_DOMAIN}`;
         } else {
           router.push(ROUTES.CHAT);
         }
@@ -349,7 +349,7 @@ export default function OnboardingPage() {
         localStorage.setItem(STORAGE_KEYS.INTERESTS, JSON.stringify(selectedInterests));
         setStep('preferences');
       } else if (step === 'preferences') {
-        localStorage.setItem('barrsa_preferences', JSON.stringify(preferences));
+        localStorage.setItem('mawadao_preferences', JSON.stringify(preferences));
         setStep('welcome');
       } else {
         localStorage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETE, 'true');
@@ -364,7 +364,7 @@ export default function OnboardingPage() {
     <div className="min-h-screen bg-white dark:bg-background flex flex-col">
       {/* Header */}
       <div className="border-b px-6 py-4">
-        <BarrsaLogo />
+        <MawadaoLogo />
       </div>
 
       {/* Progress */}
@@ -477,7 +477,7 @@ export default function OnboardingPage() {
                     <div className="flex items-center gap-2">
                       <Globe className="h-4 w-4 text-primary shrink-0" />
                       <p className="text-sm font-mono font-medium text-foreground">
-                        {subdomain}.{BARRSA_DOMAIN}
+                        {subdomain}.{MAWADAO_DOMAIN}
                       </p>
                     </div>
                   </div>
@@ -519,7 +519,7 @@ export default function OnboardingPage() {
               <p className="text-muted-foreground mb-1">
                 We&apos;re provisioning{' '}
                 <span className="font-semibold text-foreground font-mono">
-                  {subdomain}.{BARRSA_DOMAIN}
+                  {subdomain}.{MAWADAO_DOMAIN}
                 </span>
               </p>
               <p className="text-sm text-muted-foreground mb-8">
@@ -573,11 +573,11 @@ export default function OnboardingPage() {
                 Your AI workspace is live at
               </p>
               <a
-                href={`https://${provisionedSubdomain}.${BARRSA_DOMAIN}`}
+                href={`https://${provisionedSubdomain}.${MAWADAO_DOMAIN}`}
                 className="inline-flex items-center gap-2 text-primary font-mono font-medium text-lg hover:underline mb-6"
               >
                 <Globe className="h-5 w-5" />
-                {provisionedSubdomain}.{BARRSA_DOMAIN}
+                {provisionedSubdomain}.{MAWADAO_DOMAIN}
               </a>
               <p className="text-muted-foreground mb-8">
                 Your workspace is personalized and ready. Let&apos;s go!

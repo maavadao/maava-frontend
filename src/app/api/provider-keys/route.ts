@@ -7,17 +7,25 @@ import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypt
 const ALLOWED_PROVIDERS = ["openai", "anthropic", "google", "moonshot"];
 
 // Derive a 32-byte key from the JWT secret (or a dedicated env var)
-const ENC_SECRET = process.env.PROVIDER_KEY_SECRET || process.env.JWT_SECRET || "barrsa-default-secret-change-me";
-const ENC_KEY = scryptSync(ENC_SECRET, "barrsa-provider-keys", 32);
+const SALT = "mawadao-provider-keys";
+let encKey: Buffer | undefined;
+function getEncKey(): Buffer {
+  if (!encKey) {
+    const secret = process.env.PROVIDER_KEY_SECRET || process.env.JWT_SECRET;
+    if (!secret) throw new Error("PROVIDER_KEY_SECRET or JWT_SECRET must be set");
+    encKey = scryptSync(secret, SALT, 32);
+  }
+  return encKey;
+}
 
 // Bucket-manager config — same env vars used by the provision route
 const BUCKET_MANAGER_URL = process.env.BUCKET_MANAGER_URL || "";
 const BUCKET_MANAGER_API_SECRET = process.env.BUCKET_MANAGER_API_SECRET || "";
-const GCS_BUCKET = process.env.GCS_BUCKET || "barrsa-prod-tentant-platform-data";
+const GCS_BUCKET = process.env.GCS_BUCKET || "mawadao-agent-data";
 
 function encrypt(text: string): string {
   const iv = randomBytes(16);
-  const cipher = createCipheriv("aes-256-cbc", ENC_KEY, iv);
+  const cipher = createCipheriv("aes-256-cbc", getEncKey(), iv);
   const encrypted = Buffer.concat([cipher.update(text, "utf8"), cipher.final()]);
   return iv.toString("hex") + ":" + encrypted.toString("hex");
 }
@@ -25,7 +33,7 @@ function encrypt(text: string): string {
 function decrypt(data: string): string {
   const [ivHex, encHex] = data.split(":");
   if (!ivHex || !encHex) return "";
-  const decipher = createDecipheriv("aes-256-cbc", ENC_KEY, Buffer.from(ivHex, "hex"));
+  const decipher = createDecipheriv("aes-256-cbc", getEncKey(), Buffer.from(ivHex, "hex"));
   return Buffer.concat([decipher.update(Buffer.from(encHex, "hex")), decipher.final()]).toString("utf8");
 }
 

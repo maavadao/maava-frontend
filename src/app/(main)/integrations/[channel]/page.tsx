@@ -122,7 +122,7 @@ function LivePreview({ channelName }: { channelName: string }) {
           </div>
           <div>
             <div className="flex items-baseline gap-2">
-              <span className="text-sm font-medium text-primary">Barrsa Agent</span>
+              <span className="text-sm font-medium text-primary">mawaDao Agent</span>
               <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-primary/20 text-primary">
                 BOT
               </span>
@@ -401,7 +401,7 @@ export default function IntegrationSetupPage() {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-foreground">
-                  Connect {channelName} to Barrsa
+                  Connect {channelName} to mawaDao
                 </h1>
                 <p className="text-sm text-muted-foreground">
                   {docs}
@@ -442,7 +442,7 @@ export default function IntegrationSetupPage() {
                       Already Active
                     </div>
                     <p className="text-xs text-emerald-600 dark:text-emerald-400/80 mt-1">
-                      Web chat is built into Barrsa. Go to the Chat page to use it.
+                      Web chat is built into mawaDao. Go to the Chat page to use it.
                     </p>
                   </div>
                   <Button onClick={() => router.push(ROUTES.CHAT)} className="gap-2">
@@ -589,7 +589,7 @@ export default function IntegrationSetupPage() {
               <div>
                 <p className="text-sm font-medium text-foreground">{displayName}</p>
                 <p className="text-xs text-muted-foreground">
-                  {user?.email || 'agent@barrsa.com'}
+                  {user?.email || 'agent@mawadao.com'}
                 </p>
               </div>
             </div>

@@ -84,7 +84,7 @@ export default function PostPage() {
               
               {/* Content */}
               {post.content && (
-                <div className="prose-barrsa mb-4">
+                <div className="prose-mawadao mb-4">
                   {post.content}
                 </div>
               )}

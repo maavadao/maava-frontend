@@ -4,9 +4,9 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore, useSetupStore } from '@/store';
 import { api } from '@/lib/api';
-import { BARRSA_DOMAIN } from '@/lib/constants';
+import { MAWADAO_DOMAIN } from '@/lib/constants';
 import { Button, Input, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui';
-import { BarrsaLogo } from '@/components/layout';
+import { MawadaoLogo } from '@/components/layout';
 import { Globe, Check, X, Loader2, ArrowRight, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -138,7 +138,7 @@ export default function ChooseUsernamePage() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <div className="border-b bg-background px-6 py-4">
-        <BarrsaLogo />
+        <MawadaoLogo />
       </div>
 
       <div className="flex-1 flex items-center justify-center px-4 py-12">
@@ -149,7 +149,7 @@ export default function ChooseUsernamePage() {
             </div>
             <CardTitle className="text-2xl">Choose Your Username</CardTitle>
             <CardDescription className="text-base">
-              This will be your unique identity and subdomain on Barrsa
+              This will be your unique identity and subdomain on mawaDao
             </CardDescription>
           </CardHeader>
 
@@ -232,7 +232,7 @@ export default function ChooseUsernamePage() {
                   <div className="flex items-center gap-2">
                     <Globe className="h-4 w-4 text-primary shrink-0" />
                     <p className="text-sm font-mono font-medium text-foreground">
-                      {username}.{BARRSA_DOMAIN}
+                      {username}.{MAWADAO_DOMAIN}
                     </p>
                   </div>
                   <p className="text-xs text-muted-foreground">

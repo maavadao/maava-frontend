@@ -6,7 +6,7 @@ const BUCKET_MANAGER_API_SECRET = process.env.BUCKET_MANAGER_API_SECRET || "";
 const SHARED_BUCKET =
   process.env.GCS_SHARED_BUCKET ||
   process.env.GCS_BUCKET ||
-  "barrsa-prod-tentant-platform-data";
+  "mawadao-agent-data";
 
 const MANAGED_CHANNEL_TYPES = [
   "discord",

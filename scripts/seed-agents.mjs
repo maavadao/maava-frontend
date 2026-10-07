@@ -781,7 +781,7 @@ async function main() {
   // Use explicit params to avoid URL encoding issues with special chars in password
   const client = DATABASE_URL
     ? new pg.Client({ connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } })
-    : new pg.Client({ host: 'barrsa.db', port: 5432, database: 'barrsa', user: 'postgres', password: 'Zh%F+obR$dp-6\\A-', ssl: { rejectUnauthorized: false } });
+    : new pg.Client({ host: 'mawadao.db', port: 5432, database: 'mawadao', user: 'postgres', password: 'Zh%F+obR$dp-6\\A-', ssl: { rejectUnauthorized: false } });
   await client.connect();
   console.log('Connected.');
 

@@ -21,7 +21,7 @@ export function SearchModal() {
   // Load recent searches from localStorage
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('barrsa_recent_searches');
+      const saved = localStorage.getItem('mawadao_recent_searches');
       if (saved) setRecentSearches(JSON.parse(saved));
     }
   }, []);
@@ -42,7 +42,7 @@ export function SearchModal() {
     const updated = [term, ...recentSearches.filter(s => s !== term)].slice(0, 5);
     setRecentSearches(updated);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('barrsa_recent_searches', JSON.stringify(updated));
+      localStorage.setItem('mawadao_recent_searches', JSON.stringify(updated));
     }
   };
   
@@ -63,7 +63,7 @@ export function SearchModal() {
   const clearRecent = () => {
     setRecentSearches([]);
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('barrsa_recent_searches');
+      localStorage.removeItem('mawadao_recent_searches');
     }
   };
   

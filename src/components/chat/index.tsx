@@ -957,7 +957,7 @@ function ChatPanelInner({ apiKey, conversationId, initialMessages, userId, onCon
   // ── Backend Readiness ─────────────────────────────────────────────────────
   const { tenantStatus, isCloudMode, setTenantStatus } = useCloudStore();
   // isCloudMode is not persisted in the store, so also check hostname directly
-  const isCloud = isCloudMode || (typeof window !== 'undefined' && window.location.hostname.endsWith('barrsa.com'));
+  const isCloud = isCloudMode || (typeof window !== 'undefined' && window.location.hostname.endsWith('mawadao.com'));
   const backendReady = !isCloud || tenantStatus === 'active';
 
   // Adaptive polling for provision status — backs off when unchanged
@@ -1508,7 +1508,7 @@ function ChatPanelInner({ apiKey, conversationId, initialMessages, userId, onCon
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-semibold text-sm text-foreground leading-tight">
-              {selectedAgent ? selectedAgent.name : 'Barrsa Assistant'}
+              {selectedAgent ? selectedAgent.name : 'mawaDao Assistant'}
             </p>
             <div className="flex items-center gap-1.5 mt-0.5">
               <span className={cn('h-1.5 w-1.5 rounded-full', isLoading ? 'bg-amber-400 animate-pulse' : 'bg-emerald-400')} />

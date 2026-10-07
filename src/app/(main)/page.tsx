@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/hooks';
-import { BARRSA_DOMAIN } from '@/lib/constants';
+import { MAWADAO_DOMAIN } from '@/lib/constants';
 import { useCloudStore } from '@/store/cloud';
 import { useAuthStore } from '@/store';
 import { debugLog } from '@/lib/logger';
@@ -28,7 +28,7 @@ export default function HomePage() {
   const redirectingRef = useRef(false);
 
   // --- Step 0: Exchange transfer token if present in URL ---
-  // When arriving from barrsa.com after login, the URL contains
+  // When arriving from mawadao.com after login, the URL contains
   // ?auth_token=TRANSFER_TOKEN&state=RANDOM. Call the token-exchange
   // API to set the auth cookie, then reload with a clean URL.
   useEffect(() => {
@@ -144,7 +144,7 @@ export default function HomePage() {
     if (!checkedSession) return;
     if (isAuthenticated && cloudSubdomain && !redirectingRef.current) {
       redirectingRef.current = true;
-      const target = `https://${cloudSubdomain}.${BARRSA_DOMAIN}`;
+      const target = `https://${cloudSubdomain}.${MAWADAO_DOMAIN}`;
       debugLog('[Home] Redirecting authenticated user to subdomain:', target);
       window.location.href = target;
     }

@@ -52,7 +52,7 @@ function buildRequest(
 
 beforeAll(() => {
     process.env.NEXT_PUBLIC_CLOUD_MODE = 'true';
-    process.env.NEXT_PUBLIC_ROOT_DOMAIN = 'barrsa.com';
+    process.env.NEXT_PUBLIC_ROOT_DOMAIN = 'mawadao.com';
 });
 
 afterEach(() => jest.restoreAllMocks());
@@ -64,15 +64,15 @@ describe('unauthenticated subdomain request', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(null);
 
-        const req = buildRequest(NextRequest, 'https://aliko.barrsa.com/some/path?q=1', {
-            headers: { 'x-forwarded-host': 'aliko.barrsa.com' },
+        const req = buildRequest(NextRequest, 'https://alice.mawadao.com/some/path?q=1', {
+            headers: { 'x-forwarded-host': 'alice.mawadao.com' },
         });
 
         const res = await mw(req);
         expect(res?.status).toBe(307);
         const location = res?.headers.get('location') || '';
-        expect(location).toContain('barrsa.com/auth/login');
-        expect(location).toContain(encodeURIComponent('aliko.barrsa.com'));
+        expect(location).toContain('mawadao.com/auth/login');
+        expect(location).toContain(encodeURIComponent('alice.mawadao.com'));
     });
 });
 
@@ -83,8 +83,8 @@ describe('transfer token on subdomain (pass-through)', () => {
 
         const req = buildRequest(
             NextRequest,
-            'https://aliko.barrsa.com/?auth_token=transfer123&state=abc',
-            { headers: { 'x-forwarded-host': 'aliko.barrsa.com' } },
+            'https://alice.mawadao.com/?auth_token=transfer123&state=abc',
+            { headers: { 'x-forwarded-host': 'alice.mawadao.com' } },
         );
 
         const res = await mw(req);
@@ -105,10 +105,10 @@ describe('transfer token on subdomain (pass-through)', () => {
 
         const req = buildRequest(
             NextRequest,
-            'https://aliko.barrsa.com/?auth_token=old_token&state=x',
+            'https://alice.mawadao.com/?auth_token=old_token&state=x',
             {
                 cookies: { 'auth-token': 'valid-jwt' },
-                headers: { 'x-forwarded-host': 'aliko.barrsa.com' },
+                headers: { 'x-forwarded-host': 'alice.mawadao.com' },
             },
         );
 
@@ -117,7 +117,7 @@ describe('transfer token on subdomain (pass-through)', () => {
         const location = res?.headers.get('location') || '';
         expect(location).not.toContain('auth_token');
         expect(location).not.toContain('state=x');
-        expect(location).toContain('aliko.barrsa.com');
+        expect(location).toContain('alice.mawadao.com');
     });
 });
 
@@ -131,9 +131,9 @@ describe('authenticated user on subdomain', () => {
             tenantId: 'tenant-1',
         });
 
-        const req = buildRequest(NextRequest, 'https://aliko.barrsa.com/', {
+        const req = buildRequest(NextRequest, 'https://alice.mawadao.com/', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'aliko.barrsa.com' },
+            headers: { 'x-forwarded-host': 'alice.mawadao.com' },
         });
 
         const res = await mw(req);
@@ -151,9 +151,9 @@ describe('authenticated user on subdomain', () => {
             tenantId: 'tenant-1',
         });
 
-        const req = buildRequest(NextRequest, 'https://aliko.barrsa.com/', {
+        const req = buildRequest(NextRequest, 'https://alice.mawadao.com/', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'aliko.barrsa.com' },
+            headers: { 'x-forwarded-host': 'alice.mawadao.com' },
         });
 
         const res = await mw(req);
@@ -172,15 +172,15 @@ describe('main domain with authenticated user and subdomain', () => {
         });
         mockedAuth.createTransferToken.mockResolvedValue('xfer-token-123');
 
-        const req = buildRequest(NextRequest, 'https://barrsa.com/', {
+        const req = buildRequest(NextRequest, 'https://mawadao.com/', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'barrsa.com' },
+            headers: { 'x-forwarded-host': 'mawadao.com' },
         });
 
         const res = await mw(req);
         expect(res?.status).toBe(307);
         const location = res?.headers.get('location') || '';
-        expect(location).toContain('aliko.barrsa.com');
+        expect(location).toContain('alice.mawadao.com');
         expect(location).toContain('auth_token=xfer-token-123');
         expect(location).toContain('state=');
     });
@@ -196,9 +196,9 @@ describe('authenticated user on /auth/login', () => {
             tenantId: null as any,
         });
 
-        const req = buildRequest(NextRequest, 'https://barrsa.com/auth/login', {
+        const req = buildRequest(NextRequest, 'https://mawadao.com/auth/login', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'barrsa.com' },
+            headers: { 'x-forwarded-host': 'mawadao.com' },
         });
 
         const res = await mw(req);
@@ -213,8 +213,8 @@ describe('main domain — no auth', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(null);
 
-        const req = buildRequest(NextRequest, 'https://barrsa.com/auth/login', {
-            headers: { 'x-forwarded-host': 'barrsa.com' },
+        const req = buildRequest(NextRequest, 'https://mawadao.com/auth/login', {
+            headers: { 'x-forwarded-host': 'mawadao.com' },
         });
 
         const res = await mw(req);
@@ -225,8 +225,8 @@ describe('main domain — no auth', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(null);
 
-        const req = buildRequest(NextRequest, 'https://barrsa.com/settings', {
-            headers: { 'x-forwarded-host': 'barrsa.com' },
+        const req = buildRequest(NextRequest, 'https://mawadao.com/settings', {
+            headers: { 'x-forwarded-host': 'mawadao.com' },
         });
 
         const res = await mw(req);
@@ -237,13 +237,13 @@ describe('main domain — no auth', () => {
 });
 
 describe('protocol resolution', () => {
-    test('forces https for *.barrsa.com even with http x-forwarded-proto', async () => {
+    test('forces https for *.mawadao.com even with http x-forwarded-proto', async () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(null);
 
-        const req = buildRequest(NextRequest, 'http://aliko.barrsa.com/', {
+        const req = buildRequest(NextRequest, 'http://alice.mawadao.com/', {
             headers: {
-                'x-forwarded-host': 'aliko.barrsa.com',
+                'x-forwarded-host': 'alice.mawadao.com',
                 'x-forwarded-proto': 'http',
             },
         });

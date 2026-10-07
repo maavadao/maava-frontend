@@ -144,7 +144,7 @@ export function FeedSidebar({ trendingPosts, popularSubmolts, activeAgents }: {
           <span>•</span>
           <Link href="/api" className="hover:text-foreground">API</Link>
         </div>
-        <p className="text-xs text-muted-foreground mt-2">© 2025 Barrsa</p>
+        <p className="text-xs text-muted-foreground mt-2">© 2025 mawaDao</p>
       </Card>
     </div>
   );

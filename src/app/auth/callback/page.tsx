@@ -133,7 +133,7 @@ function AuthCallbackInner() {
           // Existing user with a fully provisioned tenant → go to their subdomain.
           // Pass the transfer token in the URL so the subdomain can establish its
           // own session cookie without relying on cross-domain cookie sharing.
-          const subdomainUrl = new URL(`https://${cookieSubdomain}.barrsa.com`);
+          const subdomainUrl = new URL(`https://${cookieSubdomain}.mawadao.com`);
           if (transferToken) {
             subdomainUrl.searchParams.set('auth_token', transferToken);
             subdomainUrl.searchParams.set('state', crypto.randomUUID());

@@ -54,10 +54,10 @@ describe('Cloud Store (Zustand)', () => {
     // Build a fake JWT with a valid base64url payload (no signature verification in store)
     const payload = {
       userId: 'user-123',
-      email: 'raj@barrsa.com',
+      email: 'raj@mawadao.com',
       subdomain: 'raj',
       tenantId: 'tenant-xyz',
-      iss: 'barrsa-auth',
+      iss: 'mawadao-auth',
       exp: Math.floor(Date.now() / 1000) + 3600,
     };
     const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
@@ -112,7 +112,7 @@ describe('Cloud Store (Zustand)', () => {
 // ─────────────────────────────────────────────────────────────
 
 describe('Multi-Tenant Middleware Logic', () => {
-  const ROOT_DOMAIN = 'barrsa.com';
+  const ROOT_DOMAIN = 'mawadao.com';
 
   function extractSubdomain(hostname: string): string | null {
     const host = hostname.replace(/:\d+$/, '');
@@ -129,17 +129,17 @@ describe('Multi-Tenant Middleware Logic', () => {
     return null;
   }
 
-  it('extracts subdomain from raj.barrsa.com', () => {
-    expect(extractSubdomain('raj.barrsa.com')).toBe('raj');
+  it('extracts subdomain from alice.mawadao.com', () => {
+    expect(extractSubdomain('alice.mawadao.com')).toBe('raj');
   });
 
-  it('extracts subdomain from workspace-1.barrsa.com:3000', () => {
-    expect(extractSubdomain('workspace-1.barrsa.com:3000')).toBe('workspace-1');
+  it('extracts subdomain from workspace-1.mawadao.com:3000', () => {
+    expect(extractSubdomain('workspace-1.mawadao.com:3000')).toBe('workspace-1');
   });
 
   it('returns null for root domain', () => {
-    expect(extractSubdomain('barrsa.com')).toBeNull();
-    expect(extractSubdomain('www.barrsa.com')).toBeNull();
+    expect(extractSubdomain('mawadao.com')).toBeNull();
+    expect(extractSubdomain('www.mawadao.com')).toBeNull();
   });
 
   it('returns null for localhost', () => {
@@ -149,7 +149,7 @@ describe('Multi-Tenant Middleware Logic', () => {
 
   it('returns null for unrelated domains', () => {
     expect(extractSubdomain('evil.com')).toBeNull();
-    expect(extractSubdomain('barrsa.com.evil.com')).toBeNull();
+    expect(extractSubdomain('mawadao.com.evil.com')).toBeNull();
   });
 
   it('validates JWT subdomain matches URL subdomain', () => {
@@ -163,7 +163,7 @@ describe('Multi-Tenant Middleware Logic', () => {
   });
 
   it('unauthenticated subdomain access redirects to login', () => {
-    // Simulate: raj.barrsa.com with no JWT → should redirect
+    // Simulate: alice.mawadao.com with no JWT → should redirect
     const user = null;
     const subdomain = 'raj';
     const shouldRedirect = subdomain && !user;
@@ -483,17 +483,17 @@ describe('Database Schema Constraints', () => {
 
 describe('Cloud Run Deployment Model', () => {
   it('each tenant gets unique service name', () => {
-    const serviceName = (subdomain: string) => `barrsa-${subdomain}`;
-    expect(serviceName('raj')).toBe('barrsa-raj');
-    expect(serviceName('alice')).toBe('barrsa-alice');
+    const serviceName = (subdomain: string) => `mawadao-${subdomain}`;
+    expect(serviceName('raj')).toBe('mawadao-alice');
+    expect(serviceName('alice')).toBe('mawadao-alice');
     // Should not collide
     expect(serviceName('raj')).not.toBe(serviceName('alice'));
   });
 
   it('backend URL follows Cloud Run pattern', () => {
-    const expectedPattern = /^https:\/\/barrsa-[a-z0-9-]+\.[a-z0-9-]+\.run\.app$/;
-    expect('https://barrsa-raj.europe-west1.run.app').toMatch(expectedPattern);
-    expect('https://barrsa-alice.us-central1.run.app').toMatch(expectedPattern);
+    const expectedPattern = /^https:\/\/mawadao-[a-z0-9-]+\.[a-z0-9-]+\.run\.app$/;
+    expect('https://mawadao-alice.europe-west1.run.app').toMatch(expectedPattern);
+    expect('https://mawadao-alice.us-central1.run.app').toMatch(expectedPattern);
   });
 
   it('provisioning status transitions are tracked', () => {

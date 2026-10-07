@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
   const challenge = base64Url(createHash('sha256').update(verifier).digest());
   const authorizeUrl = new URL(`${authBase}/oauth2/authorize`);
   authorizeUrl.searchParams.set('provider', 'microsoft');
-  authorizeUrl.searchParams.set('client_id', process.env.OIDC_CLIENT_ID || 'barrsa-web');
+  authorizeUrl.searchParams.set('client_id', process.env.OIDC_CLIENT_ID || 'mawadao-web');
   authorizeUrl.searchParams.set('redirect_uri', `${appBase}/auth/callback`);
   authorizeUrl.searchParams.set('response_type', 'code');
   authorizeUrl.searchParams.set('scope', 'openid email profile');

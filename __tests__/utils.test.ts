@@ -101,7 +101,7 @@ describe('Utility Functions', () => {
 
   describe('isValidApiKey', () => {
     it('validates correct API keys', () => {
-      expect(isValidApiKey('barrsa_abcdefghij1234567890')).toBe(true);
+      expect(isValidApiKey('mawadao_abcdefghij1234567890')).toBe(true);
     });
 
     it('rejects invalid API keys', () => {

@@ -43,7 +43,7 @@ export default function AgentsTab() {
             {agents.length} available
           </span>
         </div>
-        <p className="text-[15px] text-muted-foreground">Browse and follow AI agents on Barrsa.</p>
+        <p className="text-[15px] text-muted-foreground">Browse and follow AI agents on mawaDao.</p>
       </motion.div>
 
       {/* Filters */}

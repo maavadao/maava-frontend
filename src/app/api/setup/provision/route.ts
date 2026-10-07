@@ -22,9 +22,9 @@ const DEPLOYER_URL =
 const DEPLOYER_API_SECRET = process.env.DEPLOYER_API_SECRET || "";
 const CLOUD_BACKEND_IMAGE =
   process.env.CLOUD_BACKEND_IMAGE ||
-  "europe-west1-docker.pkg.dev/barrsa-customer-side/barrsa-platform/openclaw";
+  "ghcr.io/mawadao/mawadao-agent-gateway:latest";
 const GCS_BUCKET =
-  process.env.GCS_BUCKET || "barrsa-prod-tentant-platform-data";
+  process.env.GCS_BUCKET || "mawadao-agent-data";
 // Use CLOUD_MODE (runtime) with NEXT_PUBLIC_CLOUD_MODE (build-time) as fallback.
 // NEXT_PUBLIC_ vars are inlined by Next.js at build time and won't reflect runtime env.
 const CLOUD_MODE = process.env.CLOUD_MODE === "true" || process.env.NEXT_PUBLIC_CLOUD_MODE === "true";
@@ -72,7 +72,7 @@ export function GET() {
   return NextResponse.redirect(
     new URL(
       "/?step=subdomain",
-      process.env.NEXT_PUBLIC_ROOT_DOMAIN || "https://barrsa.com"
+      process.env.NEXT_PUBLIC_ROOT_DOMAIN || "https://mawadao.com"
     ),
     { status: 302 }
   );
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
       sameSite: "lax",
       path: "/",
       maxAge: 7 * 24 * 60 * 60,
-      domain: process.env.NODE_ENV === "production" ? ".barrsa.com" : undefined,
+      domain: process.env.NODE_ENV === "production" ? ".mawadao.com" : undefined,
     });
     return resp;
   }
@@ -265,7 +265,7 @@ export async function POST(request: NextRequest) {
     // Dev mode: platform already running locally — just mark active immediately
     const serviceUrl = LOCAL_BACKEND_URL;
     debugLog(`[provision] Dev mode: skipping Cloud Run deploy, using local backend ${serviceUrl}`);
-    const serviceName = `barrsa-${subdomain}`;
+    const serviceName = `mawadao-${subdomain}`;
     const storageBucket = GCS_BUCKET;
     await pool.query(
       `UPDATE tenants SET backend_url = $1, cloud_run_service_name = $2, storage_bucket = $3, status = 'active', updated_at = NOW() WHERE id = $4`,
@@ -292,7 +292,7 @@ export async function POST(request: NextRequest) {
     sameSite: "lax",
     path: "/",
     maxAge: 7 * 24 * 60 * 60,
-    domain: process.env.NODE_ENV === "production" ? ".barrsa.com" : undefined,
+    domain: process.env.NODE_ENV === "production" ? ".mawadao.com" : undefined,
   });
 
   return response;
@@ -390,13 +390,13 @@ async function deployInBackground(
     const authProfilesReady = await waitForAuthProfilesJson(userId);
     if (!authProfilesReady) {
       throw new Error(
-        "Provisioning finished without auth-profiles.json. Check MOONSHOT_API_KEY on barrsa-frontend and cloud-run-deployer."
+        "Provisioning finished without auth-profiles.json. Check MOONSHOT_API_KEY on mawadao-frontend and cloud-run-deployer."
       );
     }
 
     await pool.query(
       `UPDATE tenants SET backend_url = $1, cloud_run_service_name = $2, storage_bucket = $3, status = 'active', updated_at = NOW() WHERE id = $4`,
-      [serviceUrl, `barrsa-${subdomain}`, GCS_BUCKET, tenantId]
+      [serviceUrl, `mawadao-${subdomain}`, GCS_BUCKET, tenantId]
     );
 
     await invalidateBackendUrl(subdomain);
@@ -407,8 +407,8 @@ async function deployInBackground(
     console.error(`[provision] Deploy FAILED for ${subdomain}:`, err);
     // Recovery: the deployer may have succeeded even if the fetch timed out.
     // Check if the Cloud Run service URL is reachable before marking suspended.
-    const projectNumber = process.env.GCP_PROJECT_NUMBER || "70548103320";
-    const expectedUrl = `https://barrsa-${subdomain}-${projectNumber}.europe-west1.run.app`;
+    const projectNumber = process.env.GCP_PROJECT_NUMBER || "";
+    const expectedUrl = `https://mawadao-${subdomain}-${projectNumber}.europe-west1.run.app`;
     let recovered = false;
     try {
       const probe = await fetch(`${expectedUrl}/health`, { signal: AbortSignal.timeout(10_000) });
@@ -417,7 +417,7 @@ async function deployInBackground(
         debugLog(`[provision] Recovery: service exists at ${expectedUrl}, marking active`);
         await pool.query(
           `UPDATE tenants SET backend_url = $1, cloud_run_service_name = $2, storage_bucket = $3, status = 'active', updated_at = NOW() WHERE id = $4`,
-          [expectedUrl, `barrsa-${subdomain}`, GCS_BUCKET, tenantId]
+          [expectedUrl, `mawadao-${subdomain}`, GCS_BUCKET, tenantId]
         );
         await invalidateBackendUrl(subdomain);
         if (oldSubdomain && oldSubdomain !== subdomain) await invalidateBackendUrl(oldSubdomain);

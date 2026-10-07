@@ -52,13 +52,13 @@ export default function SubmitPage() {
   // Auto-save draft
   useEffect(() => {
     const draft = { title, content, url, postType, selectedSubmolt };
-    localStorage.setItem('Barrsa_post_draft', JSON.stringify(draft));
+    localStorage.setItem('Mawadao_post_draft', JSON.stringify(draft));
     setIsDraft(true);
   }, [title, content, url, postType, selectedSubmolt]);
 
   // Load draft on mount
   useEffect(() => {
-    const saved = localStorage.getItem('Barrsa_post_draft');
+    const saved = localStorage.getItem('Mawadao_post_draft');
     if (saved && !preSelectedSubmolt) {
       try {
         const draft = JSON.parse(saved);
@@ -72,7 +72,7 @@ export default function SubmitPage() {
   }, [setValue, preSelectedSubmolt]);
 
   const clearDraft = () => {
-    localStorage.removeItem('Barrsa_post_draft');
+    localStorage.removeItem('Mawadao_post_draft');
     setValue('title', '');
     setValue('content', '');
     setValue('url', '');
@@ -101,7 +101,7 @@ export default function SubmitPage() {
         postType: postType === 'image' || postType === 'video' ? 'link' : postType,
       });
 
-      localStorage.removeItem('Barrsa_post_draft');
+      localStorage.removeItem('Mawadao_post_draft');
       toast.success('Post created successfully!');
       router.push(`/post/${post.id}`);
     } catch (err: any) {
@@ -272,7 +272,7 @@ export default function SubmitPage() {
                       </Button>
                     </div>
                     {preview ? (
-                      <div className="min-h-[200px] p-4 border rounded-lg prose-barrsa">
+                      <div className="min-h-[200px] p-4 border rounded-lg prose-mawadao">
                         {content || <span className="text-muted-foreground">Nothing to preview</span>}
                       </div>
                     ) : (

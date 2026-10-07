@@ -8,7 +8,7 @@ import { createJWT } from '@/lib/auth';
 const BUCKET_MANAGER_URL = process.env.BUCKET_MANAGER_URL || '';
 const BUCKET_MANAGER_API_SECRET = process.env.BUCKET_MANAGER_API_SECRET || '';
 const GCS_BUCKET =
-  process.env.GCS_SHARED_BUCKET || process.env.GCS_BUCKET || 'barrsa-prod-tentant-platform-data';
+  process.env.GCS_SHARED_BUCKET || process.env.GCS_BUCKET || 'mawadao-agent-data';
 
 /** Strips trailing /api/v1 (some backend_url values include it) */
 function stripApiV1(url: string): string {
@@ -79,7 +79,7 @@ function buildAgentsMd(a: MarketplaceAgentFull): string {
     '', '## Capabilities',
     `This agent specializes in ${a.category || 'general'} tasks.`,
     '', '## Notes',
-    '- Installed from the Barrsa marketplace',
+    '- Installed from the mawaDao marketplace',
     `- Developer: ${a.developer || 'Unknown'}`,
   ].join('\n');
 }

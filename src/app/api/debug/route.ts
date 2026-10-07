@@ -10,7 +10,7 @@
  *  - Package versions of critical deps (pg, ioredis, next)
  *  - Runtime module resolution check (pg, ioredis)
  *
- * Access: GET https://barrsa.com/api/debug
+ * Access: GET https://mawadao.com/api/debug
  */
 
 import { NextResponse } from "next/server";
@@ -197,7 +197,7 @@ export async function GET() {
     "http://localhost:19002/api/v1"
   ).replace(/\/+$/, "");
 
-  const authUrl = (NEXT_PUBLIC_AUTH_URL || "https://auth.barrsa.com").replace(/\/+$/, "");
+  const authUrl = (NEXT_PUBLIC_AUTH_URL || "https://auth.mawadao.com").replace(/\/+$/, "");
 
   const [dbCheck, gatewayModelsCheck, gatewayHealthCheck, configApiCheck, authHealthCheck] = await Promise.all([
     checkDb(),
