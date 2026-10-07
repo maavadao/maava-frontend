@@ -140,7 +140,7 @@ export const CONFIG_API_URL =
     ? "/api/openclaw"
     : process.env.OPENCLAW_CONFIG_API_URL || "http://localhost:19002/api/v1";
 
-/** Cloud mode flag — when true, enables multi-tenant subdomain routing */
+/** Cloud mode flag — when true, enables JWT auth and the member space */
 export const CLOUD_MODE = process.env.NEXT_PUBLIC_CLOUD_MODE === "true";
 
 /** GCP project for Cloud Run deployments */
