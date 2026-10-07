@@ -38,6 +38,7 @@ import {
   X,
   HardDrive,
   Wand2,
+  Lightbulb,
 } from 'lucide-react';
 
 // =============================================================================
@@ -185,7 +186,7 @@ export function AppSidebar() {
   const searchParams = useSearchParams();
   const { isAuthenticated, user, agent } = useAuth();
   const currentTab = searchParams.get('tab');
-  const isHub = !!pathname?.startsWith('/marketplace');
+  const isHub = !!pathname?.startsWith('/workspace');
   const [collapsed, setCollapsed] = React.useState(false);
 
   return (
@@ -195,12 +196,13 @@ export function AppSidebar() {
       <nav className={cn('flex-1 space-y-0.5', collapsed ? 'px-2' : 'px-3')}>
         <SidebarItem href={ROUTES.HOME} icon={Home} label="Home" isActive={pathname === '/'} collapsed={collapsed} />
         <SidebarItem href="/explore" icon={Compass} label="Explore" isActive={pathname === '/explore'} collapsed={collapsed} />
-        <SidebarItem href="/marketplace?tab=notifications" icon={Bell} label="Notifications" isActive={isHub && currentTab === 'notifications'} collapsed={collapsed} />
+        <SidebarItem href={ROUTES.TOOLS} icon={Lightbulb} label="AI tools" isActive={!!pathname?.startsWith('/tools')} collapsed={collapsed} />
+        <SidebarItem href="/workspace?tab=notifications" icon={Bell} label="Notifications" isActive={isHub && currentTab === 'notifications'} collapsed={collapsed} />
 
         <SidebarSection label="Workspace" collapsed={collapsed} />
-        <SidebarItem href="/marketplace?tab=communities" icon={Users} label="Communities" isActive={isHub && currentTab === 'communities'} collapsed={collapsed} />
-        <SidebarItem href="/marketplace?tab=agents" icon={Bot} label="Agents" isActive={isHub && currentTab === 'agents'} collapsed={collapsed} />
-        <SidebarItem href={ROUTES.MARKETPLACE} icon={Store} label="Marketplace" isActive={isHub && (!currentTab || currentTab === 'marketplace')} collapsed={collapsed} />
+        <SidebarItem href="/workspace?tab=communities" icon={Users} label="Communities" isActive={isHub && currentTab === 'communities'} collapsed={collapsed} />
+        <SidebarItem href="/workspace?tab=agents" icon={Bot} label="Agents" isActive={isHub && currentTab === 'agents'} collapsed={collapsed} />
+        <SidebarItem href={ROUTES.MARKETPLACE} icon={Store} label="Marketplace" isActive={!!pathname?.startsWith('/marketplace')} collapsed={collapsed} />
         <SidebarItem href={ROUTES.SKILLS} icon={Sparkles} label="Skills Hub" isActive={!!pathname?.startsWith('/skills')} collapsed={collapsed} />
         <SidebarItem href="/agent-builder" icon={Wand2} label="Agent Builder" isActive={pathname === '/agent-builder'} collapsed={collapsed} />
       </nav>
@@ -699,7 +701,7 @@ export function IntegrationSidebar() {
 
   const items = [
     { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { href: '/marketplace?tab=agents', icon: Bot, label: 'Agents' },
+    { href: '/workspace?tab=agents', icon: Bot, label: 'Agents' },
     { href: ROUTES.MARKETPLACE, icon: Store, label: 'Marketplace' },
     { href: ROUTES.CHANNELS, icon: Radio, label: 'Integrations' },
     { href: ROUTES.SETTINGS, icon: Settings, label: 'Settings' },
@@ -765,13 +767,24 @@ export function AgentDetailNav() {
               Marketplace
             </Link>
             <Link
-              href="/marketplace?tab=agents"
+              href={ROUTES.TOOLS}
+              className={cn(
+                'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+                pathname.startsWith('/tools')
+                  ? 'text-primary bg-mawadao-50 dark:bg-primary/10'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              )}
+            >
+              AI tools
+            </Link>
+            <Link
+              href="/workspace?tab=agents"
               className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               My Agents
             </Link>
             <Link
-              href="/marketplace?tab=communities"
+              href="/workspace?tab=communities"
               className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               Community

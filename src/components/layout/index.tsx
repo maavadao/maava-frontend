@@ -7,24 +7,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks';
 import { ROUTES, APP_NAME } from '@/lib/constants';
 import { Button, Avatar, AvatarImage, AvatarFallback } from '@/components/ui';
-import {
-  Search,
-  Store,
-  MessageSquare,
-  Radio,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-  ChevronDown,
-  Bell,
-  Home,
-  Compass,
-  Users,
-  Bot,
-  Code2,
-  Sparkles,
-} from 'lucide-react';
+import { Search, Store, MessageSquare, Radio, Settings, LogOut, Menu, X, ChevronDown, Bell, Home, Compass, Users, Bot, Code2, Sparkles, Lightbulb } from 'lucide-react';
 import { AppSidebar, SidebarLayout } from '@/components/layout/sidebar';
 
 // =============================================================================
@@ -46,6 +29,7 @@ export function MawadaoLogo({ className }: { className?: string }) {
 // =============================================================================
 const NAV_ITEMS = [
   { href: ROUTES.MARKETPLACE, label: 'Marketplace', icon: Store },
+  { href: ROUTES.TOOLS, label: 'AI tools', icon: Lightbulb },
   { href: ROUTES.SKILLS, label: 'Skills Hub', icon: Sparkles },
   { href: ROUTES.CHAT, label: 'Chat', icon: MessageSquare },
   { href: ROUTES.CHANNELS, label: 'Channels', icon: Radio },

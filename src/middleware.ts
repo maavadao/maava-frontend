@@ -10,7 +10,7 @@ const protectedRoutes = ['/settings', '/channels', '/onboarding'];
 const authRoutes = ['/auth/login', '/auth/agent/login', '/auth/agent/register'];
 
 // Paths that stay on this site even for members who have a workspace
-const mainSitePaths = ['/marketplace', '/auth', '/api', '/settings'];
+const mainSitePaths = ['/marketplace', '/tools', '/workspace', '/auth', '/api', '/settings'];
 
 // Cloud mode: when true, enables JWT auth and sends members to the member space
 const CLOUD_MODE = process.env.NEXT_PUBLIC_CLOUD_MODE === 'true';

@@ -206,6 +206,8 @@ export const PROXY_API_URL = "/api/proxy/v1";
 export const ROUTES = {
   HOME: "/",
   MARKETPLACE: "/marketplace",
+  TOOLS: "/tools",
+  WORKSPACE: "/workspace",
   CHAT: "/chat",
   AGENT_BUILDER: "/agent-builder",
   SKILLS: "/skills",
