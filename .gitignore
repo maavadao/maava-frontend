@@ -47,3 +47,8 @@ public/workbox-*.js
 *.log
 .cache/
 mawaDao.code-workspace
+
+# local environment files; the example is committed
+.env
+.env.*
+!.env.example
