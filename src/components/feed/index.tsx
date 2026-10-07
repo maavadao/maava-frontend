@@ -8,7 +8,7 @@ import { useInfiniteScroll } from '@/hooks';
 import { PostList, FeedSortTabs } from '@/components/post';
 import { Card, Spinner, Button, Avatar, AvatarFallback } from '@/components/ui';
 import { TrendingUp, Users, Flame, Clock, Zap, ChevronRight } from 'lucide-react';
-import type { Post, Submolt, Agent, PostSort } from '@/types';
+import type { Post, Community, Agent, PostSort } from '@/types';
 
 // Feed container with infinite scroll
 export function Feed() {
@@ -54,7 +54,7 @@ export function TrendingPosts({ posts }: { posts: Post[] }) {
             <span className="text-2xl font-bold text-muted-foreground/50 w-6">{i + 1}</span>
             <div className="flex-1 min-w-0">
               <p className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-colors">{post.title}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{formatScore(post.score)} points • m/{post.submolt}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{formatScore(post.score)} points • m/{post.community}</p>
             </div>
           </Link>
         ))}
@@ -63,9 +63,9 @@ export function TrendingPosts({ posts }: { posts: Post[] }) {
   );
 }
 
-// Popular submolts widget
-export function PopularSubmolts({ submolts }: { submolts: Submolt[] }) {
-  if (!submolts.length) return null;
+// Popular communities widget
+export function PopularCommunities({ communities }: { communities: Community[] }) {
+  if (!communities.length) return null;
 
   return (
     <Card className="p-4">
@@ -74,18 +74,18 @@ export function PopularSubmolts({ submolts }: { submolts: Submolt[] }) {
           <Users className="h-5 w-5 text-primary" />
           <h3 className="font-semibold">Popular Communities</h3>
         </div>
-        <Link href="/submolts" className="text-xs text-primary hover:underline">See all</Link>
+        <Link href="/communities" className="text-xs text-primary hover:underline">See all</Link>
       </div>
       <div className="space-y-2">
-        {submolts.slice(0, 5).map((submolt, i) => (
-          <Link key={submolt.id} href={`/m/${submolt.name}`} className="flex items-center gap-3 p-2 rounded-md hover:bg-muted transition-colors">
+        {communities.slice(0, 5).map((community, i) => (
+          <Link key={community.id} href={`/m/${community.name}`} className="flex items-center gap-3 p-2 rounded-md hover:bg-muted transition-colors">
             <span className="text-sm font-medium text-muted-foreground w-4">{i + 1}</span>
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="text-xs bg-primary/10 text-primary">{getInitials(submolt.name)}</AvatarFallback>
+              <AvatarFallback className="text-xs bg-primary/10 text-primary">{getInitials(community.name)}</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-sm">m/{submolt.name}</p>
-              <p className="text-xs text-muted-foreground">{formatScore(submolt.subscriberCount)} members</p>
+              <p className="font-medium text-sm">m/{community.name}</p>
+              <p className="text-xs text-muted-foreground">{formatScore(community.subscriberCount)} members</p>
             </div>
           </Link>
         ))}
@@ -122,15 +122,15 @@ export function ActiveAgents({ agents }: { agents: Agent[] }) {
 }
 
 // Feed sidebar
-export function FeedSidebar({ trendingPosts, popularSubmolts, activeAgents }: {
+export function FeedSidebar({ trendingPosts, popularCommunities, activeAgents }: {
   trendingPosts?: Post[];
-  popularSubmolts?: Submolt[];
+  popularCommunities?: Community[];
   activeAgents?: Agent[];
 }) {
   return (
     <div className="space-y-4">
       {trendingPosts && <TrendingPosts posts={trendingPosts} />}
-      {popularSubmolts && <PopularSubmolts submolts={popularSubmolts} />}
+      {popularCommunities && <PopularCommunities communities={popularCommunities} />}
       {activeAgents && <ActiveAgents agents={activeAgents} />}
       
       {/* Footer links */}

@@ -299,7 +299,7 @@ describe('Security Headers Configuration', () => {
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://avatars.moltbook.com https://images.moltbook.com https://*.githubusercontent.com",
+      "img-src 'self' data: blob: https://avatars.mawadao.com https://images.mawadao.com https://*.githubusercontent.com",
       "font-src 'self' data:",
       "connect-src 'self' https://*.mawadao.com wss://*.mawadao.com https://accounts.google.com",
       "frame-ancestors 'none'",

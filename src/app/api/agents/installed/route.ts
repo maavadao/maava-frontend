@@ -5,8 +5,8 @@ import { createJWT } from '@/lib/auth';
 
 // ── Tenant platform provisioning ─────────────────────────────────────────────
 
-const BUCKET_MANAGER_URL = process.env.BUCKET_MANAGER_URL || '';
-const BUCKET_MANAGER_API_SECRET = process.env.BUCKET_MANAGER_API_SECRET || '';
+const STORAGE_URL = process.env.STORAGE_URL || '';
+const STORAGE_API_SECRET = process.env.STORAGE_API_SECRET || '';
 const GCS_BUCKET =
   process.env.GCS_SHARED_BUCKET || process.env.GCS_BUCKET || 'mawadao-agent-data';
 
@@ -99,8 +99,8 @@ async function seedAgentWorkspaceFiles(
   agent: MarketplaceAgentFull,
 ): Promise<void> {
   debugLog('[seed] START — agent:', agent.slug, 'base:', base, 'userId:', userId);
-  debugLog('[seed] ENV check — BUCKET_MANAGER_URL:', BUCKET_MANAGER_URL || '(empty)',
-    'BUCKET_MANAGER_API_SECRET:', BUCKET_MANAGER_API_SECRET ? '(set)' : '(empty)',
+  debugLog('[seed] ENV check — STORAGE_URL:', STORAGE_URL || '(empty)',
+    'STORAGE_API_SECRET:', STORAGE_API_SECRET ? '(set)' : '(empty)',
     'GCS_BUCKET:', GCS_BUCKET);
 
   const workspaceFiles = [
@@ -112,7 +112,7 @@ async function seedAgentWorkspaceFiles(
   ];
 
   const gcsHeaders: Record<string, string> = { 'Content-Type': 'text/plain; charset=utf-8' };
-  if (BUCKET_MANAGER_API_SECRET) gcsHeaders['X-Bucket-Manager-Secret'] = BUCKET_MANAGER_API_SECRET;
+  if (STORAGE_API_SECRET) gcsHeaders['X-Storage-Secret'] = STORAGE_API_SECRET;
 
   for (const file of workspaceFiles) {
     // Write to tenant-platform local disk (GCSFuse auto-syncs to GCS)
@@ -131,10 +131,10 @@ async function seedAgentWorkspaceFiles(
       debugLog('[seed] files.set', file.name, 'THREW:', (err as Error)?.message);
     }
 
-    // Mirror to GCS via bucket-manager (fallback if GCSFuse is not mounted)
-    if (BUCKET_MANAGER_URL) {
+    // Mirror to GCS via mawadao-agent-storage (fallback if GCSFuse is not mounted)
+    if (STORAGE_URL) {
       const gcsPath = `${userId}/mountfolder/workspace-${agent.slug}/${file.name}`;
-      const gcsUrl = `${BUCKET_MANAGER_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${gcsPath}`;
+      const gcsUrl = `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${gcsPath}`;
       debugLog('[seed] GCS PUT:', gcsUrl);
       try {
         const gcsResp = await fetch(gcsUrl, {
@@ -146,7 +146,7 @@ async function seedAgentWorkspaceFiles(
         debugLog('[seed] GCS', file.name, 'THREW:', (err as Error)?.message);
       }
     } else {
-      debugLog('[seed] GCS skip — BUCKET_MANAGER_URL is empty');
+      debugLog('[seed] GCS skip — STORAGE_URL is empty');
     }
   }
 
@@ -158,9 +158,9 @@ async function seedAgentWorkspaceFiles(
       debugLog('[seed] skip skill — missing slug or content:', JSON.stringify(skill)?.slice(0, 200));
       continue;
     }
-    if (BUCKET_MANAGER_URL) {
+    if (STORAGE_URL) {
       const gcsPath = `${userId}/mountfolder/skills/${skill.slug}/SKILL.md`;
-      const gcsUrl = `${BUCKET_MANAGER_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${gcsPath}`;
+      const gcsUrl = `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${gcsPath}`;
       debugLog('[seed] GCS skill PUT:', gcsUrl);
       try {
         const resp = await fetch(gcsUrl, {

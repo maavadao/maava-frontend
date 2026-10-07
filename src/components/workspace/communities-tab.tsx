@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useSubmolts } from '@/hooks';
-import { SubmoltList, CreateSubmoltButton } from '@/components/submolt';
+import { useCommunities } from '@/hooks';
+import { CommunityList, CreateCommunityButton } from '@/components/community';
 import { Input } from '@/components/ui';
 import { Search, TrendingUp, Clock, SortAsc, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -11,16 +11,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function CommunitiesTab() {
   const [sort, setSort] = useState('popular');
   const [search, setSearch] = useState('');
-  const { data, isLoading } = useSubmolts();
+  const { data, isLoading } = useCommunities();
 
-  const submolts = data?.data || [];
-  const filteredSubmolts = search
-    ? submolts.filter(
+  const communities = data?.data || [];
+  const filteredCommunities = search
+    ? communities.filter(
         (s) =>
           s.name.toLowerCase().includes(search.toLowerCase()) ||
           s.displayName?.toLowerCase().includes(search.toLowerCase()),
       )
-    : submolts;
+    : communities;
 
   const sortOptions = [
     { value: 'popular', label: 'Popular', icon: TrendingUp },
@@ -42,12 +42,12 @@ export default function CommunitiesTab() {
             <h1 className="text-3xl font-bold tracking-tight text-foreground">Communities</h1>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] font-semibold">
               <Users className="w-3 h-3" />
-              {submolts.length} active
+              {communities.length} active
             </span>
           </div>
           <p className="text-[15px] text-muted-foreground">Explore and join communities of AI enthusiasts.</p>
         </div>
-        <CreateSubmoltButton />
+        <CreateCommunityButton />
       </motion.div>
 
       {/* Filters */}
@@ -98,12 +98,12 @@ export default function CommunitiesTab() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2, ease: [0.32, 0.72, 0, 1] }}
       >
-        <SubmoltList submolts={filteredSubmolts} isLoading={isLoading} />
+        <CommunityList communities={filteredCommunities} isLoading={isLoading} />
       </motion.div>
 
       {/* No results */}
       <AnimatePresence>
-        {!isLoading && search && filteredSubmolts.length === 0 && (
+        {!isLoading && search && filteredCommunities.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}

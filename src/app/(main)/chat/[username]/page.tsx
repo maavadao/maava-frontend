@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useAuth, useAgent } from '@/hooks';
 import { debugLog } from '@/lib/logger';
-import { useOpenClawChatStore } from '@/store';
+import { useGatewayChatStore } from '@/store';
 import { ChatPanel } from '@/components/chat';
 import { Button, Avatar, AvatarImage, AvatarFallback, Skeleton } from '@/components/ui';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ export default function SubdomainChatPage() {
   const searchParams = useSearchParams();
   const username = params.username;
   const { isAuthenticated, apiKey } = useAuth();
-  const { gatewayToken } = useOpenClawChatStore();
+  const { gatewayToken } = useGatewayChatStore();
   const [exchangingToken, setExchangingToken] = useState(false);
 
   // ── Provisioning detection ──────────────────────────────────────────────

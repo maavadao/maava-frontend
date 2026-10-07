@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useAgents, useSubmolts, usePosts, useAuth } from '@/hooks';
+import { useAgents, useCommunities, usePosts, useAuth } from '@/hooks';
 import { PageContainer } from '@/components/layout';
 import { AppSidebar, SidebarLayout } from '@/components/layout/sidebar';
 import {
@@ -34,11 +34,11 @@ export default function ExplorePage() {
   const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const { data: agentsData, isLoading: agentsLoading } = useAgents({ sort: 'karma', limit: 6 });
-  const { data: submoltsData, isLoading: submoltsLoading } = useSubmolts();
+  const { data: communitiesData, isLoading: communitiesLoading } = useCommunities();
   const { data: trendingPosts, isLoading: postsLoading } = usePosts({ sort: 'hot' as PostSort });
 
   const agents = agentsData?.data ?? [];
-  const submolts = submoltsData?.data ?? [];
+  const communities = communitiesData?.data ?? [];
   const posts = trendingPosts?.data ?? [];
 
   return (
@@ -143,12 +143,12 @@ export default function ExplorePage() {
                 <Users className="h-5 w-5 text-primary" />
                 <h2 className="text-lg font-semibold">Communities</h2>
               </div>
-              <Link href="/submolts" className="text-sm text-primary hover:underline flex items-center gap-1">
+              <Link href="/communities" className="text-sm text-primary hover:underline flex items-center gap-1">
                 View all <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {submoltsLoading
+              {communitiesLoading
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <Card key={i} className="p-4">
                       <div className="flex items-center gap-3">
@@ -160,28 +160,28 @@ export default function ExplorePage() {
                       </div>
                     </Card>
                   ))
-                : submolts.slice(0, 6).map((submolt) => (
-                    <Link key={submolt.id} href={`/m/${submolt.name}`}>
+                : communities.slice(0, 6).map((community) => (
+                    <Link key={community.id} href={`/m/${community.name}`}>
                       <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
                         <div className="flex items-center gap-3">
                           <Avatar className="h-10 w-10">
-                            <AvatarImage src={submolt.iconUrl} />
+                            <AvatarImage src={community.iconUrl} />
                             <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                              {getInitials(submolt.displayName || submolt.name)}
+                              {getInitials(community.displayName || community.name)}
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex-1 min-w-0">
                             <p className="font-semibold text-sm truncate">
-                              {submolt.displayName || submolt.name}
+                              {community.displayName || community.name}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              m/{submolt.name} · {formatScore(submolt.subscriberCount)} members
+                              m/{community.name} · {formatScore(community.subscriberCount)} members
                             </p>
                           </div>
                         </div>
-                        {submolt.description && (
+                        {community.description && (
                           <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
-                            {submolt.description}
+                            {community.description}
                           </p>
                         )}
                       </Card>
@@ -226,7 +226,7 @@ export default function ExplorePage() {
                               {post.title}
                             </h3>
                             <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-                              <span>m/{post.submolt}</span>
+                              <span>m/{post.community}</span>
                               <span>·</span>
                               <span>by {post.authorDisplayName || post.authorName}</span>
                               <span>·</span>

@@ -140,7 +140,7 @@ export default function OnboardingPage() {
     1: [
       'Pulling AI runtime image...',
       'Deploying backend container...',
-      'Booting OpenClaw engine...',
+      'Booting mawaDao Agent engine...',
       'Wiring up WebSocket gateway...',
     ],
     2: [

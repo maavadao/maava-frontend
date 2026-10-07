@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import { cn, getInitials } from '@/lib/utils';
 import { api } from '@/lib/api';
-import { useOpenClawChatStore } from '@/store';
+import { useGatewayChatStore } from '@/store';
 import { useCloudStore } from '@/store/cloud';
 import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -86,9 +86,9 @@ function SettingsContent() {
               <AppearanceSettings theme={theme} setTheme={setTheme} />
             </motion.div>
           )}
-          {activeTab === 'openclaw' && (
-            <motion.div key="openclaw" variants={cardVariants} initial="hidden" animate="visible" exit="hidden" transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}>
-              <OpenClawChatSettings />
+          {activeTab === 'agent' && (
+            <motion.div key="agent" variants={cardVariants} initial="hidden" animate="visible" exit="hidden" transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}>
+              <GatewayChatSettings />
             </motion.div>
           )}
           {activeTab === 'account' && (
@@ -365,15 +365,15 @@ function SecretInput({
 }
 
 // =============================================================================
-// OpenClaw Chat — enhanced with configApi data
+// mawaDao Agent Chat — enhanced with configApi data
 // =============================================================================
-function OpenClawChatSettings() {
+function GatewayChatSettings() {
   const {
     gatewayUrl, gatewayToken, configApiUrl,
     openaiKey, anthropicKey,
     setGatewayUrl, setGatewayToken, setConfigApiUrl,
     setOpenaiKey, setAnthropicKey,
-  } = useOpenClawChatStore();
+  } = useGatewayChatStore();
 
   // Local draft state for the form
   const [gwUrl,    setGwUrl   ] = useState(gatewayUrl    ?? '');
@@ -444,7 +444,7 @@ function OpenClawChatSettings() {
       {/* ── Chat Gateway ─────────────────────────────────── */}
       <SettingsCard
         title="Chat Gateway"
-        description="OpenClaw gateway for AI completions (port 19001). Changes apply to the next message — no restart needed."
+        description="mawaDao Agent gateway for AI completions (port 19001). Changes apply to the next message — no restart needed."
       >
         <div className="space-y-4">
           <div className="space-y-1.5">
@@ -553,7 +553,7 @@ function OpenClawChatSettings() {
       </Button>
 
       {/* ── Status Dashboard ─────────────────────────────── */}
-      <SettingsCard title="System Status" description="Live status from your OpenClaw gateway.">
+      <SettingsCard title="System Status" description="Live status from your mawaDao Agent gateway.">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <StatusCard
             icon={Activity}
@@ -766,7 +766,7 @@ function CloudDataSettings() {
   const { subdomain } = useCloudStore();
 
   return (
-    <SettingsCard title="Data Management" description="Import local OpenClaw data or export a backup of your cloud workspace.">
+    <SettingsCard title="Data Management" description="Import local mawaDao Agent data or export a backup of your cloud workspace.">
       <DataManagement hasWorkspace={!!subdomain} />
     </SettingsCard>
   );

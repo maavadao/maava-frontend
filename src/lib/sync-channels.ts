@@ -1,8 +1,8 @@
 import pool from "@/lib/db";
 import { debugWarn } from "@/lib/logger";
 
-const BUCKET_MANAGER_URL = process.env.BUCKET_MANAGER_URL || "";
-const BUCKET_MANAGER_API_SECRET = process.env.BUCKET_MANAGER_API_SECRET || "";
+const STORAGE_URL = process.env.STORAGE_URL || "";
+const STORAGE_API_SECRET = process.env.STORAGE_API_SECRET || "";
 const SHARED_BUCKET =
   process.env.GCS_SHARED_BUCKET ||
   process.env.GCS_BUCKET ||
@@ -26,7 +26,7 @@ type ChannelRow = {
   is_active: boolean;
 };
 
-const DEFAULT_OPENCLAW_CONFIG = {
+const DEFAULT_GATEWAY_CONFIG = {
   meta: {
     version: "1.0.0",
     createdAt: "",
@@ -210,12 +210,12 @@ async function getCloudRunIdentityToken(audience: string): Promise<string | null
   }
 }
 
-async function bucketManagerHeaders(): Promise<Record<string, string>> {
+async function storageHeaders(): Promise<Record<string, string>> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (BUCKET_MANAGER_API_SECRET) {
-    headers["X-Bucket-Manager-Secret"] = BUCKET_MANAGER_API_SECRET;
+  if (STORAGE_API_SECRET) {
+    headers["X-Storage-Secret"] = STORAGE_API_SECRET;
   }
-  const token = await getCloudRunIdentityToken(BUCKET_MANAGER_URL);
+  const token = await getCloudRunIdentityToken(STORAGE_URL);
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -223,16 +223,16 @@ async function bucketManagerHeaders(): Promise<Record<string, string>> {
 }
 
 async function readUserConfig(userId: string): Promise<Record<string, unknown> | null> {
-  if (!BUCKET_MANAGER_URL) {
+  if (!STORAGE_URL) {
     return null;
   }
 
   const filePath = `${userId}/mountfolder/openclaw.json`;
   try {
     const res = await fetch(
-      `${BUCKET_MANAGER_URL}/api/v1/buckets/${encodeURIComponent(SHARED_BUCKET)}/files/${filePath}`,
+      `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(SHARED_BUCKET)}/files/${filePath}`,
       {
-        headers: await bucketManagerHeaders(),
+        headers: await storageHeaders(),
         signal: AbortSignal.timeout(10000),
       },
     );
@@ -251,16 +251,16 @@ async function readUserConfig(userId: string): Promise<Record<string, unknown> |
 }
 
 async function writeUserConfig(userId: string, data: unknown): Promise<void> {
-  if (!BUCKET_MANAGER_URL) {
-    throw new Error("BUCKET_MANAGER_URL is not configured");
+  if (!STORAGE_URL) {
+    throw new Error("STORAGE_URL is not configured");
   }
 
   const filePath = `${userId}/mountfolder/openclaw.json`;
   const res = await fetch(
-    `${BUCKET_MANAGER_URL}/api/v1/buckets/${encodeURIComponent(SHARED_BUCKET)}/files/${filePath}`,
+    `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(SHARED_BUCKET)}/files/${filePath}`,
     {
       method: "PUT",
-      headers: await bucketManagerHeaders(),
+      headers: await storageHeaders(),
       body: JSON.stringify(data, null, 2),
       signal: AbortSignal.timeout(15000),
     },
@@ -268,7 +268,7 @@ async function writeUserConfig(userId: string, data: unknown): Promise<void> {
 
   if (!res.ok) {
     const body = await res.text();
-    throw new Error(`bucket-manager write failed (HTTP ${res.status}): ${body}`);
+    throw new Error(`mawadao-agent-storage write failed (HTTP ${res.status}): ${body}`);
   }
 }
 
@@ -337,7 +337,7 @@ export async function syncChannelsToGcs(
     return false;
   }
 
-  let config: Record<string, unknown> = JSON.parse(JSON.stringify(DEFAULT_OPENCLAW_CONFIG));
+  let config: Record<string, unknown> = JSON.parse(JSON.stringify(DEFAULT_GATEWAY_CONFIG));
   try {
     const existing = await readUserConfig(userId);
     if (existing) {

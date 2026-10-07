@@ -39,7 +39,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { OPENCLAW_URL, getUserChatUrl, MEMBER_SPACE_HOST } from '@/lib/constants';
+import { GATEWAY_UI_URL, getUserChatUrl, MEMBER_SPACE_HOST } from '@/lib/constants';
 
 function StatusDot({ ok }: { ok: boolean }) {
   return (
@@ -52,7 +52,7 @@ function StatusDot({ ok }: { ok: boolean }) {
   );
 }
 
-export default function OpenClawPage() {
+export default function GatewayPage() {
   const { isAuthenticated, user, agent } = useAuth();
   const { data: health, isLoading: healthLoading, mutate: refreshHealth } = useGatewayHealth();
   const { data: status, isLoading: statusLoading } = useGatewayStatus();
@@ -66,8 +66,8 @@ export default function OpenClawPage() {
   const gatewayOk = health?.ok ?? false;
 
   const username = user?.username || (agent as any)?.name;
-  const openclawChatUrl = getUserChatUrl(username);
-  const isExternalChat = openclawChatUrl.startsWith('https://');
+  const gatewayChatUrl = getUserChatUrl(username);
+  const isExternalChat = gatewayChatUrl.startsWith('https://');
 
   return (
     <SidebarLayout sidebar={<AppSidebar />}>
@@ -80,7 +80,7 @@ export default function OpenClawPage() {
                 <Code2 className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">OpenClaw</h1>
+                <h1 className="text-2xl font-bold">mawaDao Agent</h1>
                 <p className="text-sm text-muted-foreground">
                   Gateway status, models, channels, and agent management
                 </p>
@@ -96,10 +96,10 @@ export default function OpenClawPage() {
                 <RefreshCw className="h-3.5 w-3.5" />
                 Refresh
               </Button>
-              <Link href={OPENCLAW_URL} target="_blank" rel="noopener noreferrer">
+              <Link href={GATEWAY_UI_URL} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="sm" className="gap-1.5">
                   <ExternalLink className="h-3.5 w-3.5" />
-                  OpenClaw Docs
+                  mawaDao Agent Docs
                 </Button>
               </Link>
             </div>
@@ -120,13 +120,13 @@ export default function OpenClawPage() {
                     </p>
                     <div className="flex items-center gap-2 mt-2">
                       <code className="text-sm font-mono bg-background/80 border rounded-md px-3 py-1 text-primary">
-                        {isExternalChat ? openclawChatUrl.replace('https://', '') : `${MEMBER_SPACE_HOST}/${username}`}
+                        {isExternalChat ? gatewayChatUrl.replace('https://', '') : `${MEMBER_SPACE_HOST}/${username}`}
                       </code>
                     </div>
                   </div>
                 </div>
                 <a
-                  href={openclawChatUrl}
+                  href={gatewayChatUrl}
                   target={isExternalChat ? '_blank' : undefined}
                   rel={isExternalChat ? 'noopener noreferrer' : undefined}
                 >
@@ -415,8 +415,8 @@ export default function OpenClawPage() {
                 <div>
                   <h3 className="font-semibold text-amber-900">Gateway Not Reachable</h3>
                   <p className="text-sm text-amber-700 mt-1">
-                    The OpenClaw gateway is not responding. Make sure the gateway is running and the
-                    URL is configured correctly in Settings &gt; OpenClaw Chat.
+                    The mawaDao Agent gateway is not responding. Make sure the gateway is running and the
+                    URL is configured correctly in Settings &gt; mawaDao Agent Chat.
                   </p>
                   <div className="flex gap-2 mt-3">
                     <Link href="/settings">
@@ -424,7 +424,7 @@ export default function OpenClawPage() {
                         Configure Gateway
                       </Button>
                     </Link>
-                    <Link href={OPENCLAW_URL} target="_blank" rel="noopener noreferrer">
+                    <Link href={GATEWAY_UI_URL} target="_blank" rel="noopener noreferrer">
                       <Button size="sm" variant="ghost" className="gap-1">
                         Documentation <ExternalLink className="h-3.5 w-3.5" />
                       </Button>

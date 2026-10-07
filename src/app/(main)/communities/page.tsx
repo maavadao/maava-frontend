@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
-export default function SubmoltsPage() {
+export default function CommunitiesPage() {
   redirect('/marketplace?tab=communities');
 }

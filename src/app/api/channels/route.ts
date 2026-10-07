@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
         if (!gcsOk && data && typeof data === "object" && !Array.isArray(data)) {
           (data as Record<string, unknown>).gcsSyncWarning =
-            "Channel saved to DB but GCS sync failed. Ensure BUCKET_MANAGER_URL and BUCKET_MANAGER_API_SECRET are set correctly in the mawadao-frontend service.";
+            "Channel saved to DB but GCS sync failed. Ensure STORAGE_URL and STORAGE_API_SECRET are set correctly in the mawadao-frontend service.";
         }
       }
     }

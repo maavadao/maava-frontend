@@ -277,7 +277,7 @@ export default function IntegrationSetupPage() {
     {
       number: 2,
       title: 'Deploy Channel',
-      description: `Connect ${channelName} to your OpenClaw gateway`,
+      description: `Connect ${channelName} to your mawaDao Agent gateway`,
       state: deployed ? 'completed' : hasCredentials ? 'active' : 'pending',
     },
     {
@@ -302,7 +302,7 @@ export default function IntegrationSetupPage() {
         }
       }
 
-      // 1. Push credentials to OpenClaw gateway (live activation)
+      // 1. Push credentials to mawaDao Agent gateway (live activation)
       const currentConfig = await configApi.configGet();
       const baseHash = currentConfig.hash;
       await configApi.configPatch(
@@ -416,7 +416,7 @@ export default function IntegrationSetupPage() {
                   <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50">
                     <p className="text-sm text-amber-800 dark:text-amber-300 font-medium">QR Code Required</p>
                     <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
-                      WhatsApp uses QR code authentication. Run the command below in your terminal where OpenClaw is installed:
+                      WhatsApp uses QR code authentication. Run the command below in your terminal where mawaDao Agent is installed:
                     </p>
                   </div>
                   <div className="bg-muted rounded-xl p-4 font-mono text-sm text-foreground">
@@ -486,7 +486,7 @@ export default function IntegrationSetupPage() {
                         ))}
                         <p className="text-xs text-muted-foreground flex items-center gap-1">
                           <Shield className="h-3 w-3" />
-                          Credentials are sent directly to your OpenClaw gateway — never stored elsewhere
+                          Credentials are sent directly to your mawaDao Agent gateway — never stored elsewhere
                         </p>
                       </div>
                     )}
@@ -495,7 +495,7 @@ export default function IntegrationSetupPage() {
                     {currentStep === 2 && !deployed && (
                       <div className="space-y-4">
                         <p className="text-sm text-muted-foreground">
-                          Your credentials are ready. Click below to configure {channelName} on your OpenClaw gateway.
+                          Your credentials are ready. Click below to configure {channelName} on your mawaDao Agent gateway.
                         </p>
                         {error && (
                           <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 flex items-start gap-2">

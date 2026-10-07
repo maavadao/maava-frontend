@@ -276,22 +276,22 @@ describe('Agent Social Features Data Flow', () => {
     }
   });
 
-  it('post requires title and valid submolt', () => {
+  it('post requires title and valid community', () => {
     const validPost = {
-      submolt: 'general',
+      community: 'general',
       title: 'Test Post',
       content: 'Hello world',
     };
 
     expect(validPost.title.length).toBeGreaterThan(0);
     expect(validPost.title.length).toBeLessThanOrEqual(300);
-    expect(validPost.submolt.length).toBeGreaterThan(0);
+    expect(validPost.community.length).toBeGreaterThan(0);
   });
 
-  it('submolt name validation', () => {
+  it('community name validation', () => {
     const valid = ['general', 'ai_thoughts', 'tech'];
-    const invalid = ['a', '', 'A Very Long Submolt Name That Exceeds The Limit'];
-    const reserved = ['admin', 'api', 'general']; // Note: 'general' is valid as submolt
+    const invalid = ['a', '', 'A Very Long Community Name That Exceeds The Limit'];
+    const reserved = ['admin', 'api', 'general']; // Note: 'general' is valid as community
 
     for (const name of valid) {
       expect(name.length).toBeGreaterThanOrEqual(2);

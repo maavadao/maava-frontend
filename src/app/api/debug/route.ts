@@ -125,35 +125,35 @@ export async function GET() {
   const {
     DATABASE_URL,
     NEXT_PUBLIC_AUTH_URL,
-    OPENCLAW_GATEWAY_URL,
-    NEXT_PUBLIC_OPENCLAW_GATEWAY_URL,
+    GATEWAY_URL,
+    NEXT_PUBLIC_GATEWAY_URL,
     NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_CONFIG_API_URL,
     CONFIG_API_URL,
     OPENAI_API_KEY,
     ANTHROPIC_API_KEY,
-    NEXT_PUBLIC_OPENCLAW_GATEWAY_TOKEN,
+    NEXT_PUBLIC_GATEWAY_TOKEN,
     OPENCLAW_GATEWAY_TOKEN,
     REDIS_URL,
     NEXT_PUBLIC_CLOUD_MODE,
-    NEXT_PUBLIC_OPENCLAW_URL,
+    NEXT_PUBLIC_GATEWAY_UI_URL,
   } = process.env;
 
   const envVars = {
     DATABASE_URL: redact(DATABASE_URL, 30),
     NEXT_PUBLIC_AUTH_URL: NEXT_PUBLIC_AUTH_URL ?? "(not set)",
-    OPENCLAW_GATEWAY_URL: OPENCLAW_GATEWAY_URL ?? "(not set)",
-    NEXT_PUBLIC_OPENCLAW_GATEWAY_URL: NEXT_PUBLIC_OPENCLAW_GATEWAY_URL ?? "(not set)",
+    GATEWAY_URL: GATEWAY_URL ?? "(not set)",
+    NEXT_PUBLIC_GATEWAY_URL: NEXT_PUBLIC_GATEWAY_URL ?? "(not set)",
     NEXT_PUBLIC_API_URL: NEXT_PUBLIC_API_URL ?? "(not set)",
     NEXT_PUBLIC_CONFIG_API_URL: NEXT_PUBLIC_CONFIG_API_URL ?? "(not set)",
     CONFIG_API_URL: CONFIG_API_URL ?? "(not set)",
     OPENAI_API_KEY: redact(OPENAI_API_KEY, 8),
     ANTHROPIC_API_KEY: redact(ANTHROPIC_API_KEY, 8),
-    NEXT_PUBLIC_OPENCLAW_GATEWAY_TOKEN: redact(NEXT_PUBLIC_OPENCLAW_GATEWAY_TOKEN, 4),
+    NEXT_PUBLIC_GATEWAY_TOKEN: redact(NEXT_PUBLIC_GATEWAY_TOKEN, 4),
     OPENCLAW_GATEWAY_TOKEN: redact(OPENCLAW_GATEWAY_TOKEN, 4),
     REDIS_URL: redact(REDIS_URL, 20),
     NEXT_PUBLIC_CLOUD_MODE: NEXT_PUBLIC_CLOUD_MODE ?? "(not set)",
-    NEXT_PUBLIC_OPENCLAW_URL: NEXT_PUBLIC_OPENCLAW_URL ?? "(not set)",
+    NEXT_PUBLIC_GATEWAY_UI_URL: NEXT_PUBLIC_GATEWAY_UI_URL ?? "(not set)",
   };
 
   // ── 3. Module resolution ───────────────────────────────────────────────────
@@ -185,8 +185,8 @@ export async function GET() {
 
   // ── 5. Connectivity checks ─────────────────────────────────────────────────
   const gatewayUrl = (
-    OPENCLAW_GATEWAY_URL ||
-    NEXT_PUBLIC_OPENCLAW_GATEWAY_URL ||
+    GATEWAY_URL ||
+    NEXT_PUBLIC_GATEWAY_URL ||
     NEXT_PUBLIC_API_URL ||
     ""
   ).replace(/\/+$/, "");
@@ -201,8 +201,8 @@ export async function GET() {
 
   const [dbCheck, gatewayModelsCheck, gatewayHealthCheck, configApiCheck, authHealthCheck] = await Promise.all([
     checkDb(),
-    gatewayUrl ? checkUrl(`${gatewayUrl}/v1/models`, { timeoutMs: 5000 }) : Promise.resolve({ ok: false, detail: "OPENCLAW_GATEWAY_URL not configured" }),
-    gatewayUrl ? checkUrl(`${gatewayUrl}/health`, { timeoutMs: 5000 }) : Promise.resolve({ ok: false, detail: "OPENCLAW_GATEWAY_URL not configured" }),
+    gatewayUrl ? checkUrl(`${gatewayUrl}/v1/models`, { timeoutMs: 5000 }) : Promise.resolve({ ok: false, detail: "GATEWAY_URL not configured" }),
+    gatewayUrl ? checkUrl(`${gatewayUrl}/health`, { timeoutMs: 5000 }) : Promise.resolve({ ok: false, detail: "GATEWAY_URL not configured" }),
     checkUrl(`${configApiUrl}/models/list`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -215,8 +215,8 @@ export async function GET() {
   // ── 6. Chat route self-check ───────────────────────────────────────────────
   // Check which provider the chat route would use given current env vars
   const chatRouteProvider = (() => {
-    const isLocalGateway = !!OPENCLAW_GATEWAY_URL;
-    if (isLocalGateway) return `openclaw-gateway (${OPENCLAW_GATEWAY_URL})`;
+    const isLocalGateway = !!GATEWAY_URL;
+    if (isLocalGateway) return `mawadao-agent-gateway (${GATEWAY_URL})`;
     if (OPENAI_API_KEY) return "openai-direct";
     if (ANTHROPIC_API_KEY) return "anthropic-direct";
     return "no-provider-configured";

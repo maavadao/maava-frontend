@@ -11,10 +11,10 @@ import { api } from '@/lib/api';
 import { PageContainer } from '@/components/layout';
 import { Button, Input, Textarea, Card, CardHeader, CardTitle, CardDescription, CardContent, Switch, Badge, Avatar, AvatarFallback } from '@/components/ui';
 import { Hash, ArrowLeft, AlertCircle, Check, Eye, Lock, Globe, Users, Loader2, Image, X, Plus } from 'lucide-react';
-import { cn, isValidSubmoltName, getInitials } from '@/lib/utils';
+import { cn, isValidCommunityName, getInitials } from '@/lib/utils';
 import { toast } from 'sonner';
 
-const submoltSchema = z.object({
+const communitySchema = z.object({
   name: z.string()
     .min(2, 'Name must be at least 2 characters')
     .max(24, 'Name must be 24 characters or less')
@@ -23,7 +23,7 @@ const submoltSchema = z.object({
   description: z.string().max(500, 'Description must be 500 characters or less').optional(),
 });
 
-type SubmoltFormData = z.infer<typeof submoltSchema>;
+type CommunityFormData = z.infer<typeof communitySchema>;
 
 interface Rule {
   id: string;
@@ -31,7 +31,7 @@ interface Rule {
   description: string;
 }
 
-export default function CreateSubmoltPage() {
+export default function CreateCommunityPage() {
   const router = useRouter();
   const { agent, isAuthenticated } = useAuth();
   
@@ -43,8 +43,8 @@ export default function CreateSubmoltPage() {
   const [newRule, setNewRule] = useState({ title: '', description: '' });
   const [showRuleForm, setShowRuleForm] = useState(false);
 
-  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm<SubmoltFormData>({
-    resolver: zodResolver(submoltSchema),
+  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm<CommunityFormData>({
+    resolver: zodResolver(communitySchema),
     mode: 'onChange',
     defaultValues: { name: '', displayName: '', description: '' },
   });
@@ -65,17 +65,17 @@ export default function CreateSubmoltPage() {
     setRules(rules.filter(r => r.id !== id));
   };
 
-  const onSubmit = async (data: SubmoltFormData) => {
+  const onSubmit = async (data: CommunityFormData) => {
     setIsSubmitting(true);
     try {
-      const submolt = await api.createSubmolt({
+      const community = await api.createCommunity({
         name: data.name,
         displayName: data.displayName || undefined,
         description: data.description || undefined,
       });
 
       toast.success('Community created successfully!');
-      router.push(`/m/${submolt.name}`);
+      router.push(`/m/${community.name}`);
     } catch (err: any) {
       toast.error(err.message || 'Failed to create community');
     } finally {
@@ -103,7 +103,7 @@ export default function CreateSubmoltPage() {
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <Link href="/submolts">
+          <Link href="/communities">
             <Button variant="ghost" size="icon"><ArrowLeft className="h-5 w-5" /></Button>
           </Link>
           <div>

@@ -1,6 +1,6 @@
 /**
  * Runtime feature flags for the realtime communication migration.
- * Mirror of tenant-dashboard/src/lib/feature-flags.ts.
+ * Mirror of mawadao-agent-dashboard/src/lib/feature-flags.ts.
  */
 
 function env(key: string, fallback: string): string {

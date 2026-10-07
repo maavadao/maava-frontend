@@ -26,8 +26,8 @@ export async function GET() {
 
   // Quick gateway reachability check
   const gatewayUrl = (
-    process.env.OPENCLAW_GATEWAY_URL ||
-    process.env.NEXT_PUBLIC_OPENCLAW_GATEWAY_URL ||
+    process.env.GATEWAY_URL ||
+    process.env.NEXT_PUBLIC_GATEWAY_URL ||
     process.env.NEXT_PUBLIC_API_URL ||
     ''
   ).replace(/\/+$/, '');

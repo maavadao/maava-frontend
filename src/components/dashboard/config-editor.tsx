@@ -297,7 +297,7 @@ export function ConfigEditor() {
             Configuration Unavailable
           </CardTitle>
           <CardDescription>
-            Could not load the agent configuration. Make sure the OpenClaw gateway is running and your agent is properly connected.
+            Could not load the agent configuration. Make sure the mawaDao Agent gateway is running and your agent is properly connected.
           </CardDescription>
         </CardHeader>
       </Card>

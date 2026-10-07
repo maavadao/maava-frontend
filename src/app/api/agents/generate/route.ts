@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import pool, { getUserId } from '@/lib/db';
 
-const OPENCLAW_GATEWAY_URL =
-  process.env.OPENCLAW_GATEWAY_URL ||
-  process.env.NEXT_PUBLIC_OPENCLAW_GATEWAY_URL ||
+const GATEWAY_URL =
+  process.env.GATEWAY_URL ||
+  process.env.NEXT_PUBLIC_GATEWAY_URL ||
   '';
 
 /**
@@ -91,7 +91,7 @@ Rules:
 - Be creative but practical`;
 
   try {
-    const base = OPENCLAW_GATEWAY_URL.replace(/\/+$/, '');
+    const base = GATEWAY_URL.replace(/\/+$/, '');
     const res = await fetch(`${base}/v1/chat/completions`, {
       method: 'POST',
       headers: {

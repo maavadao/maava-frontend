@@ -19,8 +19,8 @@ function getEncKey(): Buffer {
 }
 
 // Bucket-manager config — same env vars used by the provision route
-const BUCKET_MANAGER_URL = process.env.BUCKET_MANAGER_URL || "";
-const BUCKET_MANAGER_API_SECRET = process.env.BUCKET_MANAGER_API_SECRET || "";
+const STORAGE_URL = process.env.STORAGE_URL || "";
+const STORAGE_API_SECRET = process.env.STORAGE_API_SECRET || "";
 const GCS_BUCKET = process.env.GCS_BUCKET || "mawadao-agent-data";
 
 function encrypt(text: string): string {
@@ -56,12 +56,12 @@ function sanitizeSecret(value: string): string {
 
 function buildBucketManagerHeaders(): Record<string, string> {
   const h: Record<string, string> = { "Content-Type": "application/json" };
-  if (BUCKET_MANAGER_API_SECRET) h["X-Bucket-Manager-Secret"] = BUCKET_MANAGER_API_SECRET;
+  if (STORAGE_API_SECRET) h["X-Storage-Secret"] = STORAGE_API_SECRET;
   return h;
 }
 
 async function readAuthProfilesFromGCS(authPath: string): Promise<AuthProfileStore> {
-  const url = `${BUCKET_MANAGER_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${authPath}`;
+  const url = `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${authPath}`;
   try {
     const res = await fetch(url, { headers: buildBucketManagerHeaders() });
     if (res.ok) {
@@ -77,7 +77,7 @@ async function readAuthProfilesFromGCS(authPath: string): Promise<AuthProfileSto
 }
 
 async function writeAuthProfilesToGCS(authPath: string, store: AuthProfileStore): Promise<void> {
-  const url = `${BUCKET_MANAGER_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${authPath}`;
+  const url = `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${authPath}`;
   try {
     const res = await fetch(url, {
       method: "PUT",
@@ -98,7 +98,7 @@ async function writeAuthProfilesToGCS(authPath: string, store: AuthProfileStore)
  * Fire-and-forget — does not block or affect the HTTP response.
  */
 async function upsertProviderKeyInGCS(userId: string, provider: string, apiKey: string): Promise<void> {
-  if (!BUCKET_MANAGER_URL) return;
+  if (!STORAGE_URL) return;
   const authPath = `${userId}/mountfolder/agents/main/agent/auth-profiles.json`;
   const store = await readAuthProfilesFromGCS(authPath);
   store.profiles[`${provider}:default`] = { type: "api_key", provider, key: sanitizeSecret(apiKey) };
@@ -110,7 +110,7 @@ async function upsertProviderKeyInGCS(userId: string, provider: string, apiKey: 
  * Fire-and-forget — does not block or affect the HTTP response.
  */
 async function removeProviderKeyFromGCS(userId: string, provider: string): Promise<void> {
-  if (!BUCKET_MANAGER_URL) return;
+  if (!STORAGE_URL) return;
   const authPath = `${userId}/mountfolder/agents/main/agent/auth-profiles.json`;
   const store = await readAuthProfilesFromGCS(authPath);
   delete store.profiles[`${provider}:default`];

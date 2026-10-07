@@ -19,7 +19,7 @@ import { checkRateLimit, RATE_LIMITS } from "@/lib/rate-limit";
 import { RESERVED_USERNAMES } from "@/lib/constants";
 
 const DEPLOYER_URL =
-  process.env.CLOUD_RUN_DEPLOYER_URL || "http://localhost:3002/api/v1";
+  process.env.DEPLOYER_URL || "http://localhost:3002/api/v1";
 const DEPLOYER_API_SECRET = process.env.DEPLOYER_API_SECRET || "";
 const CLOUD_BACKEND_IMAGE =
   process.env.CLOUD_BACKEND_IMAGE ||
@@ -29,10 +29,10 @@ const GCS_BUCKET =
 // Use CLOUD_MODE (runtime) with NEXT_PUBLIC_CLOUD_MODE (build-time) as fallback.
 // NEXT_PUBLIC_ vars are inlined by Next.js at build time and won't reflect runtime env.
 const CLOUD_MODE = process.env.CLOUD_MODE === "true" || process.env.NEXT_PUBLIC_CLOUD_MODE === "true";
-// Local dev: the OpenClaw platform is already running; skip Cloud Run deployment.
+// Local dev: the mawaDao Agent platform is already running; skip Cloud Run deployment.
 const LOCAL_BACKEND_URL =
-  process.env.OPENCLAW_GATEWAY_URL ||
-  process.env.NEXT_PUBLIC_OPENCLAW_GATEWAY_URL ||
+  process.env.GATEWAY_URL ||
+  process.env.NEXT_PUBLIC_GATEWAY_URL ||
   "http://localhost:19001";
 
 
@@ -271,25 +271,25 @@ export async function POST(request: NextRequest) {
   return response;
 }
 
-const BUCKET_MANAGER_URL = process.env.BUCKET_MANAGER_URL || "";
-const BUCKET_MANAGER_API_SECRET = process.env.BUCKET_MANAGER_API_SECRET || "";
+const STORAGE_URL = process.env.STORAGE_URL || "";
+const STORAGE_API_SECRET = process.env.STORAGE_API_SECRET || "";
 
 async function waitForAuthProfilesJson(userId: string) {
-  if (!BUCKET_MANAGER_URL) {
-    debugWarn("[provision] BUCKET_MANAGER_URL not set — cannot verify auth-profiles.json");
+  if (!STORAGE_URL) {
+    debugWarn("[provision] STORAGE_URL not set — cannot verify auth-profiles.json");
     return false;
   }
 
   const filePath = `${userId}/mountfolder/agents/main/agent/auth-profiles.json`;
   const headers: Record<string, string> = {};
-  if (BUCKET_MANAGER_API_SECRET) {
-    headers["X-Bucket-Manager-Secret"] = BUCKET_MANAGER_API_SECRET;
+  if (STORAGE_API_SECRET) {
+    headers["X-Storage-Secret"] = STORAGE_API_SECRET;
   }
 
   for (let attempt = 0; attempt < 10; attempt += 1) {
     try {
       const res = await fetch(
-        `${BUCKET_MANAGER_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${filePath}`,
+        `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${filePath}`,
         { headers }
       );
 
@@ -363,7 +363,7 @@ async function deployInBackground(
     const authProfilesReady = await waitForAuthProfilesJson(userId);
     if (!authProfilesReady) {
       throw new Error(
-        "Provisioning finished without auth-profiles.json. Check MOONSHOT_API_KEY on mawadao-frontend and cloud-run-deployer."
+        "Provisioning finished without auth-profiles.json. Check MOONSHOT_API_KEY on mawadao-frontend and mawadao-agent-deployer."
       );
     }
 

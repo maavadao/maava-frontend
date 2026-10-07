@@ -6,12 +6,12 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { useAuth, useSubmolts } from '@/hooks';
+import { useAuth, useCommunities } from '@/hooks';
 import { api } from '@/lib/api';
 import { PageContainer } from '@/components/layout';
 import { Button, Input, Textarea, Card, CardHeader, CardTitle, CardContent, Avatar, AvatarFallback, Skeleton } from '@/components/ui';
 import { FileText, Link as LinkIcon, Image, Video, ChevronDown, Check, AlertCircle, ArrowLeft, X, Upload, Loader2 } from 'lucide-react';
-import { cn, getInitials, isValidSubmoltName } from '@/lib/utils';
+import { cn, getInitials, isValidCommunityName } from '@/lib/utils';
 import { toast } from 'sonner';
 
 const postSchema = z.object({
@@ -26,15 +26,15 @@ type PostType = 'text' | 'link' | 'image' | 'video';
 export default function SubmitPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const preSelectedSubmolt = searchParams.get('submolt');
+  const preSelectedCommunity = searchParams.get('community');
   
   const { agent, isAuthenticated } = useAuth();
-  const { data: submoltsData, isLoading: submoltsLoading } = useSubmolts();
+  const { data: communitiesData, isLoading: communitiesLoading } = useCommunities();
   
   const [postType, setPostType] = useState<PostType>('text');
-  const [selectedSubmolt, setSelectedSubmolt] = useState(preSelectedSubmolt || '');
-  const [showSubmoltDropdown, setShowSubmoltDropdown] = useState(false);
-  const [submoltSearch, setSubmoltSearch] = useState('');
+  const [selectedCommunity, setSelectedCommunity] = useState(preSelectedCommunity || '');
+  const [showCommunityDropdown, setShowCommunityDropdown] = useState(false);
+  const [communitySearch, setCommunitySearch] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDraft, setIsDraft] = useState(false);
   const [preview, setPreview] = useState(false);
@@ -51,42 +51,42 @@ export default function SubmitPage() {
 
   // Auto-save draft
   useEffect(() => {
-    const draft = { title, content, url, postType, selectedSubmolt };
+    const draft = { title, content, url, postType, selectedCommunity };
     localStorage.setItem('Mawadao_post_draft', JSON.stringify(draft));
     setIsDraft(true);
-  }, [title, content, url, postType, selectedSubmolt]);
+  }, [title, content, url, postType, selectedCommunity]);
 
   // Load draft on mount
   useEffect(() => {
     const saved = localStorage.getItem('Mawadao_post_draft');
-    if (saved && !preSelectedSubmolt) {
+    if (saved && !preSelectedCommunity) {
       try {
         const draft = JSON.parse(saved);
         if (draft.title) setValue('title', draft.title);
         if (draft.content) setValue('content', draft.content);
         if (draft.url) setValue('url', draft.url);
         if (draft.postType) setPostType(draft.postType);
-        if (draft.selectedSubmolt) setSelectedSubmolt(draft.selectedSubmolt);
+        if (draft.selectedCommunity) setSelectedCommunity(draft.selectedCommunity);
       } catch {}
     }
-  }, [setValue, preSelectedSubmolt]);
+  }, [setValue, preSelectedCommunity]);
 
   const clearDraft = () => {
     localStorage.removeItem('Mawadao_post_draft');
     setValue('title', '');
     setValue('content', '');
     setValue('url', '');
-    setSelectedSubmolt('');
+    setSelectedCommunity('');
     setIsDraft(false);
   };
 
-  const filteredSubmolts = submoltsData?.data.filter(s => 
-    s.name.toLowerCase().includes(submoltSearch.toLowerCase()) ||
-    s.displayName?.toLowerCase().includes(submoltSearch.toLowerCase())
+  const filteredCommunities = communitiesData?.data.filter(s => 
+    s.name.toLowerCase().includes(communitySearch.toLowerCase()) ||
+    s.displayName?.toLowerCase().includes(communitySearch.toLowerCase())
   ) || [];
 
   const onSubmit = async (data: PostFormData) => {
-    if (!selectedSubmolt) {
+    if (!selectedCommunity) {
       toast.error('Please select a community');
       return;
     }
@@ -94,7 +94,7 @@ export default function SubmitPage() {
     setIsSubmitting(true);
     try {
       const post = await api.createPost({
-        submolt: selectedSubmolt,
+        community: selectedCommunity,
         title: data.title,
         content: postType === 'text' ? data.content : undefined,
         url: postType === 'link' ? data.url : undefined,
@@ -135,7 +135,7 @@ export default function SubmitPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <Link href={selectedSubmolt ? `/m/${selectedSubmolt}` : '/'}>
+            <Link href={selectedCommunity ? `/m/${selectedCommunity}` : '/'}>
               <Button variant="ghost" size="icon"><ArrowLeft className="h-5 w-5" /></Button>
             </Link>
             <h1 className="text-2xl font-bold">Create a post</h1>
@@ -155,59 +155,59 @@ export default function SubmitPage() {
               <div className="relative">
                 <button
                   type="button"
-                  onClick={() => setShowSubmoltDropdown(!showSubmoltDropdown)}
+                  onClick={() => setShowCommunityDropdown(!showCommunityDropdown)}
                   className="w-full flex items-center justify-between px-4 py-3 border rounded-lg hover:bg-muted/50 transition-colors"
                 >
-                  {selectedSubmolt ? (
+                  {selectedCommunity ? (
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
                         <AvatarFallback className="text-xs bg-primary/10 text-primary">
-                          {getInitials(selectedSubmolt)}
+                          {getInitials(selectedCommunity)}
                         </AvatarFallback>
                       </Avatar>
-                      <span className="font-medium">m/{selectedSubmolt}</span>
+                      <span className="font-medium">m/{selectedCommunity}</span>
                     </div>
                   ) : (
                     <span className="text-muted-foreground">Choose a community</span>
                   )}
-                  <ChevronDown className={cn("h-5 w-5 transition-transform", showSubmoltDropdown && "rotate-180")} />
+                  <ChevronDown className={cn("h-5 w-5 transition-transform", showCommunityDropdown && "rotate-180")} />
                 </button>
 
-                {showSubmoltDropdown && (
+                {showCommunityDropdown && (
                   <div className="absolute z-20 w-full mt-2 rounded-lg border bg-popover shadow-lg max-h-80 overflow-hidden">
                     <div className="p-2 border-b">
                       <Input
-                        value={submoltSearch}
-                        onChange={(e) => setSubmoltSearch(e.target.value)}
+                        value={communitySearch}
+                        onChange={(e) => setCommunitySearch(e.target.value)}
                         placeholder="Search communities..."
                         className="h-9"
                       />
                     </div>
                     <div className="max-h-60 overflow-y-auto">
-                      {submoltsLoading ? (
+                      {communitiesLoading ? (
                         <div className="p-4 space-y-2">
                           {[1,2,3].map(i => <Skeleton key={i} className="h-12 w-full" />)}
                         </div>
-                      ) : filteredSubmolts.length > 0 ? (
-                        filteredSubmolts.map(submolt => (
+                      ) : filteredCommunities.length > 0 ? (
+                        filteredCommunities.map(community => (
                           <button
-                            key={submolt.id}
+                            key={community.id}
                             type="button"
                             onClick={() => {
-                              setSelectedSubmolt(submolt.name);
-                              setShowSubmoltDropdown(false);
-                              setSubmoltSearch('');
+                              setSelectedCommunity(community.name);
+                              setShowCommunityDropdown(false);
+                              setCommunitySearch('');
                             }}
                             className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted transition-colors"
                           >
                             <Avatar className="h-8 w-8">
-                              <AvatarFallback className="text-xs">{getInitials(submolt.name)}</AvatarFallback>
+                              <AvatarFallback className="text-xs">{getInitials(community.name)}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1 text-left">
-                              <p className="font-medium">m/{submolt.name}</p>
-                              <p className="text-xs text-muted-foreground">{submolt.subscriberCount} members</p>
+                              <p className="font-medium">m/{community.name}</p>
+                              <p className="text-xs text-muted-foreground">{community.subscriberCount} members</p>
                             </div>
-                            {selectedSubmolt === submolt.name && <Check className="h-4 w-4 text-primary" />}
+                            {selectedCommunity === community.name && <Check className="h-4 w-4 text-primary" />}
                           </button>
                         ))
                       ) : (
@@ -324,7 +324,7 @@ export default function SubmitPage() {
                   </Button>
                   <Button 
                     type="submit" 
-                    disabled={!selectedSubmolt || !title || isSubmitting}
+                    disabled={!selectedCommunity || !title || isSubmitting}
                     className="min-w-[100px]"
                   >
                     {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Post'}

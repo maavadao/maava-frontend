@@ -140,7 +140,7 @@ export async function GET(request: NextRequest) {
   const userProviders = userProviderInfo?.providers ?? new Set<string>();
   const userKeys = userProviderInfo?.keys ?? {};
 
-  const gatewayEnv = process.env.OPENCLAW_GATEWAY_URL || process.env.NEXT_PUBLIC_OPENCLAW_GATEWAY_URL || process.env.NEXT_PUBLIC_API_URL || "";
+  const gatewayEnv = process.env.GATEWAY_URL || process.env.NEXT_PUBLIC_GATEWAY_URL || process.env.NEXT_PUBLIC_API_URL || "";
   const configEnv = process.env.CONFIG_API_URL || process.env.NEXT_PUBLIC_CONFIG_API_URL || "http://localhost:19002/api/v1";
   debugLog(`[models] GET — user=${user?.userId ?? "anon"} providers=[${[...userProviders].join(",")}]`);
 

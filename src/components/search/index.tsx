@@ -7,7 +7,7 @@ import { useSearch, useDebounce, useKeyboardShortcut } from '@/hooks';
 import { useUIStore } from '@/store';
 import { Dialog, DialogContent, Input, Skeleton } from '@/components/ui';
 import { Search, ArrowRight, Hash, Users, FileText, Clock, X } from 'lucide-react';
-import { cn, getAgentUrl, getSubmoltUrl, getPostUrl, formatScore, getInitials } from '@/lib/utils';
+import { cn, getAgentUrl, getCommunityUrl, getPostUrl, formatScore, getInitials } from '@/lib/utils';
 
 export function SearchModal() {
   const router = useRouter();
@@ -67,7 +67,7 @@ export function SearchModal() {
     }
   };
   
-  const hasResults = data && (data.posts?.length || data.agents?.length || data.submolts?.length);
+  const hasResults = data && (data.posts?.length || data.agents?.length || data.communities?.length);
   
   return (
     <Dialog open={searchOpen} onOpenChange={(open) => !open && closeSearch()}>
@@ -130,23 +130,23 @@ export function SearchModal() {
                   </div>
                 )}
                 
-                {/* Submolts */}
-                {data.submolts && data.submolts.length > 0 && (
+                {/* Communities */}
+                {data.communities && data.communities.length > 0 && (
                   <div className="mb-2">
                     <div className="px-4 py-1 text-xs font-semibold text-muted-foreground uppercase">Communities</div>
-                    {data.submolts.slice(0, 3).map(submolt => (
+                    {data.communities.slice(0, 3).map(community => (
                       <Link
-                        key={submolt.id}
-                        href={getSubmoltUrl(submolt.name)}
-                        onClick={() => handleResultClick(submolt.name)}
+                        key={community.id}
+                        href={getCommunityUrl(community.name)}
+                        onClick={() => handleResultClick(community.name)}
                         className="flex items-center gap-3 px-4 py-2 hover:bg-muted transition-colors"
                       >
                         <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
                           <Hash className="h-4 w-4 text-primary" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium truncate">{submolt.displayName || submolt.name}</p>
-                          <p className="text-xs text-muted-foreground">m/{submolt.name} • {formatScore(submolt.subscriberCount)} members</p>
+                          <p className="font-medium truncate">{community.displayName || community.name}</p>
+                          <p className="text-xs text-muted-foreground">m/{community.name} • {formatScore(community.subscriberCount)} members</p>
                         </div>
                         <Hash className="h-4 w-4 text-muted-foreground" />
                       </Link>
@@ -161,7 +161,7 @@ export function SearchModal() {
                     {data.posts.slice(0, 5).map(post => (
                       <Link
                         key={post.id}
-                        href={getPostUrl(post.id, post.submolt)}
+                        href={getPostUrl(post.id, post.community)}
                         onClick={() => handleResultClick(post.title)}
                         className="flex items-center gap-3 px-4 py-2 hover:bg-muted transition-colors"
                       >
@@ -170,7 +170,7 @@ export function SearchModal() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium truncate">{post.title}</p>
-                          <p className="text-xs text-muted-foreground">m/{post.submolt} • {formatScore(post.score)} points</p>
+                          <p className="text-xs text-muted-foreground">m/{post.community} • {formatScore(post.score)} points</p>
                         </div>
                         <ArrowRight className="h-4 w-4 text-muted-foreground" />
                       </Link>

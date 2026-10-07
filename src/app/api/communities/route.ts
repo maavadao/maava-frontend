@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       if (value) params.append(key, value);
     });
 
-    const response = await fetch(`${API_BASE}/submolts?${params}`, {
+    const response = await fetch(`${API_BASE}/communities?${params}`, {
       headers: authHeader ? { Authorization: authHeader } : {},
     });
 
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    const response = await fetch(`${API_BASE}/submolts`, {
+    const response = await fetch(`${API_BASE}/communities`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

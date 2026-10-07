@@ -6,14 +6,14 @@ import { resolveTenantBackend } from "@/lib/tenant-lookup";
 
 export const maxDuration = 600; // 10 min — agent tool-use conversations can run long
 
-const OPENCLAW_GATEWAY_URL =
-  process.env.OPENCLAW_GATEWAY_URL ||
-  process.env.NEXT_PUBLIC_OPENCLAW_GATEWAY_URL ||
+const GATEWAY_URL =
+  process.env.GATEWAY_URL ||
+  process.env.NEXT_PUBLIC_GATEWAY_URL ||
   "";
 
 const OPENCLAW_GATEWAY_TOKEN =
   process.env.OPENCLAW_GATEWAY_TOKEN ||
-  process.env.NEXT_PUBLIC_OPENCLAW_GATEWAY_TOKEN ||
+  process.env.NEXT_PUBLIC_GATEWAY_TOKEN ||
   "dev-token-local";
 
 const CLOUD_MODE = process.env.NEXT_PUBLIC_CLOUD_MODE === "true";
@@ -282,7 +282,7 @@ async function generateTitle(conversationId: string, authHeader: string): Promis
     .map((m: { role: string; content: string }) => `${m.role}: ${m.content.slice(0, 200)}`)
     .join("\n");
 
-  const base = OPENCLAW_GATEWAY_URL.replace(/\/+$/, "");
+  const base = GATEWAY_URL.replace(/\/+$/, "");
   const res = await fetch(`${base}/v1/chat/completions`, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: authHeader },
@@ -445,17 +445,17 @@ function buildAnthropicBody(messages: OpenAIMessage[], model: string): Record<st
 }
 
 /**
- * Proxy chat completions to OpenClaw gateway (or directly to an AI provider).
+ * Proxy chat completions to mawaDao Agent gateway (or directly to an AI provider).
  * Accepts AI SDK v6 useChat format { messages: UIMessage[], model, conversationId, skills }.
  * Converts UIMessages to OpenAI-compatible format, persists to DB, streams response.
  *
  * Provider routing (in priority order):
- *   1. OPENCLAW_GATEWAY_URL → OpenClaw gateway  (full agent pipeline)
+ *   1. GATEWAY_URL → mawaDao Agent gateway  (full agent pipeline)
  *   2. OPENAI_API_KEY  → direct OpenAI  (OpenAI-compatible SSE)
  *   3. ANTHROPIC_API_KEY → direct Anthropic  (Anthropic SSE format)
  */
 export async function POST(request: NextRequest) {
-  debugLog(`[chat] POST /api/chat — cloud_mode=${CLOUD_MODE} gateway=${OPENCLAW_GATEWAY_URL} has_openai=${!!OPENAI_API_KEY} has_anthropic=${!!ANTHROPIC_API_KEY}`);
+  debugLog(`[chat] POST /api/chat — cloud_mode=${CLOUD_MODE} gateway=${GATEWAY_URL} has_openai=${!!OPENAI_API_KEY} has_anthropic=${!!ANTHROPIC_API_KEY}`);
   const authHeader = request.headers.get("authorization");
   if (!authHeader) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -546,7 +546,7 @@ export async function POST(request: NextRequest) {
   const overrideOpenaiKey     = (body.overrideOpenaiKey     as string | undefined)?.trim();
   const overrideAnthropicKey  = (body.overrideAnthropicKey  as string | undefined)?.trim();
   // Effective config — client override takes priority over server .env vars
-  const EFF_GATEWAY_URL   = overrideGatewayUrl   || OPENCLAW_GATEWAY_URL;
+  const EFF_GATEWAY_URL   = overrideGatewayUrl   || GATEWAY_URL;
   const EFF_GATEWAY_TOKEN = overrideGatewayToken || OPENCLAW_GATEWAY_TOKEN;
   const EFF_OPENAI        = overrideOpenaiKey     || OPENAI_API_KEY;
   const EFF_ANTHROPIC     = overrideAnthropicKey  || ANTHROPIC_API_KEY;
@@ -735,9 +735,9 @@ export async function POST(request: NextRequest) {
 
   // ── Select provider ────────────────────────────────────────────────────────
   // Priority:
-  //   1. OpenClaw gateway — primary when configured.
-  //      Routes through OpenClaw's agent pipeline (skills, context management, etc.)
-  //      The model param selects an OpenClaw agent ("openclaw:agentId"); unknown IDs default to agent "main".
+  //   1. mawaDao Agent gateway — primary when configured.
+  //      Routes through the gateway's agent pipeline (skills, context management, etc.)
+  //      The model param selects a gateway agent ("openclaw:agentId"); unknown IDs default to agent "main".
   //   2. Direct OpenAI — when the model is an OpenAI model and OPENAI_API_KEY is set.
   //   3. Direct Anthropic — when the model is an Anthropic model and ANTHROPIC_API_KEY is set.
 
@@ -749,7 +749,7 @@ export async function POST(request: NextRequest) {
   const isAnthropicModel = aiModel.startsWith('anthropic/') || aiModel.startsWith('claude-');
 
   if (isLocalGateway) {
-    // OpenClaw gateway — primary AI backend (runs the full agent pipeline)
+    // mawaDao Agent gateway — primary AI backend (runs the full agent pipeline)
     const base = EFF_GATEWAY_URL.replace(/\/+$/, '');
     aiEndpoint = `${base}/v1/chat/completions`;
     aiHeaders = {
@@ -758,7 +758,7 @@ export async function POST(request: NextRequest) {
       ...(conversationId ? { 'X-OpenClaw-Session-Key': conversationId } : {}),
     };
     useGateway = true;
-    debugLog(`[chat] OpenClaw gateway → model=${aiModel}`);
+    debugLog(`[chat] mawaDao Agent gateway → model=${aiModel}`);
 
   } else if (isOpenAIModel && EFF_OPENAI) {
     aiEndpoint = 'https://api.openai.com/v1/chat/completions';
@@ -1084,7 +1084,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: isNetwork
-          ? "Cannot reach the AI backend. Make sure the OpenClaw gateway is running or your API keys are set."
+          ? "Cannot reach the AI backend. Make sure the mawaDao Agent gateway is running or your API keys are set."
           : "AI backend unreachable. Please try again later.",
       },
       { status: 502 }

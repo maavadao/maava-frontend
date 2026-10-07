@@ -1,6 +1,6 @@
 /**
  * Adaptive polling utility with exponential backoff.
- * Mirror of tenant-dashboard/src/lib/adaptive-poll.ts.
+ * Mirror of mawadao-agent-dashboard/src/lib/adaptive-poll.ts.
  */
 
 export interface AdaptivePollOptions {

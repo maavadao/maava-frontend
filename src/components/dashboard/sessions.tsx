@@ -14,7 +14,7 @@ import {
   Search, Filter, Archive, Package,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { OpenClawSession } from '@/types';
+import type { GatewaySession } from '@/types';
 
 function formatDate(dateStr?: string) {
   if (!dateStr) return '—';
@@ -67,7 +67,7 @@ function ConfirmDialog({ open, onOpenChange, title, description, action, variant
 // Session row
 // ---------------------------------------------------------------------------
 
-function SessionRow({ session, onRefresh }: { session: OpenClawSession; onRefresh: () => void }) {
+function SessionRow({ session, onRefresh }: { session: GatewaySession; onRefresh: () => void }) {
   const [expanded, setExpanded] = React.useState(false);
   const [preview, setPreview] = React.useState<unknown[] | null>(null);
   const [loadingPreview, setLoadingPreview] = React.useState(false);
@@ -218,7 +218,7 @@ export function SessionsPanel() {
             <AlertCircle className="h-5 w-5 text-destructive" />
             Sessions Unavailable
           </CardTitle>
-          <CardDescription>Could not load sessions. Ensure the OpenClaw gateway is running.</CardDescription>
+          <CardDescription>Could not load sessions. Ensure the mawaDao Agent gateway is running.</CardDescription>
         </CardHeader>
       </Card>
     );

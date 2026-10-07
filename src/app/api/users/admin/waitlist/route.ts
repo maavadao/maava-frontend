@@ -4,7 +4,7 @@ const CONFIG_API = (process.env.MAWADAO_API_URL || 'http://localhost:3003/api/v1
 
 /**
  * GET /api/users/admin/waitlist
- * Proxies to configuration-api GET /users/admin/waitlist
+ * Proxies to mawadao-agent-api GET /users/admin/waitlist
  * Requires X-Admin-Secret header.
  */
 export async function GET(request: NextRequest) {

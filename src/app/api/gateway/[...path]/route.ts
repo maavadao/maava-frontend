@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Server-side only — never exposed to the browser bundle
-const OPENCLAW_CONFIG_API = (
-  process.env.OPENCLAW_CONFIG_API_URL || "http://localhost:19002/api/v1"
+const GATEWAY_CONFIG_API = (
+  process.env.GATEWAY_CONFIG_API_URL || "http://localhost:19002/api/v1"
 ).replace(/\/+$/, "");
 
 function fwdHeaders(req: NextRequest): Record<string, string> {
@@ -29,7 +29,7 @@ export async function POST(
   }
 
   try {
-    const res = await fetch(`${OPENCLAW_CONFIG_API}/${targetPath}`, {
+    const res = await fetch(`${GATEWAY_CONFIG_API}/${targetPath}`, {
       method: "POST",
       headers: fwdHeaders(request),
       body,
@@ -39,7 +39,7 @@ export async function POST(
   } catch {
     // Config API not running — return structured 503 instead of ERR_CONNECTION_REFUSED
     return NextResponse.json(
-      { success: false, message: "OpenClaw config API unreachable", error: "connection_refused" },
+      { success: false, message: "mawaDao Agent config API unreachable", error: "connection_refused" },
       { status: 503 }
     );
   }
@@ -53,7 +53,7 @@ export async function GET(
   const targetPath = path.join("/");
 
   try {
-    const res = await fetch(`${OPENCLAW_CONFIG_API}/${targetPath}`, {
+    const res = await fetch(`${GATEWAY_CONFIG_API}/${targetPath}`, {
       method: "GET",
       headers: fwdHeaders(request),
     });
@@ -61,7 +61,7 @@ export async function GET(
     return NextResponse.json(data, { status: res.status });
   } catch {
     return NextResponse.json(
-      { success: false, message: "OpenClaw config API unreachable", error: "connection_refused" },
+      { success: false, message: "mawaDao Agent config API unreachable", error: "connection_refused" },
       { status: 503 }
     );
   }

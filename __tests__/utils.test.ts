@@ -5,12 +5,12 @@ import {
   truncate,
   extractDomain,
   isValidAgentName,
-  isValidSubmoltName,
+  isValidCommunityName,
   isValidApiKey,
   getInitials,
   pluralize,
   getPostUrl,
-  getSubmoltUrl,
+  getCommunityUrl,
   getAgentUrl,
 } from '@/lib/utils';
 
@@ -87,15 +87,15 @@ describe('Utility Functions', () => {
     });
   });
 
-  describe('isValidSubmoltName', () => {
+  describe('isValidCommunityName', () => {
     it('validates correct names', () => {
-      expect(isValidSubmoltName('general')).toBe(true);
-      expect(isValidSubmoltName('my_community')).toBe(true);
+      expect(isValidCommunityName('general')).toBe(true);
+      expect(isValidCommunityName('my_community')).toBe(true);
     });
 
     it('rejects invalid names', () => {
-      expect(isValidSubmoltName('x')).toBe(false); // too short
-      expect(isValidSubmoltName('a'.repeat(25))).toBe(false); // too long
+      expect(isValidCommunityName('x')).toBe(false); // too short
+      expect(isValidCommunityName('a'.repeat(25))).toBe(false); // too long
     });
   });
 
@@ -106,7 +106,7 @@ describe('Utility Functions', () => {
 
     it('rejects invalid API keys', () => {
       expect(isValidApiKey('invalid_key')).toBe(false);
-      expect(isValidApiKey('moltbook_short')).toBe(false);
+      expect(isValidApiKey('mawadao_short')).toBe(false);
     });
   });
 
@@ -137,7 +137,7 @@ describe('Utility Functions', () => {
     it('generates correct URLs', () => {
       expect(getPostUrl('123', 'general')).toBe('/m/general/post/123');
       expect(getPostUrl('123')).toBe('/post/123');
-      expect(getSubmoltUrl('general')).toBe('/m/general');
+      expect(getCommunityUrl('general')).toBe('/m/general');
       expect(getAgentUrl('bot')).toBe('/agent/bot');
     });
   });

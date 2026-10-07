@@ -7,7 +7,7 @@ import { Button } from '@/components/ui';
 import { Markdown } from '@/components/common/markdown';
 import { CodeCanvas, type CanvasBlock } from './code-canvas';
 import { cn } from '@/lib/utils';
-import { useOpenClawChatStore, useSkillsStore, useInstalledAgentsStore } from '@/store';
+import { useGatewayChatStore, useSkillsStore, useInstalledAgentsStore } from '@/store';
 import { useCloudStore } from '@/store/cloud';
 import { useAuth } from '@/hooks';
 import { useStreamRecovery } from '@/hooks/use-stream-recovery';
@@ -37,7 +37,7 @@ interface AttachedFile {
 
 const FALLBACK_MODELS: ModelOption[] = [
   // ── Platform default ──────────────────────────────────────────────────────
-  { value: 'openclaw',                              label: 'OpenClaw (Default)',  provider: 'openclaw' },
+  { value: 'openclaw',                              label: 'mawaDao Agent (Default)',  provider: 'openclaw' },
   // ── Anthropic ─────────────────────────────────────────────────────────────
   { value: 'anthropic/claude-opus-4-5',   label: 'Claude Opus 4.5',    provider: 'anthropic' },
   { value: 'anthropic/claude-sonnet-4-5', label: 'Claude Sonnet 4.5',  provider: 'anthropic' },
@@ -133,7 +133,7 @@ function resolveModelCompany(model: ModelOption): string {
   const label = model.label.toLowerCase();
   const haystack = `${provider} ${id} ${label}`;
 
-  if (haystack.includes('openclaw')) return 'OpenClaw';
+  if (haystack.includes('openclaw')) return 'mawaDao Agent';
   if (haystack.includes('anthropic') || haystack.includes('claude')) return 'Anthropic';
   if (haystack.includes('openai') || /(^|\W)(gpt|o1|o3|o4)(\W|$)/.test(haystack)) return 'OpenAI';
   if (haystack.includes('google') || haystack.includes('gemini')) return 'Google';
@@ -653,11 +653,11 @@ const SUGGESTIONS: { label: string; icon: LucideIcon; prompt: string; guide: str
   {
     label: 'HubSpot CRM Agent',
     icon: CircleDot,
-    prompt: 'I want to connect HubSpot to my OpenClaw assistant — help me set up CRM lookup, deal pipeline management, meeting briefings, or activity logging.',
+    prompt: 'I want to connect HubSpot to my mawaDao Agent assistant — help me set up CRM lookup, deal pipeline management, meeting briefings, or activity logging.',
     guide: [
       '## Use-Case Guide: HubSpot CRM Agent — Guided Onboarding',
       '',
-      'Your job is to help the user successfully activate and configure a HubSpot use case inside their personal OpenClaw environment.',
+      'Your job is to help the user successfully activate and configure a HubSpot use case inside their personal mawaDao Agent environment.',
       'This is NOT a one-shot answer task. This is a guided onboarding and setup workflow.',
       '',
       '### Your responsibilities',
@@ -713,7 +713,7 @@ const SUGGESTIONS: { label: string; icon: LucideIcon; prompt: string; guide: str
       '**STAGE 3 — Guided HubSpot Setup**',
       'Walk through Private App creation one step at a time:',
       '1. Go to HubSpot Settings → Integrations → Private Apps',
-      '2. Create new app, name it "OpenClaw Personal Assistant"',
+      '2. Create new app, name it "mawaDao Agent Personal Assistant"',
       '3. Enable the scopes needed for selected use case',
       '4. Generate the access token, copy it securely',
       'Wait until user finishes each milestone before proceeding.',
@@ -722,7 +722,7 @@ const SUGGESTIONS: { label: string; icon: LucideIcon; prompt: string; guide: str
       'Gather: access token, desired objects, read-only vs write, default pipeline name, default deal stages, sample contact/deal for testing, automation preferences.',
       'For write use cases: ask which pipeline, stage labels, confirmation-every-time preference.',
       '',
-      '**STAGE 5 — Install and Configure OpenClaw Skills**',
+      '**STAGE 5 — Install and Configure mawaDao Agent Skills**',
       'Install/enable HubSpot-related skills, configure secrets/tokens/env vars, set defaults.',
       'Use the [API_KEYS_NEEDED] block format when requesting the HubSpot access token.',
       '',
@@ -777,7 +777,7 @@ const SUGGESTIONS: { label: string; icon: LucideIcon; prompt: string; guide: str
     guide: [
       '## Use-Case Guide: Fresh Crypto Intelligence, Trade Planning & Bankr Execution Agent — Guided Onboarding',
       '',
-      'You are a specialized crypto intelligence, trade planning, and execution agent inside a per-user OpenClaw environment.',
+      'You are a specialized crypto intelligence, trade planning, and execution agent inside a per-user mawaDao Agent environment.',
       'Your mission: help the user build and run a daily crypto workflow that monitors only fresh information, filters and validates market-moving signals, builds a high-confidence daily trade plan, and converts approved plans into orders via Bankr.',
       'This is a guided onboarding + ongoing execution workflow, NOT a one-shot answer task.',
       '',
@@ -951,7 +951,7 @@ interface ChatPanelInnerProps {
 }
 
 function ChatPanelInner({ apiKey, conversationId, initialMessages, userId, onConversationCreated, isStreamRecovery }: ChatPanelInnerProps) {
-  const { gatewayToken, gatewayUrl, openaiKey, anthropicKey } = useOpenClawChatStore();
+  const { gatewayToken, gatewayUrl, openaiKey, anthropicKey } = useGatewayChatStore();
   const authToken = gatewayToken ?? apiKey ?? '';
 
   // ── Backend Readiness ─────────────────────────────────────────────────────
@@ -1794,7 +1794,7 @@ function ChatPanelInner({ apiKey, conversationId, initialMessages, userId, onCon
                           {!selectedAgentId && <Check className="h-3.5 w-3.5" />}
                         </div>
                         <div className="flex flex-col min-w-0 flex-1">
-                          <span className="text-sm">Default OpenClaw</span>
+                          <span className="text-sm">Default mawaDao Agent</span>
                           <span className="text-[10px] text-muted-foreground">No agent personality</span>
                         </div>
                       </button>
@@ -1906,7 +1906,7 @@ function ChatPanelInner({ apiKey, conversationId, initialMessages, userId, onCon
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 onPaste={handlePaste}
-                placeholder="Message OpenClaw… (⌘+Enter or Shift+Enter for newline)"
+                placeholder="Message mawaDao Agent… (⌘+Enter or Shift+Enter for newline)"
                 rows={1}
                 disabled={isLoading || !backendReady}
                 className="flex-1 bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none resize-none leading-relaxed min-h-[28px] max-h-32 disabled:opacity-50"
