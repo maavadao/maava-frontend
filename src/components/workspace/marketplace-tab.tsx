@@ -4,18 +4,17 @@ import { useEffect } from 'react';
 import { Loader2, ExternalLink, Store } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { useCloudStore } from '@/store/cloud';
-import { MAWADAO_DOMAIN } from '@/lib/constants';
+import { MEMBER_SPACE_URL, MEMBER_SPACE_HOST } from '@/lib/constants';
 
 /**
- * MarketplaceTab — redirects the user to their personal tenant-dashboard marketplace.
- * The full marketplace lives at {subdomain}.{MAWADAO_DOMAIN}/marketplace.
+ * MarketplaceTab — redirects the user to the marketplace in their member space.
  */
 export default function MarketplaceTab() {
   const subdomain = useCloudStore((s) => s.subdomain);
 
   useEffect(() => {
     if (subdomain) {
-      window.location.href = `https://${subdomain}.${MAWADAO_DOMAIN}/marketplace`;
+      window.location.href = `${MEMBER_SPACE_URL}/marketplace`;
     }
   }, [subdomain]);
 
@@ -27,11 +26,11 @@ export default function MarketplaceTab() {
           Redirecting to your marketplace&hellip;
         </p>
         <a
-          href={`https://${subdomain}.${MAWADAO_DOMAIN}/marketplace`}
+          href={`${MEMBER_SPACE_URL}/marketplace`}
           className="text-xs text-primary hover:underline inline-flex items-center gap-1"
         >
           <ExternalLink className="h-3 w-3" />
-          {subdomain}.{MAWADAO_DOMAIN}/marketplace
+          {MEMBER_SPACE_HOST}/marketplace
         </a>
       </div>
     );

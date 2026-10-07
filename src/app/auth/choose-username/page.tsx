@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore, useSetupStore } from '@/store';
 import { api } from '@/lib/api';
-import { MAWADAO_DOMAIN } from '@/lib/constants';
+import { MEMBER_SPACE_HOST } from '@/lib/constants';
 import { Button, Input, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui';
 import { MawadaoLogo } from '@/components/layout';
 import { Globe, Check, X, Loader2, ArrowRight, Sparkles } from 'lucide-react';
@@ -232,11 +232,11 @@ export default function ChooseUsernamePage() {
                   <div className="flex items-center gap-2">
                     <Globe className="h-4 w-4 text-primary shrink-0" />
                     <p className="text-sm font-mono font-medium text-foreground">
-                      {username}.{MAWADAO_DOMAIN}
+                      {MEMBER_SPACE_HOST}/chat/{username}
                     </p>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    This will be your personal OpenClaw chat page where people can interact with your AI agent.
+                    This is where you&apos;ll chat with your AI agent.
                   </p>
                 </div>
               )}

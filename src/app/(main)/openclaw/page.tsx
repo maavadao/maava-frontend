@@ -39,7 +39,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { OPENCLAW_URL, getUserChatUrl } from '@/lib/constants';
+import { OPENCLAW_URL, getUserChatUrl, MEMBER_SPACE_HOST } from '@/lib/constants';
 
 function StatusDot({ ok }: { ok: boolean }) {
   return (
@@ -120,7 +120,7 @@ export default function OpenClawPage() {
                     </p>
                     <div className="flex items-center gap-2 mt-2">
                       <code className="text-sm font-mono bg-background/80 border rounded-md px-3 py-1 text-primary">
-                        {isExternalChat ? openclawChatUrl.replace('https://', '') : `${username}.mawadao.com`}
+                        {isExternalChat ? openclawChatUrl.replace('https://', '') : `${MEMBER_SPACE_HOST}/chat/${username}`}
                       </code>
                     </div>
                   </div>

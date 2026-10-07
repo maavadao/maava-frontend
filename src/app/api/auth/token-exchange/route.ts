@@ -2,13 +2,12 @@
  * POST /api/auth/token-exchange
  *
  * Validates a short-lived transfer token (passed via URL when redirecting from
- * mawadao.com to {subdomain}.mawadao.com) and sets an httpOnly auth-token cookie
- * for the subdomain. This eliminates reliance on cross-domain cookie sharing.
+ * the main site to the member space) and sets an httpOnly auth-token cookie.
  *
  * Flow:
- *   1. User logs in on mawadao.com → gets a 60-second transfer token
- *   2. Redirect: https://alice.mawadao.com?auth_token=TRANSFER_TOKEN&state=RANDOM
- *   3. Subdomain JS calls POST /api/auth/token-exchange { token: TRANSFER_TOKEN }
+ *   1. User logs in on the main site → gets a transfer token
+ *   2. Redirect: https://agent.mawadao.com?auth_token=TRANSFER_TOKEN&state=RANDOM
+ *   3. Member-space JS calls POST /api/auth/token-exchange { token: TRANSFER_TOKEN }
  *   4. This route validates the transfer token and sets the session cookie
  */
 import { NextRequest, NextResponse } from 'next/server';

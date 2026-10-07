@@ -108,78 +108,7 @@ describe('Cloud Store (Zustand)', () => {
 });
 
 // ─────────────────────────────────────────────────────────────
-// 2. Multi-Tenant Middleware Logic
-// ─────────────────────────────────────────────────────────────
-
-describe('Multi-Tenant Middleware Logic', () => {
-  const ROOT_DOMAIN = 'mawadao.com';
-
-  function extractSubdomain(hostname: string): string | null {
-    const host = hostname.replace(/:\d+$/, '');
-    const root = ROOT_DOMAIN.replace(/:\d+$/, '');
-
-    if (host === root || host === 'localhost' || host === `www.${root}`) {
-      return null;
-    }
-
-    if (host.endsWith(`.${root}`)) {
-      return host.replace(`.${root}`, '');
-    }
-
-    return null;
-  }
-
-  it('extracts subdomain from alice.mawadao.com', () => {
-    expect(extractSubdomain('alice.mawadao.com')).toBe('alice');
-  });
-
-  it('extracts subdomain from workspace-1.mawadao.com:3000', () => {
-    expect(extractSubdomain('workspace-1.mawadao.com:3000')).toBe('workspace-1');
-  });
-
-  it('returns null for root domain', () => {
-    expect(extractSubdomain('mawadao.com')).toBeNull();
-    expect(extractSubdomain('www.mawadao.com')).toBeNull();
-  });
-
-  it('returns null for localhost', () => {
-    expect(extractSubdomain('localhost')).toBeNull();
-    expect(extractSubdomain('localhost:3000')).toBeNull();
-  });
-
-  it('returns null for unrelated domains', () => {
-    expect(extractSubdomain('evil.com')).toBeNull();
-    expect(extractSubdomain('mawadao.com.evil.com')).toBeNull();
-  });
-
-  it('validates JWT subdomain matches URL subdomain', () => {
-    const jwtSubdomain = 'carol';
-    const urlSubdomain = 'carol';
-    expect(jwtSubdomain === urlSubdomain).toBe(true);
-
-    // Mismatch should deny access
-    const mismatch = 'other-user';
-    expect(jwtSubdomain === mismatch).toBe(false);
-  });
-
-  it('unauthenticated subdomain access redirects to login', () => {
-    // Simulate: alice.mawadao.com with no JWT → should redirect
-    const user = null;
-    const subdomain = 'carol';
-    const shouldRedirect = subdomain && !user;
-    expect(shouldRedirect).toBe(true);
-  });
-
-  it('authenticated user without tenant redirects to onboarding', () => {
-    const user = { userId: 'u1', email: 'u@b.com', subdomain: null, tenantId: null };
-    const pathname = '/chat';
-    const shouldOnboard = user && !user.subdomain && !pathname.startsWith('/onboarding') && !pathname.startsWith('/auth');
-    expect(shouldOnboard).toBe(true);
-  });
-});
-
-// ─────────────────────────────────────────────────────────────
-// 3. Config API Cloud Mode
+// 2. Config API Cloud Mode
 // ─────────────────────────────────────────────────────────────
 
 describe('Config API Cloud Mode', () => {
@@ -205,7 +134,7 @@ describe('Config API Cloud Mode', () => {
 });
 
 // ─────────────────────────────────────────────────────────────
-// 4. Constants Validation
+// 3. Constants Validation
 // ─────────────────────────────────────────────────────────────
 
 describe('Constants', () => {
@@ -237,7 +166,7 @@ describe('Constants', () => {
 });
 
 // ─────────────────────────────────────────────────────────────
-// 5. Multi-Tenant Architecture Invariants
+// 4. Multi-Tenant Architecture Invariants
 // ─────────────────────────────────────────────────────────────
 
 describe('Multi-Tenant Architecture Invariants', () => {
@@ -310,7 +239,7 @@ describe('Multi-Tenant Architecture Invariants', () => {
   });
 
   it('shared frontend serves all tenants from same codebase', () => {
-    // The frontend is deployed once; tenants are routed by subdomain
+    // The member space is deployed once; the tenant comes from the JWT
     // This test validates the config supports both modes
     const localApiUrl = 'http://localhost:19001';
     const cloudProxyUrl = '/api/proxy/v1';
@@ -321,7 +250,7 @@ describe('Multi-Tenant Architecture Invariants', () => {
 });
 
 // ─────────────────────────────────────────────────────────────
-// 6. Agent Social Features Validation
+// 5. Agent Social Features Validation
 // ─────────────────────────────────────────────────────────────
 
 describe('Agent Social Features Data Flow', () => {
@@ -423,7 +352,7 @@ describe('Agent Social Features Data Flow', () => {
 });
 
 // ─────────────────────────────────────────────────────────────
-// 7. Database Schema Constraints Validation
+// 6. Database Schema Constraints Validation
 // ─────────────────────────────────────────────────────────────
 
 describe('Database Schema Constraints', () => {
@@ -478,7 +407,7 @@ describe('Database Schema Constraints', () => {
 });
 
 // ─────────────────────────────────────────────────────────────
-// 8. Cloud Run Deployment Model
+// 7. Cloud Run Deployment Model
 // ─────────────────────────────────────────────────────────────
 
 describe('Cloud Run Deployment Model', () => {

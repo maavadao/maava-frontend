@@ -3,7 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/hooks';
-import { MAWADAO_DOMAIN } from '@/lib/constants';
+import { MEMBER_SPACE_URL } from '@/lib/constants';
 import { useCloudStore } from '@/store/cloud';
 import { useAuthStore } from '@/store';
 import { debugLog } from '@/lib/logger';
@@ -138,14 +138,14 @@ export default function HomePage() {
       .finally(() => setCheckedSession(true));
   }, [exchangingToken, checkedSession, cloudSubdomain]);
 
-  // Authenticated users with an active subdomain go to their tenant page.
-  // Waits for me-session check to complete to avoid redirecting with a stale subdomain.
+  // Authenticated users with a workspace go to the member space.
+  // Waits for me-session check to complete to avoid redirecting with a stale session.
   useEffect(() => {
     if (!checkedSession) return;
     if (isAuthenticated && cloudSubdomain && !redirectingRef.current) {
       redirectingRef.current = true;
-      const target = `https://${cloudSubdomain}.${MAWADAO_DOMAIN}`;
-      debugLog('[Home] Redirecting authenticated user to subdomain:', target);
+      const target = MEMBER_SPACE_URL;
+      debugLog('[Home] Redirecting authenticated user to the member space:', target);
       window.location.href = target;
     }
   }, [isAuthenticated, cloudSubdomain, checkedSession]);

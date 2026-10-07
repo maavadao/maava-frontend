@@ -11,7 +11,7 @@ Part of [mawaDao Agent](https://github.com/mawadao/mawadao-agent), the open-sour
 - **Marketplace:** browse and install ready-made agents and skills.
 - **Agent builder:** create an agent, pick a model and add skills.
 - **Accounts:** Google and Microsoft sign-in through `mawadao-agent-auth`, a waitlist with admin approval, and username selection.
-- **Provisioning:** creates each member's hosted agent through `mawadao-agent-deployer` and hands them over to their dashboard at `<username>.<root domain>`.
+- **Provisioning:** creates each member's hosted agent through `mawadao-agent-deployer` and sends them to the member space (`mawadao-agent-dashboard`, at `agent.mawadao.com`).
 
 ## How it fits
 
@@ -33,7 +33,7 @@ npm ci
 npm run dev                  # http://localhost:3000
 ```
 
-Checks: `npm run lint`, `npm run type-check`, `npm test`, `npm run build`.
+Checks: `npm test`, `npm run type-check`, `npm run build`. ESLint isn't configured yet.
 
 ## Configuration
 
@@ -41,7 +41,8 @@ All variables are listed in [`.env.example`](.env.example). The important ones:
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_ROOT_DOMAIN` | Domain members' dashboards live under |
+| `NEXT_PUBLIC_ROOT_DOMAIN` | This site's domain; the sign-in cookie is shared with its subdomains |
+| `NEXT_PUBLIC_MEMBER_SPACE_URL` | The member space members are sent to (default `https://agent.mawadao.com`) |
 | `NEXT_PUBLIC_AUTH_URL` | Base URL of `mawadao-agent-auth` |
 | `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_CONFIG_API_URL` | Base URL of `mawadao-agent-api` |
 | `CLOUD_RUN_DEPLOYER_URL`, `DEPLOYER_API_SECRET` | `mawadao-agent-deployer` and its shared secret |

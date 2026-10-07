@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store';
 import { useCloudStore } from '@/store/cloud';
 import { api } from '@/lib/api';
 import { Loader2 } from 'lucide-react';
+import { MEMBER_SPACE_URL } from '@/lib/constants';
 
 export default function AuthCallbackPage() {
   return (
@@ -130,10 +131,10 @@ function AuthCallbackInner() {
 
         // 4. Redirect based on tenant status.
         if (cookieSubdomain) {
-          // Existing user with a fully provisioned tenant → go to their subdomain.
-          // Pass the transfer token in the URL so the subdomain can establish its
+          // Existing user with a fully provisioned tenant → go to the member space.
+          // Pass the transfer token in the URL so the member space can establish its
           // own session cookie without relying on cross-domain cookie sharing.
-          const subdomainUrl = new URL(`https://${cookieSubdomain}.mawadao.com`);
+          const subdomainUrl = new URL(MEMBER_SPACE_URL);
           if (transferToken) {
             subdomainUrl.searchParams.set('auth_token', transferToken);
             subdomainUrl.searchParams.set('state', crypto.randomUUID());

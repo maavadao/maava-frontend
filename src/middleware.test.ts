@@ -1,11 +1,11 @@
 /**
  * @jest-environment node
  *
- * Middleware unit tests — exercises subdomain detection, auth redirects,
- * transfer-token pass-through, and the main-domain redirect flow.
+ * Middleware unit tests — auth redirects on the main site and sending members
+ * with a workspace to the member space.
  *
- * Because ROOT_DOMAIN and CLOUD_MODE are module-level constants evaluated at
- * import time, we use jest.isolateModules() + dynamic require().
+ * Because CLOUD_MODE and the member-space URL are module-level constants
+ * evaluated at import time, we use jest.isolateModules() + dynamic require().
  */
 import type { NextRequest as NextRequestType } from 'next/server';
 import type * as AuthModule from '@/lib/auth';
@@ -20,7 +20,6 @@ function getModules() {
     jest.isolateModules(() => {
         jest.doMock('@/lib/auth', () => ({
             validateJWT: jest.fn(),
-            createTransferToken: jest.fn(),
         }));
         const midMod = require('./middleware');
         mw = midMod.middleware;
@@ -50,127 +49,34 @@ function buildRequest(
     return req;
 }
 
+const member = {
+    userId: 'user-1',
+    email: 'alice@example.com',
+    subdomain: 'alice',
+    tenantId: 'tenant-1',
+};
+
+const newUser = {
+    userId: 'user-2',
+    email: 'bob@example.com',
+    subdomain: null as any,
+    tenantId: null as any,
+};
+
 beforeAll(() => {
     process.env.NEXT_PUBLIC_CLOUD_MODE = 'true';
     process.env.NEXT_PUBLIC_ROOT_DOMAIN = 'mawadao.com';
+    process.env.NEXT_PUBLIC_MEMBER_SPACE_URL = 'https://agent.mawadao.com';
 });
 
 afterEach(() => jest.restoreAllMocks());
 
 // ── Tests ──────────────────────────────────────────────────────────
 
-describe('unauthenticated subdomain request', () => {
-    test('redirects to login with correct redirect param', async () => {
+describe('member with a workspace', () => {
+    test('is sent from the main site to the member space', async () => {
         const { mw, mockedAuth, NextRequest } = getModules();
-        mockedAuth.validateJWT.mockResolvedValue(null);
-
-        const req = buildRequest(NextRequest, 'https://alice.mawadao.com/some/path?q=1', {
-            headers: { 'x-forwarded-host': 'alice.mawadao.com' },
-        });
-
-        const res = await mw(req);
-        expect(res?.status).toBe(307);
-        const location = res?.headers.get('location') || '';
-        expect(location).toContain('mawadao.com/auth/login');
-        expect(location).toContain(encodeURIComponent('alice.mawadao.com'));
-    });
-});
-
-describe('transfer token on subdomain (pass-through)', () => {
-    test('auth_token present + no user → rewrite (let page handle exchange)', async () => {
-        const { mw, mockedAuth, NextRequest } = getModules();
-        mockedAuth.validateJWT.mockResolvedValue(null);
-
-        const req = buildRequest(
-            NextRequest,
-            'https://alice.mawadao.com/?auth_token=transfer123&state=abc',
-            { headers: { 'x-forwarded-host': 'alice.mawadao.com' } },
-        );
-
-        const res = await mw(req);
-        // Should rewrite (200), NOT redirect — let the client-side JS handle the exchange
-        expect(res?.status).toBe(200);
-        expect(res?.headers.get('x-subdomain')).toBe('alice');
-        expect(res?.headers.get('x-needs-token-exchange')).toBe('1');
-    });
-
-    test('auth_token present + valid user → strips params and redirects to clean URL', async () => {
-        const { mw, mockedAuth, NextRequest } = getModules();
-        mockedAuth.validateJWT.mockResolvedValue({
-            userId: 'user-1',
-            email: 'ali@example.com',
-            subdomain: 'alice',
-            tenantId: 'tenant-1',
-        });
-
-        const req = buildRequest(
-            NextRequest,
-            'https://alice.mawadao.com/?auth_token=old_token&state=x',
-            {
-                cookies: { 'auth-token': 'valid-jwt' },
-                headers: { 'x-forwarded-host': 'alice.mawadao.com' },
-            },
-        );
-
-        const res = await mw(req);
-        expect(res?.status).toBe(307);
-        const location = res?.headers.get('location') || '';
-        expect(location).not.toContain('auth_token');
-        expect(location).not.toContain('state=x');
-        expect(location).toContain('alice.mawadao.com');
-    });
-});
-
-describe('authenticated user on subdomain', () => {
-    test('matching subdomain → passes through with routing headers', async () => {
-        const { mw, mockedAuth, NextRequest } = getModules();
-        mockedAuth.validateJWT.mockResolvedValue({
-            userId: 'user-1',
-            email: 'ali@example.com',
-            subdomain: 'alice',
-            tenantId: 'tenant-1',
-        });
-
-        const req = buildRequest(NextRequest, 'https://alice.mawadao.com/', {
-            cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'alice.mawadao.com' },
-        });
-
-        const res = await mw(req);
-        expect(res?.status).toBe(200);
-        expect(res?.headers.get('x-subdomain')).toBe('alice');
-        expect(res?.headers.get('x-tenant-id')).toBe('tenant-1');
-    });
-
-    test('mismatched subdomain → rewrite to /unauthorized', async () => {
-        const { mw, mockedAuth, NextRequest } = getModules();
-        mockedAuth.validateJWT.mockResolvedValue({
-            userId: 'user-1',
-            email: 'ali@example.com',
-            subdomain: 'other',
-            tenantId: 'tenant-1',
-        });
-
-        const req = buildRequest(NextRequest, 'https://alice.mawadao.com/', {
-            cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'alice.mawadao.com' },
-        });
-
-        const res = await mw(req);
-        expect(res?.status).toBe(200); // rewrite, not redirect
-    });
-});
-
-describe('main domain with authenticated user and subdomain', () => {
-    test('redirects to subdomain WITH transfer token', async () => {
-        const { mw, mockedAuth, NextRequest } = getModules();
-        mockedAuth.validateJWT.mockResolvedValue({
-            userId: 'user-1',
-            email: 'ali@example.com',
-            subdomain: 'alice',
-            tenantId: 'tenant-1',
-        });
-        mockedAuth.createTransferToken.mockResolvedValue('xfer-token-123');
+        mockedAuth.validateJWT.mockResolvedValue(member);
 
         const req = buildRequest(NextRequest, 'https://mawadao.com/', {
             cookies: { 'auth-token': 'valid-jwt' },
@@ -179,22 +85,40 @@ describe('main domain with authenticated user and subdomain', () => {
 
         const res = await mw(req);
         expect(res?.status).toBe(307);
-        const location = res?.headers.get('location') || '';
-        expect(location).toContain('alice.mawadao.com');
-        expect(location).toContain('auth_token=xfer-token-123');
-        expect(location).toContain('state=');
+        expect(res?.headers.get('location')).toBe('https://agent.mawadao.com/');
+    });
+
+    test('can still use the marketplace on the main site', async () => {
+        const { mw, mockedAuth, NextRequest } = getModules();
+        mockedAuth.validateJWT.mockResolvedValue(member);
+
+        const req = buildRequest(NextRequest, 'https://mawadao.com/marketplace', {
+            cookies: { 'auth-token': 'valid-jwt' },
+            headers: { 'x-forwarded-host': 'mawadao.com' },
+        });
+
+        const res = await mw(req);
+        expect(res?.status).toBe(200);
+    });
+
+    test('is not redirected again when already on the member space host', async () => {
+        const { mw, mockedAuth, NextRequest } = getModules();
+        mockedAuth.validateJWT.mockResolvedValue(member);
+
+        const req = buildRequest(NextRequest, 'https://agent.mawadao.com/', {
+            cookies: { 'auth-token': 'valid-jwt' },
+            headers: { 'x-forwarded-host': 'agent.mawadao.com' },
+        });
+
+        const res = await mw(req);
+        expect(res?.status).toBe(200);
     });
 });
 
-describe('authenticated user on /auth/login', () => {
-    test('user without subdomain is redirected away from login page', async () => {
+describe('signed in without a workspace', () => {
+    test('is redirected away from the login page', async () => {
         const { mw, mockedAuth, NextRequest } = getModules();
-        mockedAuth.validateJWT.mockResolvedValue({
-            userId: 'user-1',
-            email: 'ali@example.com',
-            subdomain: null as any,
-            tenantId: null as any,
-        });
+        mockedAuth.validateJWT.mockResolvedValue(newUser);
 
         const req = buildRequest(NextRequest, 'https://mawadao.com/auth/login', {
             cookies: { 'auth-token': 'valid-jwt' },
@@ -206,10 +130,24 @@ describe('authenticated user on /auth/login', () => {
         const location = res?.headers.get('location') || '';
         expect(location).toMatch(/\/$/);
     });
+
+    test('is sent to workspace setup from other pages', async () => {
+        const { mw, mockedAuth, NextRequest } = getModules();
+        mockedAuth.validateJWT.mockResolvedValue(newUser);
+
+        const req = buildRequest(NextRequest, 'https://mawadao.com/channels', {
+            cookies: { 'auth-token': 'valid-jwt' },
+            headers: { 'x-forwarded-host': 'mawadao.com' },
+        });
+
+        const res = await mw(req);
+        expect(res?.status).toBe(307);
+        expect(res?.headers.get('location')).toContain('step=subdomain');
+    });
 });
 
-describe('main domain — no auth', () => {
-    test('login page is accessible when not authenticated', async () => {
+describe('not signed in', () => {
+    test('login page is accessible', async () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(null);
 
@@ -233,24 +171,5 @@ describe('main domain — no auth', () => {
         expect(res?.status).toBe(307);
         const location = res?.headers.get('location') || '';
         expect(location).toContain('/auth/login');
-    });
-});
-
-describe('protocol resolution', () => {
-    test('forces https for *.mawadao.com even with http x-forwarded-proto', async () => {
-        const { mw, mockedAuth, NextRequest } = getModules();
-        mockedAuth.validateJWT.mockResolvedValue(null);
-
-        const req = buildRequest(NextRequest, 'http://alice.mawadao.com/', {
-            headers: {
-                'x-forwarded-host': 'alice.mawadao.com',
-                'x-forwarded-proto': 'http',
-            },
-        });
-
-        const res = await mw(req);
-        expect(res?.status).toBe(307);
-        const location = res?.headers.get('location') || '';
-        expect(location).toContain('https://');
     });
 });

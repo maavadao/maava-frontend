@@ -8,7 +8,7 @@ import { debugLog, debugWarn } from '@/lib/logger';
 import { useAuthStore } from '@/store';
 import { Button, Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui';
 import { AlertCircle, User, Lock } from 'lucide-react';
-import { APP_NAME, ROUTES } from '@/lib/constants';
+import { APP_NAME, ROUTES, MEMBER_SPACE_URL } from '@/lib/constants';
 
 /** Sanitize redirect URL — only allow same-origin or *.mawadao.com */
 function sanitizeRedirect(raw: string | null): string | null {
@@ -67,22 +67,22 @@ export default function LoginPage() {
           if (lastAttempt && Date.now() - Number(lastAttempt) < 10_000) {
             console.error('[Login] Redirect attempted too recently — likely a loop. Last attempt:', new Date(Number(lastAttempt)).toISOString());
             setError(
-              'Unable to reach your workspace. Please wait a few seconds and refresh, or try opening your workspace directly at https://' + data.subdomain + '.mawadao.com',
+              'Unable to reach your workspace. Please wait a few seconds and refresh, or try opening your workspace directly at ' + MEMBER_SPACE_URL,
             );
             return;
           }
           sessionStorage.setItem(storageKey, String(Date.now()));
 
           try {
-            // Fetch a transfer token so the subdomain can establish its own cookie
+            // Fetch a transfer token so the member space can establish its own cookie
             const ttRes = await fetch('/api/auth/transfer-token', { credentials: 'include' });
             debugLog('[Login] transfer-token response status:', ttRes.status);
             if (ttRes.ok) {
               const ttData = await ttRes.json();
-              const targetUrl = new URL(`https://${data.subdomain}.mawadao.com`);
+              const targetUrl = new URL(MEMBER_SPACE_URL);
               targetUrl.searchParams.set('auth_token', ttData.transferToken);
               targetUrl.searchParams.set('state', crypto.randomUUID());
-              debugLog('[Login] Redirecting to subdomain with transfer token:', targetUrl.toString());
+              debugLog('[Login] Redirecting to the member space with transfer token:', targetUrl.toString());
               window.location.href = targetUrl.toString();
               return;
             } else {
@@ -92,8 +92,8 @@ export default function LoginPage() {
             debugWarn('[Login] Transfer token fetch failed, falling back to direct redirect:', err);
           }
           // Fallback: redirect without transfer token (relies on .mawadao.com cookie)
-          debugLog('[Login] Falling back to direct subdomain redirect (no transfer token)');
-          window.location.href = `https://${data.subdomain}.mawadao.com`;
+          debugLog('[Login] Falling back to direct member-space redirect (no transfer token)');
+          window.location.href = MEMBER_SPACE_URL;
         } else if (data?.authenticated) {
           debugLog('[Login] Already authenticated (no subdomain) — redirect to /');
           window.location.href = '/';

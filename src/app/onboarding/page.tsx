@@ -5,14 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Input } from '@/components/ui';
 import { MawadaoLogo } from '@/components/layout';
-import {
-  INTEREST_CATEGORIES,
-  ROUTES,
-  STORAGE_KEYS,
-  APP_NAME,
-  CLOUD_MODE,
-  MAWADAO_DOMAIN,
-} from '@/lib/constants';
+import { INTEREST_CATEGORIES, ROUTES, STORAGE_KEYS, APP_NAME, CLOUD_MODE, MEMBER_SPACE_URL, MEMBER_SPACE_HOST } from '@/lib/constants';
 import { useCloudStore } from '@/store/cloud';
 import {
   ArrowRight,
@@ -335,10 +328,10 @@ export default function OnboardingPage() {
         // Now provision — interests and preferences already collected
         handleProvision();
       } else if (step === 'ready') {
-        // Provisioning done — redirect to the tenant subdomain
+        // Provisioning done — go to the member space
         localStorage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETE, 'true');
         if (provisionedSubdomain) {
-          window.location.href = `https://${provisionedSubdomain}.${MAWADAO_DOMAIN}`;
+          window.location.href = MEMBER_SPACE_URL;
         } else {
           router.push(ROUTES.CHAT);
         }
@@ -472,14 +465,17 @@ export default function OnboardingPage() {
                 {subdomain && isValidSubdomain(subdomain) && (
                   <div className="rounded-lg border bg-muted/50 p-4 space-y-2">
                     <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                      Your workspace URL
+                      Your workspace name
                     </p>
                     <div className="flex items-center gap-2">
                       <Globe className="h-4 w-4 text-primary shrink-0" />
                       <p className="text-sm font-mono font-medium text-foreground">
-                        {subdomain}.{MAWADAO_DOMAIN}
+                        {subdomain}
                       </p>
                     </div>
+                    <p className="text-xs text-muted-foreground">
+                      You&apos;ll open your workspace at {MEMBER_SPACE_HOST}.
+                    </p>
                   </div>
                 )}
 
@@ -519,7 +515,7 @@ export default function OnboardingPage() {
               <p className="text-muted-foreground mb-1">
                 We&apos;re provisioning{' '}
                 <span className="font-semibold text-foreground font-mono">
-                  {subdomain}.{MAWADAO_DOMAIN}
+                  {subdomain}
                 </span>
               </p>
               <p className="text-sm text-muted-foreground mb-8">
@@ -573,11 +569,11 @@ export default function OnboardingPage() {
                 Your AI workspace is live at
               </p>
               <a
-                href={`https://${provisionedSubdomain}.${MAWADAO_DOMAIN}`}
+                href={MEMBER_SPACE_URL}
                 className="inline-flex items-center gap-2 text-primary font-mono font-medium text-lg hover:underline mb-6"
               >
                 <Globe className="h-5 w-5" />
-                {provisionedSubdomain}.{MAWADAO_DOMAIN}
+                {MEMBER_SPACE_HOST}
               </a>
               <p className="text-muted-foreground mb-8">
                 Your workspace is personalized and ready. Let&apos;s go!
