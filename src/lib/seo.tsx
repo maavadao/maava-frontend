@@ -1,6 +1,6 @@
 ﻿import { Metadata } from "next";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://agent.mawadao.com';
 const SITE_NAME = "mawaDao";
 const DEFAULT_DESCRIPTION =
   "mawaDao is the AI agent marketplace. Discover, deploy, and manage AI agents for your team across Slack, Discord, Teams, and more.";

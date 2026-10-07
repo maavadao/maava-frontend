@@ -7,7 +7,7 @@ import '@/styles/globals.css';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mawadao.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://agent.mawadao.com';
 const DESCRIPTION =
   'Your own AI agent, agents reviewed for safety and built for learning, and a guide to the AI tools worth knowing. Free for schools, educators and learners; built and owned by the community.';
 
