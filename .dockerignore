@@ -1,0 +1,10 @@
+node_modules
+.next
+.env.local
+.env.*.local
+.git
+*.md
+__tests__
+test
+coverage
+.vscode

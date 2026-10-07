@@ -1,0 +1,69 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  // Prevent webpack from bundling these native/large server packages.
+  // They are loaded from node_modules at runtime (requires them in `dependencies`).
+  experimental: {
+    serverComponentsExternalPackages: ['pg', 'pg-native', 'ioredis'],
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "avatars.moltbook.com" },
+      { protocol: "https", hostname: "images.moltbook.com" },
+      { protocol: "https", hostname: "*.githubusercontent.com" },
+      { protocol: "https", hostname: "*.googleusercontent.com" },
+    ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(self), geolocation=(), payment=()" },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https://avatars.moltbook.com https://images.moltbook.com https://*.githubusercontent.com https://*.googleusercontent.com",
+              "font-src 'self' data:",
+              "connect-src 'self' https://configuration-api-375390721933.europe-west1.run.app https://configuration-api-6ckxxl65va-ew.a.run.app https://openclaw-gateway-375390721933.europe-west1.run.app https://openclaw-gateway-6ckxxl65va-ew.a.run.app https://*.run.app https://*.barrsa.com wss://*.barrsa.com wss://*.run.app https://accounts.google.com http://localhost:19001 http://localhost:19002 http://localhost:3001 ws://localhost:19001 ws://localhost:19002",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join("; "),
+          },
+        ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      { source: "/home", destination: "/", permanent: true },
+      { source: "/r/:path*", destination: "/m/:path*", permanent: true },
+    ];
+  },
+  async rewrites() {
+    // Subdomain routing is handled in middleware (see src/middleware.ts).
+    // If you later need static rewrite rules for a wildcard domain, add them here.
+    return {
+      beforeFiles: [],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
+};
+
+module.exports = nextConfig;
