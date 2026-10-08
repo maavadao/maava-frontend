@@ -12,7 +12,7 @@ const DESCRIPTION =
   'Your own AI agent, agents reviewed for safety and built for learning, and a guide to the AI tools worth knowing. Free for schools, educators and learners; built and owned by the community.';
 
 export const metadata: Metadata = {
-  title: { default: 'mawaDao — AI agents for every classroom', template: '%s | mawaDao' },
+  title: { default: 'mawa — AI agents for every classroom', template: '%s | mawa' },
   description: DESCRIPTION,
   keywords: ['AI agents', 'education', 'AI tools', 'schools', 'students', 'teachers', 'non-profit', 'open source'],
   authors: [{ name: 'mawaDao contributors' }],
@@ -22,11 +22,11 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_GB',
     url: SITE_URL,
-    siteName: 'mawaDao',
-    title: 'mawaDao — AI agents for every classroom',
+    siteName: 'mawa',
+    title: 'mawa — AI agents for every classroom',
     description: DESCRIPTION,
   },
-  twitter: { card: 'summary', title: 'mawaDao — AI agents for every classroom', description: DESCRIPTION },
+  twitter: { card: 'summary', title: 'mawa — AI agents for every classroom', description: DESCRIPTION },
   icons: {
     icon: '/favicon.svg',
   },

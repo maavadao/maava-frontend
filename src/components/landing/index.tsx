@@ -124,7 +124,7 @@ function RainbowBar() {
 
 // Provider options for step 3
 const PROVIDER_OPTIONS = [
-  { id: 'moonshot', name: 'Moonshot', description: 'Default — mawaDao optimised engine', badge: 'Default' },
+  { id: 'moonshot', name: 'Moonshot', description: 'Default — mawa optimised engine', badge: 'Default' },
   { id: 'openai', name: 'OpenAI', description: 'GPT-4o and GPT-4.1 models', badge: null },
   { id: 'anthropic', name: 'Claude', description: 'Claude Sonnet and Opus models', badge: null },
   { id: 'google', name: 'Gemini', description: 'Google Gemini 2.5 models', badge: null },
@@ -641,7 +641,7 @@ function GuidedSetup() {
                   {authMode === 'register' ? 'Create your account' : 'Welcome back'}
                 </h3>
                 <p className="text-[13px] text-muted-foreground mb-5 text-center">
-                  {authMode === 'register' ? 'Set up your mawaDao account' : 'Sign in to your existing account'}
+                  {authMode === 'register' ? 'Set up your mawa account' : 'Sign in to your existing account'}
                 </p>
 
                 {/* Mode toggle */}
@@ -1102,7 +1102,7 @@ const FEATURES = [
     icon: Lightbulb,
     title: 'Build and share',
     description:
-      'Built an agent or know a good tool? List it on mawaDao with a pull request and the community will review it.',
+      'Built an agent or know a good tool? List it on mawa with a pull request and the community will review it.',
     href: REGISTRY_REPO,
     cta: 'List your work',
   },
@@ -1113,7 +1113,7 @@ export function LandingFeatures() {
     <section id="what-you-can-do" className="py-20 md:py-28 bg-background scroll-mt-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <motion.div {...reveal} className="max-w-2xl mb-12">
-          <h2 className="text-display text-foreground text-balance">What you can do on mawaDao</h2>
+          <h2 className="text-display text-foreground text-balance">What you can do on mawa</h2>
         </motion.div>
         <ul className="grid gap-4 sm:grid-cols-2">
           {FEATURES.map((f) => (
