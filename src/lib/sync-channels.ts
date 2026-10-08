@@ -6,7 +6,7 @@ const STORAGE_API_SECRET = process.env.STORAGE_API_SECRET || "";
 const SHARED_BUCKET =
   process.env.GCS_SHARED_BUCKET ||
   process.env.GCS_BUCKET ||
-  "mawadao-agent-data";
+  "mawa-data";
 
 const MANAGED_CHANNEL_TYPES = [
   "discord",
@@ -268,7 +268,7 @@ async function writeUserConfig(userId: string, data: unknown): Promise<void> {
 
   if (!res.ok) {
     const body = await res.text();
-    throw new Error(`mawadao-agent-storage write failed (HTTP ${res.status}): ${body}`);
+    throw new Error(`mawa-storage write failed (HTTP ${res.status}): ${body}`);
   }
 }
 

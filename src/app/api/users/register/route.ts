@@ -4,7 +4,7 @@ import { debugLog } from '@/lib/logger';
 const CONFIGURATION_API = (process.env.MAWADAO_API_URL || 'http://localhost:3003/api/v1').replace(/\/+$/, '');
 
 /**
- * POST /api/users/register → proxies to mawadao-agent-api POST /users/register
+ * POST /api/users/register → proxies to mawa-api POST /users/register
  * Returns: { success: true, user: { id, username, email, displayName, api_key }, important }
  */
 export async function POST(request: NextRequest) {
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    debugLog('[/api/users/register] Forwarding registration to mawadao-agent-api');
+    debugLog('[/api/users/register] Forwarding registration to mawa-api');
     const res = await fetch(`${CONFIGURATION_API}/users/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -39,7 +39,7 @@ export async function POST(
   } catch {
     // Config API not running — return structured 503 instead of ERR_CONNECTION_REFUSED
     return NextResponse.json(
-      { success: false, message: "mawaDao Agent config API unreachable", error: "connection_refused" },
+      { success: false, message: "mawa config API unreachable", error: "connection_refused" },
       { status: 503 }
     );
   }
@@ -61,7 +61,7 @@ export async function GET(
     return NextResponse.json(data, { status: res.status });
   } catch {
     return NextResponse.json(
-      { success: false, message: "mawaDao Agent config API unreachable", error: "connection_refused" },
+      { success: false, message: "mawa config API unreachable", error: "connection_refused" },
       { status: 503 }
     );
   }

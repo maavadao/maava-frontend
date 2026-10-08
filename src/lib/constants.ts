@@ -6,7 +6,7 @@ export const APP_DESCRIPTION = "AI agents for every classroom";
 // Domain
 export const MAWADAO_DOMAIN = process.env.NEXT_PUBLIC_MAWADAO_DOMAIN || "mawadao.com";
 
-/** Where members' workspaces live (mawadao-agent-dashboard). One host for everyone. */
+/** Where members' workspaces live (mawa-dashboard). One host for everyone. */
 export const MEMBER_SPACE_URL = (
   process.env.NEXT_PUBLIC_MEMBER_SPACE_URL || "https://agent.mawadao.com"
 ).replace(/\/+$/, "");
@@ -167,7 +167,7 @@ export const SHORTCUTS = {
 export const GATEWAY_UI_URL =
   process.env.NEXT_PUBLIC_GATEWAY_UI_URL || "";
 
-/** mawaDao Agent redirect URL for user/agent: https://{name}.run.app */
+/** mawa redirect URL for user/agent: https://{name}.run.app */
 export const GATEWAY_REDIRECT_BASE = "https://{name}.run.app";
 
 export function getGatewayRedirectUrl(name: string): string {
@@ -177,13 +177,13 @@ export function getGatewayRedirectUrl(name: string): string {
   return GATEWAY_REDIRECT_BASE.replace("{name}", safe);
 }
 
-// mawaDao Agent gateway URL (for WebSocket chat; http/https auto-converted to ws/wss)
+// mawa gateway URL (for WebSocket chat; http/https auto-converted to ws/wss)
 export const GATEWAY_URL =
   process.env.NEXT_PUBLIC_GATEWAY_URL ||
   process.env.NEXT_PUBLIC_GATEWAY_UI_URL ||
   "http://localhost:19001";
 
-// mawaDao Agent Configuration API URL — proxied through Next.js to avoid browser ERR_CONNECTION_REFUSED
+// mawa Configuration API URL — proxied through Next.js to avoid browser ERR_CONNECTION_REFUSED
 // Browser always uses the relative proxy path; server-side uses GATEWAY_CONFIG_API_URL directly
 export const CONFIG_API_URL =
   typeof window !== "undefined"

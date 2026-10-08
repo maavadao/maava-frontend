@@ -23,13 +23,13 @@ const DEPLOYER_URL =
 const DEPLOYER_API_SECRET = process.env.DEPLOYER_API_SECRET || "";
 const CLOUD_BACKEND_IMAGE =
   process.env.CLOUD_BACKEND_IMAGE ||
-  "ghcr.io/mawadao/mawadao-agent-gateway:latest";
+  "ghcr.io/mawadao/mawa-gateway:latest";
 const GCS_BUCKET =
-  process.env.GCS_BUCKET || "mawadao-agent-data";
+  process.env.GCS_BUCKET || "mawa-data";
 // Use CLOUD_MODE (runtime) with NEXT_PUBLIC_CLOUD_MODE (build-time) as fallback.
 // NEXT_PUBLIC_ vars are inlined by Next.js at build time and won't reflect runtime env.
 const CLOUD_MODE = process.env.CLOUD_MODE === "true" || process.env.NEXT_PUBLIC_CLOUD_MODE === "true";
-// Local dev: the mawaDao Agent platform is already running; skip Cloud Run deployment.
+// Local dev: the mawa platform is already running; skip Cloud Run deployment.
 const LOCAL_BACKEND_URL =
   process.env.GATEWAY_URL ||
   process.env.NEXT_PUBLIC_GATEWAY_URL ||
@@ -363,7 +363,7 @@ async function deployInBackground(
     const authProfilesReady = await waitForAuthProfilesJson(userId);
     if (!authProfilesReady) {
       throw new Error(
-        "Provisioning finished without auth-profiles.json. Check MOONSHOT_API_KEY on mawadao-frontend and mawadao-agent-deployer."
+        "Provisioning finished without auth-profiles.json. Check MOONSHOT_API_KEY on mawadao-frontend and mawa-deployer."
       );
     }
 

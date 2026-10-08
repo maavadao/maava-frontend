@@ -1,8 +1,8 @@
 {
-  "name": "mawadao-agent-frontend",
+  "name": "mawa-frontend",
   "version": "0.1.0",
   "private": true,
-  "description": "mawaDao Agent website: community, marketplace and agent builder",
+  "description": "mawa website: community, marketplace and agent builder",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

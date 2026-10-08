@@ -4,7 +4,7 @@ const CONFIG_API = (process.env.MAWADAO_API_URL || 'http://localhost:3003/api/v1
 
 /**
  * GET /api/users/waitlist/status?email=...
- * Proxies to mawadao-agent-api GET /users/waitlist/status
+ * Proxies to mawa-api GET /users/waitlist/status
  * Used by the auth callback to gate OAuth logins through the waitlist.
  */
 export async function GET(request: NextRequest) {

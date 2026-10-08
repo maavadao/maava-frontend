@@ -365,7 +365,7 @@ function SecretInput({
 }
 
 // =============================================================================
-// mawaDao Agent Chat — enhanced with configApi data
+// mawa Chat — enhanced with configApi data
 // =============================================================================
 function GatewayChatSettings() {
   const {
@@ -444,7 +444,7 @@ function GatewayChatSettings() {
       {/* ── Chat Gateway ─────────────────────────────────── */}
       <SettingsCard
         title="Chat Gateway"
-        description="mawaDao Agent gateway for AI completions (port 19001). Changes apply to the next message — no restart needed."
+        description="mawa gateway for AI completions (port 19001). Changes apply to the next message — no restart needed."
       >
         <div className="space-y-4">
           <div className="space-y-1.5">
@@ -553,7 +553,7 @@ function GatewayChatSettings() {
       </Button>
 
       {/* ── Status Dashboard ─────────────────────────────── */}
-      <SettingsCard title="System Status" description="Live status from your mawaDao Agent gateway.">
+      <SettingsCard title="System Status" description="Live status from your mawa gateway.">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <StatusCard
             icon={Activity}
@@ -766,7 +766,7 @@ function CloudDataSettings() {
   const { subdomain } = useCloudStore();
 
   return (
-    <SettingsCard title="Data Management" description="Import local mawaDao Agent data or export a backup of your cloud workspace.">
+    <SettingsCard title="Data Management" description="Import local mawa data or export a backup of your cloud workspace.">
       <DataManagement hasWorkspace={!!subdomain} />
     </SettingsCard>
   );

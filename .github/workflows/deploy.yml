@@ -1,7 +1,7 @@
 name: Build and deploy
 
 # Builds the container on GitHub Actions. On main it pushes the image to Artifact Registry and
-# deploys it to Cloud Run (service mawadao-agent-frontend); release tags push a versioned image.
+# deploys it to Cloud Run (service mawa-frontend); release tags push a versioned image.
 # Pull requests only build. See https://github.com/mawadao/.github/tree/main/.github/workflows
 
 on:
@@ -18,7 +18,7 @@ jobs:
   cloud-run:
     uses: mawadao/.github/.github/workflows/cloud-run.yml@main
     with:
-      image: mawadao-agent-frontend
-      service: mawadao-agent-frontend
+      image: mawa-frontend
+      service: mawa-frontend
       public: true
       flags: --max-instances=3

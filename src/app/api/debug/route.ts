@@ -216,7 +216,7 @@ export async function GET() {
   // Check which provider the chat route would use given current env vars
   const chatRouteProvider = (() => {
     const isLocalGateway = !!GATEWAY_URL;
-    if (isLocalGateway) return `mawadao-agent-gateway (${GATEWAY_URL})`;
+    if (isLocalGateway) return `mawa-gateway (${GATEWAY_URL})`;
     if (OPENAI_API_KEY) return "openai-direct";
     if (ANTHROPIC_API_KEY) return "anthropic-direct";
     return "no-provider-configured";

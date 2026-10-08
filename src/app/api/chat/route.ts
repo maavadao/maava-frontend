@@ -445,12 +445,12 @@ function buildAnthropicBody(messages: OpenAIMessage[], model: string): Record<st
 }
 
 /**
- * Proxy chat completions to mawaDao Agent gateway (or directly to an AI provider).
+ * Proxy chat completions to mawa gateway (or directly to an AI provider).
  * Accepts AI SDK v6 useChat format { messages: UIMessage[], model, conversationId, skills }.
  * Converts UIMessages to OpenAI-compatible format, persists to DB, streams response.
  *
  * Provider routing (in priority order):
- *   1. GATEWAY_URL → mawaDao Agent gateway  (full agent pipeline)
+ *   1. GATEWAY_URL → mawa gateway  (full agent pipeline)
  *   2. OPENAI_API_KEY  → direct OpenAI  (OpenAI-compatible SSE)
  *   3. ANTHROPIC_API_KEY → direct Anthropic  (Anthropic SSE format)
  */
@@ -735,7 +735,7 @@ export async function POST(request: NextRequest) {
 
   // ── Select provider ────────────────────────────────────────────────────────
   // Priority:
-  //   1. mawaDao Agent gateway — primary when configured.
+  //   1. mawa gateway — primary when configured.
   //      Routes through the gateway's agent pipeline (skills, context management, etc.)
   //      The model param selects a gateway agent ("openclaw:agentId"); unknown IDs default to agent "main".
   //   2. Direct OpenAI — when the model is an OpenAI model and OPENAI_API_KEY is set.
@@ -749,7 +749,7 @@ export async function POST(request: NextRequest) {
   const isAnthropicModel = aiModel.startsWith('anthropic/') || aiModel.startsWith('claude-');
 
   if (isLocalGateway) {
-    // mawaDao Agent gateway — primary AI backend (runs the full agent pipeline)
+    // mawa gateway — primary AI backend (runs the full agent pipeline)
     const base = EFF_GATEWAY_URL.replace(/\/+$/, '');
     aiEndpoint = `${base}/v1/chat/completions`;
     aiHeaders = {
@@ -758,7 +758,7 @@ export async function POST(request: NextRequest) {
       ...(conversationId ? { 'X-OpenClaw-Session-Key': conversationId } : {}),
     };
     useGateway = true;
-    debugLog(`[chat] mawaDao Agent gateway → model=${aiModel}`);
+    debugLog(`[chat] mawa gateway → model=${aiModel}`);
 
   } else if (isOpenAIModel && EFF_OPENAI) {
     aiEndpoint = 'https://api.openai.com/v1/chat/completions';
@@ -1084,7 +1084,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: isNetwork
-          ? "Cannot reach the AI backend. Make sure the mawaDao Agent gateway is running or your API keys are set."
+          ? "Cannot reach the AI backend. Make sure the mawa gateway is running or your API keys are set."
           : "AI backend unreachable. Please try again later.",
       },
       { status: 502 }

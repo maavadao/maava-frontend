@@ -1270,7 +1270,7 @@ const FOOTER_LINKS = [
     title: 'Contribute',
     links: [
       { href: REGISTRY_REPO, label: 'List a tool or agent' },
-      { href: 'https://github.com/mawadao/mawadao-agent', label: 'Source code' },
+      { href: 'https://github.com/mawadao/mawa', label: 'Source code' },
       { href: MISSION_URL, label: 'Mission' },
     ],
   },

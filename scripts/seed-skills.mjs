@@ -14,7 +14,7 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const XLSX_PATH = join(__dirname, '..', '..', 'mawadao-agent-api', 'data', 'all_skills.xlsx');
+const XLSX_PATH = join(__dirname, '..', '..', 'mawa-api', 'data', 'all_skills.xlsx');
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {

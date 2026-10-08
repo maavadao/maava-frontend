@@ -661,7 +661,7 @@ export function SettingsSidebar() {
     { href: '/settings?tab=account', icon: Shield, label: 'Account', match: 'account' },
     { href: '/settings?tab=notifications', icon: Bell, label: 'Notifications', match: 'notifications' },
     { href: '/settings?tab=appearance', icon: Palette, label: 'Appearance', match: 'appearance' },
-    { href: '/settings?tab=agent', icon: MessageSquare, label: 'mawaDao Agent Chat', match: 'agent' },
+    { href: '/settings?tab=agent', icon: MessageSquare, label: 'mawa Chat', match: 'agent' },
     { href: '/settings?tab=data', icon: HardDrive, label: 'Data', match: 'data' },
     { href: ROUTES.CHANNELS, icon: Radio, label: 'Connected Channels', match: '' },
   ];

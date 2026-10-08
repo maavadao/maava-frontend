@@ -21,7 +21,7 @@ function getEncKey(): Buffer {
 // Bucket-manager config — same env vars used by the provision route
 const STORAGE_URL = process.env.STORAGE_URL || "";
 const STORAGE_API_SECRET = process.env.STORAGE_API_SECRET || "";
-const GCS_BUCKET = process.env.GCS_BUCKET || "mawadao-agent-data";
+const GCS_BUCKET = process.env.GCS_BUCKET || "mawa-data";
 
 function encrypt(text: string): string {
   const iv = randomBytes(16);

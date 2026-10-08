@@ -4,7 +4,7 @@ const CONFIG_API = (process.env.MAWADAO_API_URL || 'http://localhost:3003/api/v1
 
 /**
  * POST /api/users/waitlist/oauth-join
- * Proxies to mawadao-agent-api POST /users/waitlist/oauth-join
+ * Proxies to mawa-api POST /users/waitlist/oauth-join
  * Auto-enrolls a Google/OAuth user onto the waitlist.
  * Body: { email: string, displayName?: string }
  */

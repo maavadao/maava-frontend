@@ -4,7 +4,7 @@ const CONFIG_API = (process.env.MAWADAO_API_URL || 'http://localhost:3003/api/v1
 
 /**
  * POST /api/users/admin/waitlist/[id]/reject
- * Proxies to mawadao-agent-api POST /users/admin/waitlist/:id/reject
+ * Proxies to mawa-api POST /users/admin/waitlist/:id/reject
  * Requires X-Admin-Secret header. Optional body: { notes: string }
  */
 export async function POST(

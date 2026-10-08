@@ -8,7 +8,7 @@ import { createJWT } from '@/lib/auth';
 const STORAGE_URL = process.env.STORAGE_URL || '';
 const STORAGE_API_SECRET = process.env.STORAGE_API_SECRET || '';
 const GCS_BUCKET =
-  process.env.GCS_SHARED_BUCKET || process.env.GCS_BUCKET || 'mawadao-agent-data';
+  process.env.GCS_SHARED_BUCKET || process.env.GCS_BUCKET || 'mawa-data';
 
 /** Strips trailing /api/v1 (some backend_url values include it) */
 function stripApiV1(url: string): string {
@@ -131,7 +131,7 @@ async function seedAgentWorkspaceFiles(
       debugLog('[seed] files.set', file.name, 'THREW:', (err as Error)?.message);
     }
 
-    // Mirror to GCS via mawadao-agent-storage (fallback if GCSFuse is not mounted)
+    // Mirror to GCS via mawa-storage (fallback if GCSFuse is not mounted)
     if (STORAGE_URL) {
       const gcsPath = `${userId}/mountfolder/workspace-${agent.slug}/${file.name}`;
       const gcsUrl = `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(GCS_BUCKET)}/files/${gcsPath}`;
