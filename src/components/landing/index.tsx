@@ -16,7 +16,6 @@ import { finalizeEmailPasswordAuth } from '@/lib/email-auth-session';
 import {
   ArrowRight,
   Check,
-  Compass,
   GraduationCap,
   HeartHandshake,
   Languages,
@@ -60,7 +59,6 @@ export function LandingNav() {
           <nav aria-label="Main" className="hidden md:flex items-center gap-1">
             {[
               { href: ROUTES.MARKETPLACE, label: 'Marketplace' },
-              { href: ROUTES.TOOLS, label: 'AI tools' },
               { href: '#what-you-can-do', label: 'What you can do' },
               { href: '#safety', label: 'Safety' },
             ].map((item) => (
@@ -1084,19 +1082,11 @@ const FEATURES = [
   },
   {
     icon: Store,
-    title: 'Agents for learning',
+    title: 'Agents and tools',
     description:
-      'Find agents for tutoring, reading, maths and teaching support, reviewed for safety and age suitability. Free for students, schools, orphanages and educators.',
+      'Find agents for tutoring, reading, maths and teaching support, reviewed for safety and age suitability, alongside new and trending AI tools, what they do and what they cost. Free for students, schools, orphanages and educators.',
     href: ROUTES.MARKETPLACE,
     cta: 'Browse the marketplace',
-  },
-  {
-    icon: Compass,
-    title: 'Explore AI tools',
-    description:
-      'Learn what new and trending AI tools do, who they are for and what they cost, before you choose one for your class or project.',
-    href: ROUTES.TOOLS,
-    cta: 'Explore AI tools',
   },
   {
     icon: Lightbulb,
@@ -1233,7 +1223,7 @@ export function LandingCTA() {
           Built by the community, for the children who need it most.
         </h2>
         <p className="text-lede text-muted-foreground mb-8">
-          mawaDao is non-profit and community-owned. Bring your school, your skills or your ideas.
+          mawaDao is community-owned: build it, own it, share it. Bring your school, your skills or your ideas.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
@@ -1262,7 +1252,6 @@ const FOOTER_LINKS = [
     title: 'Use',
     links: [
       { href: ROUTES.MARKETPLACE, label: 'Agent marketplace' },
-      { href: ROUTES.TOOLS, label: 'Explore AI tools' },
       { href: '#how-it-works', label: 'Create your workspace' },
     ],
   },
@@ -1292,8 +1281,8 @@ export function LandingFooter() {
           <div className="col-span-2 md:col-span-1">
             <MawadaoLogo />
             <p className="text-footnote text-muted-foreground mt-3 max-w-xs">
-              A non-profit, community-owned marketplace for responsible AI agents, built to bring quality education to
-              underserved children and orphans.
+              A community-owned ecosystem of agentic AI and blockchain technologies for education. Build it, own it,
+              share it.
             </p>
           </div>
           {FOOTER_LINKS.map((col) => (

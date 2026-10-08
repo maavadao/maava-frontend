@@ -14,7 +14,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: { default: 'mawa — AI agents for every classroom', template: '%s | mawa' },
   description: DESCRIPTION,
-  keywords: ['AI agents', 'education', 'AI tools', 'schools', 'students', 'teachers', 'non-profit', 'open source'],
+  keywords: ['AI agents', 'education', 'AI tools', 'schools', 'students', 'teachers', 'agentic AI', 'blockchain', 'open source'],
   authors: [{ name: 'mawaDao contributors' }],
   creator: 'mawaDao',
   metadataBase: new URL(SITE_URL),

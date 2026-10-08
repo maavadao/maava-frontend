@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { validateJWT } from '@/lib/auth';
-import { MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
+import { MARKETPLACE_URL, MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
 
 // Routes that require authentication
 const protectedRoutes = ['/settings', '/channels', '/onboarding'];
@@ -10,7 +10,11 @@ const protectedRoutes = ['/settings', '/channels', '/onboarding'];
 const authRoutes = ['/auth/login', '/auth/agent/login', '/auth/agent/register'];
 
 // Paths that stay on this site even for members who have a workspace
-const mainSitePaths = ['/marketplace', '/tools', '/workspace', '/auth', '/api', '/settings'];
+const mainSitePaths = ['/workspace', '/auth', '/api', '/settings'];
+
+// The marketplace and the old, separate "Explore AI tools" page both moved to mawadao.com,
+// merged into one. Anything still linking here gets sent on.
+const movedToMarketplace = ['/marketplace', '/tools'];
 
 // Cloud mode: when true, enables JWT auth and sends members to the member space
 const CLOUD_MODE = process.env.NEXT_PUBLIC_CLOUD_MODE === 'true';
@@ -32,6 +36,10 @@ function resolveExternalHost(request: NextRequest): string {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (movedToMarketplace.some(p => pathname === p || pathname.startsWith(`${p}/`))) {
+    return NextResponse.redirect(MARKETPLACE_URL, 308);
+  }
 
   if (CLOUD_MODE) {
     const token = request.cookies.get('auth-token')?.value;

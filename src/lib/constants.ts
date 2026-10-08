@@ -13,6 +13,12 @@ export const MEMBER_SPACE_URL = (
 export const MEMBER_SPACE_HOST = MEMBER_SPACE_URL.replace(/^https?:\/\//, "");
 
 /**
+ * The mawa Marketplace: AI agents and tools, listed by the community. It lives on
+ * mawadao.com now (merged with the old, separate "Explore AI tools" page), not here.
+ */
+export const MARKETPLACE_URL = process.env.NEXT_PUBLIC_MARKETPLACE_URL || `https://${MAWADAO_DOMAIN}/marketplace`;
+
+/**
  * Names that can't be claimed as a username: infrastructure names, plus paths the
  * member space serves itself (agent.mawadao.com/<username> shares the URL space).
  */
@@ -205,8 +211,8 @@ export const PROXY_API_URL = "/api/proxy/v1";
 // Routes
 export const ROUTES = {
   HOME: "/",
-  MARKETPLACE: "/marketplace",
-  TOOLS: "/tools",
+  /** External: the mawa Marketplace now lives on mawadao.com. See MARKETPLACE_URL. */
+  MARKETPLACE: MARKETPLACE_URL,
   WORKSPACE: "/workspace",
   CHAT: "/chat",
   AGENT_BUILDER: "/agent-builder",

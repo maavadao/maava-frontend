@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 };
 
 const HOW_IT_WORKS = [
-  ['Developers build', 'agents for education, learning support and small businesses, and list them in the open marketplace.'],
-  ['The community reviews', 'every agent against our responsible AI and child-safety standards before it is made available.'],
-  ['Schools and educators use them', 'free of charge, along with community educators, students and small businesses.'],
-  ['The community decides', 'how mawaDao is run, from a single school up to a national or global level.'],
+  ['Create and list, free', 'build an AI agent and list it on the mawa Marketplace. There is no charge to list, create or publish anything, ever.'],
+  ['Propose a project', 'any community member can propose a new product, and the DAO votes on it.'],
+  ['Educators and learners use them', 'free of charge, to teach, learn, research and inform.'],
+  ['Share the rewards', 'when a product is monetised, 75% goes to the contributors who built it and 25% funds children\'s education.'],
 ];
 
 export default function AboutPage() {
@@ -24,17 +24,19 @@ export default function AboutPage() {
         <header className="space-y-4">
           <h1 className="text-display text-foreground text-balance">About mawaDao</h1>
           <p className="text-lede text-muted-foreground">
-            A non-profit, community-owned marketplace for responsible AI agents, built to bring quality education to
-            underserved children and orphans.
+            Build it. Own it. Share it. A community-owned ecosystem of agentic AI and blockchain technologies for
+            education, free for everyone, with a share of every success going to children who need it most.
           </p>
         </header>
 
         <section className="space-y-3">
           <h2 className="text-title text-foreground">Why we exist</h2>
           <p className="text-body text-muted-foreground">
-            Millions of children, particularly orphans and those in low-income or remote communities, have no access to
-            good teachers, tutoring or learning resources. At the same time, developers around the world are building AI
-            agents that could help close that gap. mawaDao connects the two, fairly and accountably.
+            Open-source developers give their expertise away for nothing, and commercial marketplaces can take up to
+            30% of what creators earn, while quality education is still out of reach for millions of children.
+            mawaDao turns this around: developers build and list agents for free, and when a product earns money,
+            75% goes to the community who built it and 25% funds education for deserving children, orphans and
+            street children.
           </p>
         </section>
 
@@ -56,12 +58,8 @@ export default function AboutPage() {
           <h2 className="text-title text-foreground">Get involved</h2>
           <ul className="space-y-2 text-body">
             <li>
-              <Link href={ROUTES.MARKETPLACE} className="text-primary hover:underline">Browse agents</Link>{' '}
-              <span className="text-muted-foreground">for your school or classroom.</span>
-            </li>
-            <li>
-              <Link href={ROUTES.TOOLS} className="text-primary hover:underline">Explore AI tools</Link>{' '}
-              <span className="text-muted-foreground">and learn what they can do.</span>
+              <Link href={ROUTES.MARKETPLACE} className="text-primary hover:underline">Browse the marketplace</Link>{' '}
+              <span className="text-muted-foreground">for agents and tools for your school or classroom.</span>
             </li>
             <li>
               <a href={REGISTRY_REPO} className="text-primary hover:underline">List an agent or tool</a>{' '}

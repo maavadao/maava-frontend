@@ -38,7 +38,6 @@ import {
   X,
   HardDrive,
   Wand2,
-  Lightbulb,
 } from 'lucide-react';
 
 // =============================================================================
@@ -196,7 +195,6 @@ export function AppSidebar() {
       <nav className={cn('flex-1 space-y-0.5', collapsed ? 'px-2' : 'px-3')}>
         <SidebarItem href={ROUTES.HOME} icon={Home} label="Home" isActive={pathname === '/'} collapsed={collapsed} />
         <SidebarItem href="/explore" icon={Compass} label="Explore" isActive={pathname === '/explore'} collapsed={collapsed} />
-        <SidebarItem href={ROUTES.TOOLS} icon={Lightbulb} label="AI tools" isActive={!!pathname?.startsWith('/tools')} collapsed={collapsed} />
         <SidebarItem href="/workspace?tab=notifications" icon={Bell} label="Notifications" isActive={isHub && currentTab === 'notifications'} collapsed={collapsed} />
 
         <SidebarSection label="Workspace" collapsed={collapsed} />
@@ -765,17 +763,6 @@ export function AgentDetailNav() {
               )}
             >
               Marketplace
-            </Link>
-            <Link
-              href={ROUTES.TOOLS}
-              className={cn(
-                'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
-                pathname.startsWith('/tools')
-                  ? 'text-primary bg-mawadao-50 dark:bg-primary/10'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              )}
-            >
-              AI tools
             </Link>
             <Link
               href="/workspace?tab=agents"
