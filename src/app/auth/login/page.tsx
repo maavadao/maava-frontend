@@ -10,13 +10,13 @@ import { Button, Card, CardHeader, CardTitle, CardDescription, CardContent } fro
 import { AlertCircle, User, Lock } from 'lucide-react';
 import { APP_NAME, memberSpaceUrl } from '@/lib/constants';
 
-/** Sanitize redirect URL — only allow same-origin or *.mawadao.com */
+/** Sanitize redirect URL — only allow same-origin or *.maavadao.com */
 function sanitizeRedirect(raw: string | null): string | null {
   if (!raw) return null;
   try {
     const url = new URL(raw, window.location.origin);
     const host = url.hostname.toLowerCase();
-    if (host === 'mawadao.com' || host.endsWith('.mawadao.com')) {
+    if (host === 'maavadao.com' || host.endsWith('.maavadao.com')) {
       // Force HTTPS for production
       url.protocol = 'https:';
       return url.toString();
@@ -62,7 +62,7 @@ export default function LoginPage() {
           debugLog('[Login] Already authenticated with subdomain:', data.subdomain, '— fetching transfer token');
 
           // Throttle: don't retry within 10 seconds (prevents fast loops)
-          const storageKey = `mawadao-redirect-${data.subdomain}`;
+          const storageKey = `maavadao-redirect-${data.subdomain}`;
           const lastAttempt = sessionStorage.getItem(storageKey);
           if (lastAttempt && Date.now() - Number(lastAttempt) < 10_000) {
             console.error('[Login] Redirect attempted too recently — likely a loop. Last attempt:', new Date(Number(lastAttempt)).toISOString());
@@ -91,7 +91,7 @@ export default function LoginPage() {
           } catch (err) {
             debugWarn('[Login] Transfer token fetch failed, falling back to direct redirect:', err);
           }
-          // Fallback: redirect without transfer token (relies on .mawadao.com cookie)
+          // Fallback: redirect without transfer token (relies on .maavadao.com cookie)
           debugLog('[Login] Falling back to direct member-space redirect (no transfer token)');
           window.location.href = memberSpaceUrl(data.subdomain);
         } else if (data?.authenticated) {

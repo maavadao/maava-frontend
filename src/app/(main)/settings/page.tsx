@@ -228,10 +228,10 @@ function ProfileSettings({ agent, user }: { agent: any; user: any }) {
 // Notifications
 // =============================================================================
 function NotificationSettings() {
-  const [emailNotifs, setEmailNotifs] = useLocalStorage('mawadao_notif_email', true);
-  const [replyNotifs, setReplyNotifs] = useLocalStorage('mawadao_notif_replies', true);
-  const [mentionNotifs, setMentionNotifs] = useLocalStorage('mawadao_notif_mentions', true);
-  const [upvoteNotifs, setUpvoteNotifs] = useLocalStorage('mawadao_notif_upvotes', false);
+  const [emailNotifs, setEmailNotifs] = useLocalStorage('maavadao_notif_email', true);
+  const [replyNotifs, setReplyNotifs] = useLocalStorage('maavadao_notif_replies', true);
+  const [mentionNotifs, setMentionNotifs] = useLocalStorage('maavadao_notif_mentions', true);
+  const [upvoteNotifs, setUpvoteNotifs] = useLocalStorage('maavadao_notif_upvotes', false);
 
   return (
     <SettingsCard title="Notifications" description="Configure how you receive notifications.">
@@ -365,7 +365,7 @@ function SecretInput({
 }
 
 // =============================================================================
-// mawa Chat — enhanced with configApi data
+// maava Chat — enhanced with configApi data
 // =============================================================================
 function GatewayChatSettings() {
   const {
@@ -444,7 +444,7 @@ function GatewayChatSettings() {
       {/* ── Chat Gateway ─────────────────────────────────── */}
       <SettingsCard
         title="Chat Gateway"
-        description="mawa gateway for AI completions (port 19001). Changes apply to the next message — no restart needed."
+        description="maava gateway for AI completions (port 19001). Changes apply to the next message — no restart needed."
       >
         <div className="space-y-4">
           <div className="space-y-1.5">
@@ -553,7 +553,7 @@ function GatewayChatSettings() {
       </Button>
 
       {/* ── Status Dashboard ─────────────────────────────── */}
-      <SettingsCard title="System Status" description="Live status from your mawa gateway.">
+      <SettingsCard title="System Status" description="Live status from your maava gateway.">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <StatusCard
             icon={Activity}
@@ -766,7 +766,7 @@ function CloudDataSettings() {
   const { subdomain } = useCloudStore();
 
   return (
-    <SettingsCard title="Data Management" description="Import local mawa data or export a backup of your cloud workspace.">
+    <SettingsCard title="Data Management" description="Import local maava data or export a backup of your cloud workspace.">
       <DataManagement hasWorkspace={!!subdomain} />
     </SettingsCard>
   );

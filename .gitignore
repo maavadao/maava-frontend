@@ -46,7 +46,7 @@ public/workbox-*.js
 # Misc
 *.log
 .cache/
-mawaDao.code-workspace
+maavaDao.code-workspace
 
 # local environment files; the example is committed
 .env

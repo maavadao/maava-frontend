@@ -1,26 +1,26 @@
 // Application constants
 
-export const APP_NAME = "mawaDao";
+export const APP_NAME = "maavaDao";
 export const APP_DESCRIPTION = "AI agents for every classroom";
 
 // Domain
-export const MAWADAO_DOMAIN = process.env.NEXT_PUBLIC_MAWADAO_DOMAIN || "mawadao.com";
+export const MAAVADAO_DOMAIN = process.env.NEXT_PUBLIC_MAAVADAO_DOMAIN || "maavadao.com";
 
-/** Where members' workspaces live (mawa-dashboard). One host for everyone. */
+/** Where members' workspaces live (maava-dashboard). One host for everyone. */
 export const MEMBER_SPACE_URL = (
-  process.env.NEXT_PUBLIC_MEMBER_SPACE_URL || "https://agent.mawadao.com"
+  process.env.NEXT_PUBLIC_MEMBER_SPACE_URL || "https://agent.maavadao.com"
 ).replace(/\/+$/, "");
 export const MEMBER_SPACE_HOST = MEMBER_SPACE_URL.replace(/^https?:\/\//, "");
 
 /**
- * The mawa Marketplace: AI agents and tools, listed by the community. It lives on
- * mawadao.com now (merged with the old, separate "Explore AI tools" page), not here.
+ * The maava Marketplace: AI agents and tools, listed by the community. It lives on
+ * maavadao.com now (merged with the old, separate "Explore AI tools" page), not here.
  */
-export const MARKETPLACE_URL = process.env.NEXT_PUBLIC_MARKETPLACE_URL || `https://${MAWADAO_DOMAIN}/marketplace`;
+export const MARKETPLACE_URL = process.env.NEXT_PUBLIC_MARKETPLACE_URL || `https://${MAAVADAO_DOMAIN}/marketplace`;
 
 /**
  * Names that can't be claimed as a username: infrastructure names, plus paths the
- * member space serves itself (agent.mawadao.com/<username> shares the URL space).
+ * member space serves itself (agent.maavadao.com/<username> shares the URL space).
  */
 export const RESERVED_USERNAMES: ReadonlySet<string> = new Set([
   "_next",
@@ -63,7 +63,7 @@ export const RESERVED_USERNAMES: ReadonlySet<string> = new Set([
   "www",
 ]);
 
-/** A member's own space: https://agent.mawadao.com/<username>. */
+/** A member's own space: https://agent.maavadao.com/<username>. */
 export function memberSpaceUrl(username: string | undefined | null): string {
   return username ? `${MEMBER_SPACE_URL}/${encodeURIComponent(username)}` : MEMBER_SPACE_URL;
 }
@@ -83,7 +83,7 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
  * Auth microservice base URL.
  * In the browser the URL is derived entirely from window.location so that no
  * build-time env var or .env.local file can accidentally bake in localhost.
- * Convention: auth service lives at  auth.<frontend-host>  (e.g. auth.mawadao.com).
+ * Convention: auth service lives at  auth.<frontend-host>  (e.g. auth.maavadao.com).
  */
 export function getAuthApiBaseUrl(): string {
   if (typeof window !== 'undefined') {
@@ -173,7 +173,7 @@ export const SHORTCUTS = {
 export const GATEWAY_UI_URL =
   process.env.NEXT_PUBLIC_GATEWAY_UI_URL || "";
 
-/** mawa redirect URL for user/agent: https://{name}.run.app */
+/** maava redirect URL for user/agent: https://{name}.run.app */
 export const GATEWAY_REDIRECT_BASE = "https://{name}.run.app";
 
 export function getGatewayRedirectUrl(name: string): string {
@@ -183,13 +183,13 @@ export function getGatewayRedirectUrl(name: string): string {
   return GATEWAY_REDIRECT_BASE.replace("{name}", safe);
 }
 
-// mawa gateway URL (for WebSocket chat; http/https auto-converted to ws/wss)
+// maava gateway URL (for WebSocket chat; http/https auto-converted to ws/wss)
 export const GATEWAY_URL =
   process.env.NEXT_PUBLIC_GATEWAY_URL ||
   process.env.NEXT_PUBLIC_GATEWAY_UI_URL ||
   "http://localhost:19001";
 
-// mawa Configuration API URL — proxied through Next.js to avoid browser ERR_CONNECTION_REFUSED
+// maava Configuration API URL — proxied through Next.js to avoid browser ERR_CONNECTION_REFUSED
 // Browser always uses the relative proxy path; server-side uses GATEWAY_CONFIG_API_URL directly
 export const CONFIG_API_URL =
   typeof window !== "undefined"
@@ -211,7 +211,7 @@ export const PROXY_API_URL = "/api/proxy/v1";
 // Routes
 export const ROUTES = {
   HOME: "/",
-  /** External: the mawa Marketplace now lives on mawadao.com. See MARKETPLACE_URL. */
+  /** External: the maava Marketplace now lives on maavadao.com. See MARKETPLACE_URL. */
   MARKETPLACE: MARKETPLACE_URL,
   WORKSPACE: "/workspace",
   CHAT: "/chat",
@@ -239,11 +239,11 @@ export const ERRORS = {
 
 // Local storage keys
 export const STORAGE_KEYS = {
-  API_KEY: "mawadao_api_key",
-  THEME: "mawadao_theme",
-  ONBOARDING_COMPLETE: "mawadao_onboarding_complete",
-  INTERESTS: "mawadao_interests",
-  RECENT_SEARCHES: "mawadao_recent_searches",
+  API_KEY: "maavadao_api_key",
+  THEME: "maavadao_theme",
+  ONBOARDING_COMPLETE: "maavadao_onboarding_complete",
+  INTERESTS: "maavadao_interests",
+  RECENT_SEARCHES: "maavadao_recent_searches",
 } as const;
 
 // Channel types supported

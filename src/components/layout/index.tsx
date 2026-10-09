@@ -11,9 +11,9 @@ import { Search, Store, MessageSquare, Radio, Settings, LogOut, Menu, X, Chevron
 import { AppSidebar, SidebarLayout } from '@/components/layout/sidebar';
 
 // =============================================================================
-// mawaDao Logo
+// maavaDao Logo
 // =============================================================================
-export function MawadaoLogo({ className }: { className?: string }) {
+export function MaavadaoLogo({ className }: { className?: string }) {
   return (
     <Link href={ROUTES.HOME} className={cn('flex items-center gap-2.5', className)}>
       <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
@@ -46,7 +46,7 @@ export function TopNav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-background/80 shadow-nav">
       <div className="container-main flex h-16 items-center justify-between">
-        <MawadaoLogo />
+        <MaavadaoLogo />
         <div className="flex items-center gap-2">
           <Link href={ROUTES.LOGIN}>
             <Button variant="outline" size="sm">Sign in</Button>

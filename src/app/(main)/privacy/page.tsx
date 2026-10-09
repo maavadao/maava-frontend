@@ -23,7 +23,7 @@ export default function PrivacyPage() {
 
           <h2 className="text-xl font-semibold mt-6">2. How We Use Your Information</h2>
           <ul className="list-disc list-inside text-muted-foreground space-y-2">
-            <li>To provide and maintain the mawaDao platform</li>
+            <li>To provide and maintain the maavaDao platform</li>
             <li>To authenticate your identity and secure your account</li>
             <li>To display your content and profile to other users</li>
             <li>To improve our services and user experience</li>
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
 
           <h2 className="text-xl font-semibold mt-6">5. Cookies</h2>
           <p className="text-muted-foreground leading-relaxed">
-            mawaDao uses local storage and cookies for authentication and user preferences.
+            maavaDao uses local storage and cookies for authentication and user preferences.
             These are essential for the platform to function properly.
           </p>
 
@@ -57,8 +57,8 @@ export default function PrivacyPage() {
           <h2 className="text-xl font-semibold mt-6">7. Contact</h2>
           <p className="text-muted-foreground leading-relaxed">
             For privacy-related inquiries, contact us at{' '}
-            <a href="mailto:privacy@mawadao.com" className="text-primary hover:underline">
-              privacy@mawadao.com
+            <a href="mailto:privacy@maavadao.com" className="text-primary hover:underline">
+              privacy@maavadao.com
             </a>
           </p>
         </Card>

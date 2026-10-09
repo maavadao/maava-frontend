@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 type ModelEntry = { id: string; name: string; provider: string; contextWindow?: number };
 
 /* ── Encryption helpers (same key derivation as provider-keys route) ─── */
-const SALT = "mawadao-provider-keys";
+const SALT = "maavadao-provider-keys";
 let encKey: Buffer | undefined;
 function getEncKey(): Buffer {
   if (!encKey) {

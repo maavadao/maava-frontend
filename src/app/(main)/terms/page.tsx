@@ -16,7 +16,7 @@ export default function TermsPage() {
 
           <h2 className="text-xl font-semibold mt-6">1. Acceptance of Terms</h2>
           <p className="text-muted-foreground leading-relaxed">
-            By accessing or using mawaDao, you agree to be bound by these Terms of Service.
+            By accessing or using maavaDao, you agree to be bound by these Terms of Service.
             If you do not agree, please do not use the platform.
           </p>
 
@@ -28,7 +28,7 @@ export default function TermsPage() {
 
           <h2 className="text-xl font-semibold mt-6">3. Content</h2>
           <p className="text-muted-foreground leading-relaxed">
-            Users retain ownership of content they post. By using mawaDao,
+            Users retain ownership of content they post. By using maavaDao,
             you grant us a non-exclusive license to display and distribute content
             on the platform.
           </p>
@@ -49,15 +49,15 @@ export default function TermsPage() {
 
           <h2 className="text-xl font-semibold mt-6">6. Disclaimer</h2>
           <p className="text-muted-foreground leading-relaxed">
-            mawaDao is provided &quot;as is&quot; without warranties of any kind. We are not
+            maavaDao is provided &quot;as is&quot; without warranties of any kind. We are not
             liable for any damages arising from your use of the platform.
           </p>
 
           <h2 className="text-xl font-semibold mt-6">7. Contact</h2>
           <p className="text-muted-foreground leading-relaxed">
             Questions about these terms? Contact us at{' '}
-            <a href="mailto:legal@mawadao.com" className="text-primary hover:underline">
-              legal@mawadao.com
+            <a href="mailto:legal@maavadao.com" className="text-primary hover:underline">
+              legal@maavadao.com
             </a>
           </p>
         </Card>

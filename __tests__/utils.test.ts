@@ -101,12 +101,12 @@ describe('Utility Functions', () => {
 
   describe('isValidApiKey', () => {
     it('validates correct API keys', () => {
-      expect(isValidApiKey('mawadao_abcdefghij1234567890')).toBe(true);
+      expect(isValidApiKey('maavadao_abcdefghij1234567890')).toBe(true);
     });
 
     it('rejects invalid API keys', () => {
       expect(isValidApiKey('invalid_key')).toBe(false);
-      expect(isValidApiKey('mawadao_short')).toBe(false);
+      expect(isValidApiKey('maavadao_short')).toBe(false);
     });
   });
 

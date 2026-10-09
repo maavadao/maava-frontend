@@ -65,8 +65,8 @@ const newUser = {
 
 beforeAll(() => {
     process.env.NEXT_PUBLIC_CLOUD_MODE = 'true';
-    process.env.NEXT_PUBLIC_ROOT_DOMAIN = 'mawadao.com';
-    process.env.NEXT_PUBLIC_MEMBER_SPACE_URL = 'https://agent.mawadao.com';
+    process.env.NEXT_PUBLIC_ROOT_DOMAIN = 'maavadao.com';
+    process.env.NEXT_PUBLIC_MEMBER_SPACE_URL = 'https://agent.maavadao.com';
 });
 
 afterEach(() => jest.restoreAllMocks());
@@ -78,23 +78,23 @@ describe('member with a workspace', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(member);
 
-        const req = buildRequest(NextRequest, 'https://mawadao.com/', {
+        const req = buildRequest(NextRequest, 'https://maavadao.com/', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'mawadao.com' },
+            headers: { 'x-forwarded-host': 'maavadao.com' },
         });
 
         const res = await mw(req);
         expect(res?.status).toBe(307);
-        expect(res?.headers.get('location')).toBe('https://agent.mawadao.com/alice');
+        expect(res?.headers.get('location')).toBe('https://agent.maavadao.com/alice');
     });
 
     test('can still use the marketplace on the main site', async () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(member);
 
-        const req = buildRequest(NextRequest, 'https://mawadao.com/marketplace', {
+        const req = buildRequest(NextRequest, 'https://maavadao.com/marketplace', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'mawadao.com' },
+            headers: { 'x-forwarded-host': 'maavadao.com' },
         });
 
         const res = await mw(req);
@@ -105,9 +105,9 @@ describe('member with a workspace', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(member);
 
-        const req = buildRequest(NextRequest, 'https://agent.mawadao.com/', {
+        const req = buildRequest(NextRequest, 'https://agent.maavadao.com/', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'agent.mawadao.com' },
+            headers: { 'x-forwarded-host': 'agent.maavadao.com' },
         });
 
         const res = await mw(req);
@@ -120,9 +120,9 @@ describe('signed in without a workspace', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(newUser);
 
-        const req = buildRequest(NextRequest, 'https://mawadao.com/auth/login', {
+        const req = buildRequest(NextRequest, 'https://maavadao.com/auth/login', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'mawadao.com' },
+            headers: { 'x-forwarded-host': 'maavadao.com' },
         });
 
         const res = await mw(req);
@@ -135,9 +135,9 @@ describe('signed in without a workspace', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(newUser);
 
-        const req = buildRequest(NextRequest, 'https://mawadao.com/channels', {
+        const req = buildRequest(NextRequest, 'https://maavadao.com/channels', {
             cookies: { 'auth-token': 'valid-jwt' },
-            headers: { 'x-forwarded-host': 'mawadao.com' },
+            headers: { 'x-forwarded-host': 'maavadao.com' },
         });
 
         const res = await mw(req);
@@ -151,8 +151,8 @@ describe('not signed in', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(null);
 
-        const req = buildRequest(NextRequest, 'https://mawadao.com/auth/login', {
-            headers: { 'x-forwarded-host': 'mawadao.com' },
+        const req = buildRequest(NextRequest, 'https://maavadao.com/auth/login', {
+            headers: { 'x-forwarded-host': 'maavadao.com' },
         });
 
         const res = await mw(req);
@@ -163,8 +163,8 @@ describe('not signed in', () => {
         const { mw, mockedAuth, NextRequest } = getModules();
         mockedAuth.validateJWT.mockResolvedValue(null);
 
-        const req = buildRequest(NextRequest, 'https://mawadao.com/settings', {
-            headers: { 'x-forwarded-host': 'mawadao.com' },
+        const req = buildRequest(NextRequest, 'https://maavadao.com/settings', {
+            headers: { 'x-forwarded-host': 'maavadao.com' },
         });
 
         const res = await mw(req);

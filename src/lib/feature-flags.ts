@@ -1,6 +1,6 @@
 /**
  * Runtime feature flags for the realtime communication migration.
- * Mirror of mawa-dashboard/src/lib/feature-flags.ts.
+ * Mirror of maava-dashboard/src/lib/feature-flags.ts.
  */
 
 function env(key: string, fallback: string): string {

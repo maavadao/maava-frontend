@@ -7,7 +7,7 @@ import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from "crypt
 const ALLOWED_PROVIDERS = ["openai", "anthropic", "google", "moonshot"];
 
 // Derive a 32-byte key from the JWT secret (or a dedicated env var)
-const SALT = "mawadao-provider-keys";
+const SALT = "maavadao-provider-keys";
 let encKey: Buffer | undefined;
 function getEncKey(): Buffer {
   if (!encKey) {
@@ -21,7 +21,7 @@ function getEncKey(): Buffer {
 // Bucket-manager config — same env vars used by the provision route
 const STORAGE_URL = process.env.STORAGE_URL || "";
 const STORAGE_API_SECRET = process.env.STORAGE_API_SECRET || "";
-const GCS_BUCKET = process.env.GCS_BUCKET || "mawa-data";
+const GCS_BUCKET = process.env.GCS_BUCKET || "maava-data";
 
 function encrypt(text: string): string {
   const iv = randomBytes(16);

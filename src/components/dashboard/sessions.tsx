@@ -218,7 +218,7 @@ export function SessionsPanel() {
             <AlertCircle className="h-5 w-5 text-destructive" />
             Sessions Unavailable
           </CardTitle>
-          <CardDescription>Could not load sessions. Ensure the mawa gateway is running.</CardDescription>
+          <CardDescription>Could not load sessions. Ensure the maava gateway is running.</CardDescription>
         </CardHeader>
       </Card>
     );

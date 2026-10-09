@@ -1,7 +1,7 @@
 /**
  * POST /api/auth/logout
  *
- * Clears the auth-token cookie on the current domain and .mawadao.com.
+ * Clears the auth-token cookie on the current domain and .maavadao.com.
  */
 import { NextResponse } from 'next/server';
 
@@ -15,7 +15,7 @@ export async function POST() {
     sameSite: 'lax',
     path: '/',
     maxAge: 0,
-    domain: process.env.NODE_ENV === 'production' ? '.mawadao.com' : undefined,
+    domain: process.env.NODE_ENV === 'production' ? '.maavadao.com' : undefined,
   });
 
   return response;

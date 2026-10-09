@@ -14,7 +14,7 @@ import { MessageSquare, Bot, Star, Users, ArrowLeft, Shield, ExternalLink, Cpu }
 import { motion } from 'framer-motion';
 
 const PROVISION_LOGS = [
-  'Claiming your mawaDao corner on the internet…',
+  'Claiming your maavaDao corner on the internet…',
   'Teaching the Moonshot engine your new address…',
   'Warming up silicon and optimism…',
   'Laying out fresh cables for your AI workspace…',

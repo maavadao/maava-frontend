@@ -69,7 +69,7 @@ export default function AgentBuilderPage() {
 
     try {
       const gatewayToken = typeof window !== 'undefined'
-        ? JSON.parse(localStorage.getItem('mawadao-gateway-chat') || '{}')?.state?.gatewayToken
+        ? JSON.parse(localStorage.getItem('maavadao-gateway-chat') || '{}')?.state?.gatewayToken
         : null;
       const token = gatewayToken || apiKey;
 

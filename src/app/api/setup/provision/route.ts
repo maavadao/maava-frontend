@@ -23,13 +23,13 @@ const DEPLOYER_URL =
 const DEPLOYER_API_SECRET = process.env.DEPLOYER_API_SECRET || "";
 const CLOUD_BACKEND_IMAGE =
   process.env.CLOUD_BACKEND_IMAGE ||
-  "ghcr.io/mawadao/mawa-gateway:latest";
+  "ghcr.io/maavadao/maava-gateway:latest";
 const GCS_BUCKET =
-  process.env.GCS_BUCKET || "mawa-data";
+  process.env.GCS_BUCKET || "maava-data";
 // Use CLOUD_MODE (runtime) with NEXT_PUBLIC_CLOUD_MODE (build-time) as fallback.
 // NEXT_PUBLIC_ vars are inlined by Next.js at build time and won't reflect runtime env.
 const CLOUD_MODE = process.env.CLOUD_MODE === "true" || process.env.NEXT_PUBLIC_CLOUD_MODE === "true";
-// Local dev: the mawa platform is already running; skip Cloud Run deployment.
+// Local dev: the maava platform is already running; skip Cloud Run deployment.
 const LOCAL_BACKEND_URL =
   process.env.GATEWAY_URL ||
   process.env.NEXT_PUBLIC_GATEWAY_URL ||
@@ -45,7 +45,7 @@ export function GET() {
   return NextResponse.redirect(
     new URL(
       "/?step=subdomain",
-      process.env.NEXT_PUBLIC_ROOT_DOMAIN || "https://mawadao.com"
+      process.env.NEXT_PUBLIC_ROOT_DOMAIN || "https://maavadao.com"
     ),
     { status: 302 }
   );
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
       sameSite: "lax",
       path: "/",
       maxAge: 7 * 24 * 60 * 60,
-      domain: process.env.NODE_ENV === "production" ? ".mawadao.com" : undefined,
+      domain: process.env.NODE_ENV === "production" ? ".maavadao.com" : undefined,
     });
     return resp;
   }
@@ -238,7 +238,7 @@ export async function POST(request: NextRequest) {
     // Dev mode: platform already running locally — just mark active immediately
     const serviceUrl = LOCAL_BACKEND_URL;
     debugLog(`[provision] Dev mode: skipping Cloud Run deploy, using local backend ${serviceUrl}`);
-    const serviceName = `mawadao-${subdomain}`;
+    const serviceName = `maavadao-${subdomain}`;
     const storageBucket = GCS_BUCKET;
     await pool.query(
       `UPDATE tenants SET backend_url = $1, cloud_run_service_name = $2, storage_bucket = $3, status = 'active', updated_at = NOW() WHERE id = $4`,
@@ -265,7 +265,7 @@ export async function POST(request: NextRequest) {
     sameSite: "lax",
     path: "/",
     maxAge: 7 * 24 * 60 * 60,
-    domain: process.env.NODE_ENV === "production" ? ".mawadao.com" : undefined,
+    domain: process.env.NODE_ENV === "production" ? ".maavadao.com" : undefined,
   });
 
   return response;
@@ -363,13 +363,13 @@ async function deployInBackground(
     const authProfilesReady = await waitForAuthProfilesJson(userId);
     if (!authProfilesReady) {
       throw new Error(
-        "Provisioning finished without auth-profiles.json. Check MOONSHOT_API_KEY on mawadao-frontend and mawa-deployer."
+        "Provisioning finished without auth-profiles.json. Check MOONSHOT_API_KEY on maavadao-frontend and maava-deployer."
       );
     }
 
     await pool.query(
       `UPDATE tenants SET backend_url = $1, cloud_run_service_name = $2, storage_bucket = $3, status = 'active', updated_at = NOW() WHERE id = $4`,
-      [serviceUrl, `mawadao-${subdomain}`, GCS_BUCKET, tenantId]
+      [serviceUrl, `maavadao-${subdomain}`, GCS_BUCKET, tenantId]
     );
 
     await invalidateBackendUrl(subdomain);
@@ -381,7 +381,7 @@ async function deployInBackground(
     // Recovery: the deployer may have succeeded even if the fetch timed out.
     // Check if the Cloud Run service URL is reachable before marking suspended.
     const projectNumber = process.env.GCP_PROJECT_NUMBER || "";
-    const expectedUrl = `https://mawadao-${subdomain}-${projectNumber}.europe-west1.run.app`;
+    const expectedUrl = `https://maavadao-${subdomain}-${projectNumber}.europe-west1.run.app`;
     let recovered = false;
     try {
       const probe = await fetch(`${expectedUrl}/health`, { signal: AbortSignal.timeout(10_000) });
@@ -390,7 +390,7 @@ async function deployInBackground(
         debugLog(`[provision] Recovery: service exists at ${expectedUrl}, marking active`);
         await pool.query(
           `UPDATE tenants SET backend_url = $1, cloud_run_service_name = $2, storage_bucket = $3, status = 'active', updated_at = NOW() WHERE id = $4`,
-          [expectedUrl, `mawadao-${subdomain}`, GCS_BUCKET, tenantId]
+          [expectedUrl, `maavadao-${subdomain}`, GCS_BUCKET, tenantId]
         );
         await invalidateBackendUrl(subdomain);
         if (oldSubdomain && oldSubdomain !== subdomain) await invalidateBackendUrl(oldSubdomain);

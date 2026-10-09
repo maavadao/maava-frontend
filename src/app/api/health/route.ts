@@ -57,7 +57,7 @@ export async function GET() {
   const status = dbConnected ? 'ok' : 'degraded';
 
   const body = {
-    service: 'mawaDao Frontend',
+    service: 'maavaDao Frontend',
     status,
     timestamp: new Date().toISOString(),
     commit: process.env.COMMIT_SHA ?? '(unknown)',

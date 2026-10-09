@@ -5,7 +5,7 @@
  * then re-issues a new JWT signed with the frontend's JWT_SECRET and sets it
  * as an httpOnly auth-token cookie.
  *
- * This bridges the gap between auth.mawadao.com and the frontend middleware
+ * This bridges the gap between auth.maavadao.com and the frontend middleware
  * that reads the auth-token cookie.
  */
 import { NextRequest, NextResponse } from "next/server";
@@ -17,7 +17,7 @@ import pool from "@/lib/db";
 const AUTH_URL = (
   process.env.AUTH_SERVICE_URL ||
   process.env.NEXT_PUBLIC_AUTH_URL ||
-  "https://auth.mawadao.com"
+  "https://auth.maavadao.com"
 ).replace(/\/+$/, "");
 
 function firstForwardedValue(value: string | null): string {
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       body: new URLSearchParams({
         grant_type: "authorization_code",
         code: authCode,
-        client_id: process.env.OIDC_CLIENT_ID || "mawadao-web",
+        client_id: process.env.OIDC_CLIENT_ID || "maavadao-web",
         redirect_uri: `${resolveFrontendBase(request)}/auth/callback`,
         code_verifier: codeVerifier,
       }),
@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
   const newToken = await createJWT({ userId, email, subdomain, tenantId });
 
   // Generate a short-lived transfer token for cross-subdomain redirect.
-  // The callback page uses this to redirect to {subdomain}.mawadao.com with
+  // The callback page uses this to redirect to {subdomain}.maavadao.com with
   // the token in the URL, avoiding cross-domain cookie issues.
   let transferToken: string | null = null;
   if (subdomain) {
@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
     path: "/",
     maxAge: 7 * 24 * 60 * 60, // 7 days
     domain:
-      process.env.NODE_ENV === "production" ? ".mawadao.com" : undefined,
+      process.env.NODE_ENV === "production" ? ".maavadao.com" : undefined,
   });
   response.cookies.set("oidc_state", "", {
     httpOnly: true,

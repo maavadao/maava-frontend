@@ -6,7 +6,7 @@ import { useAuthStore, useSetupStore } from '@/store';
 import { api } from '@/lib/api';
 import { MEMBER_SPACE_HOST } from '@/lib/constants';
 import { Button, Input, Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui';
-import { MawadaoLogo } from '@/components/layout';
+import { MaavadaoLogo } from '@/components/layout';
 import { Globe, Check, X, Loader2, ArrowRight, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -138,7 +138,7 @@ export default function ChooseUsernamePage() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <div className="border-b bg-background px-6 py-4">
-        <MawadaoLogo />
+        <MaavadaoLogo />
       </div>
 
       <div className="flex-1 flex items-center justify-center px-4 py-12">
@@ -149,7 +149,7 @@ export default function ChooseUsernamePage() {
             </div>
             <CardTitle className="text-2xl">Choose Your Username</CardTitle>
             <CardDescription className="text-base">
-              This will be your unique identity and subdomain on mawaDao
+              This will be your unique identity and subdomain on maavaDao
             </CardDescription>
           </CardHeader>
 

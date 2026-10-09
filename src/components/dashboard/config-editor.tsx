@@ -297,7 +297,7 @@ export function ConfigEditor() {
             Configuration Unavailable
           </CardTitle>
           <CardDescription>
-            Could not load the agent configuration. Make sure the mawa gateway is running and your agent is properly connected.
+            Could not load the agent configuration. Make sure the maava gateway is running and your agent is properly connected.
           </CardDescription>
         </CardHeader>
       </Card>

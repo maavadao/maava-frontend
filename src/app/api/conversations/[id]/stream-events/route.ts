@@ -5,7 +5,7 @@ import pool from "@/lib/db";
  * GET /api/conversations/[id]/stream-events
  *
  * Server-Sent Events endpoint for stream recovery.
- * Replaces the 1.5 s polling loop in mawadao-frontend.
+ * Replaces the 1.5 s polling loop in maavadao-frontend.
  *
  * Feature flag: NEXT_PUBLIC_REALTIME_STREAM_STATUS=sse
  */

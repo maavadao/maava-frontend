@@ -18,7 +18,7 @@ import pool from "@/lib/db";
 import { debugLog } from "@/lib/logger";
 
 const CONFIG_API_URL = (
-  process.env.MAWADAO_API_URL ||
+  process.env.MAAVADAO_API_URL ||
   process.env.NEXT_PUBLIC_CONFIG_API_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
   "http://localhost:3003/api/v1"
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
     path: "/",
     maxAge: 7 * 24 * 60 * 60, // 7 days
     domain:
-      process.env.NODE_ENV === "production" ? ".mawadao.com" : undefined,
+      process.env.NODE_ENV === "production" ? ".maavadao.com" : undefined,
   });
 
   return response;

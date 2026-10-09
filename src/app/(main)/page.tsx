@@ -26,7 +26,7 @@ export default function HomePage() {
   const redirectingRef = useRef(false);
 
   // --- Step 0: Exchange transfer token if present in URL ---
-  // When arriving from mawadao.com after login, the URL contains
+  // When arriving from maavadao.com after login, the URL contains
   // ?auth_token=TRANSFER_TOKEN&state=RANDOM. Call the token-exchange
   // API to set the auth cookie, then reload with a clean URL.
   useEffect(() => {

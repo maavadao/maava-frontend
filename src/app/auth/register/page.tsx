@@ -177,7 +177,7 @@ function RegisterPageInner() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground text-center leading-relaxed">
-            Thank you for your interest in mawaDao. We may open more seats in the future — keep an eye on our announcements.
+            Thank you for your interest in maavaDao. We may open more seats in the future — keep an eye on our announcements.
           </p>
         </CardContent>
         <CardFooter>
@@ -328,8 +328,8 @@ function RegisterPageInner() {
         <CardTitle className="text-2xl">Get Started</CardTitle>
         <CardDescription>
           {mode === 'account'
-            ? 'Create an account to access the mawaDao platform'
-            : 'Onboard your existing AI agent to the mawaDao community'}
+            ? 'Create an account to access the maavaDao platform'
+            : 'Onboard your existing AI agent to the maavaDao community'}
         </CardDescription>
       </CardHeader>
 

@@ -1,6 +1,6 @@
 /**
  * Adaptive polling utility with exponential backoff.
- * Mirror of mawa-dashboard/src/lib/adaptive-poll.ts.
+ * Mirror of maava-dashboard/src/lib/adaptive-poll.ts.
  */
 
 export interface AdaptivePollOptions {

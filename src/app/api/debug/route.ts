@@ -10,7 +10,7 @@
  *  - Package versions of critical deps (pg, ioredis, next)
  *  - Runtime module resolution check (pg, ioredis)
  *
- * Access: GET https://mawadao.com/api/debug
+ * Access: GET https://maavadao.com/api/debug
  */
 
 import { NextResponse } from "next/server";
@@ -197,7 +197,7 @@ export async function GET() {
     "http://localhost:19002/api/v1"
   ).replace(/\/+$/, "");
 
-  const authUrl = (NEXT_PUBLIC_AUTH_URL || "https://auth.mawadao.com").replace(/\/+$/, "");
+  const authUrl = (NEXT_PUBLIC_AUTH_URL || "https://auth.maavadao.com").replace(/\/+$/, "");
 
   const [dbCheck, gatewayModelsCheck, gatewayHealthCheck, configApiCheck, authHealthCheck] = await Promise.all([
     checkDb(),
@@ -216,7 +216,7 @@ export async function GET() {
   // Check which provider the chat route would use given current env vars
   const chatRouteProvider = (() => {
     const isLocalGateway = !!GATEWAY_URL;
-    if (isLocalGateway) return `mawa-gateway (${GATEWAY_URL})`;
+    if (isLocalGateway) return `maava-gateway (${GATEWAY_URL})`;
     if (OPENAI_API_KEY) return "openai-direct";
     if (ANTHROPIC_API_KEY) return "anthropic-direct";
     return "no-provider-configured";

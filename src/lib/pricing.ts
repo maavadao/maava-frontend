@@ -1,7 +1,7 @@
 // Price and usage per type of user, shared by marketplace agents and registry listings.
 
-/** Where people ask about using mawas beyond education while pricing is being decided. */
-export const CONTACT_URL = process.env.NEXT_PUBLIC_CONTACT_URL || 'https://mawadao.com/#contact';
+/** Where people ask about using maavas beyond education while pricing is being decided. */
+export const CONTACT_URL = process.env.NEXT_PUBLIC_CONTACT_URL || 'https://maavadao.com/#contact';
 
 export const AUDIENCES = ['education', 'individuals', 'business'] as const;
 export type Audience = (typeof AUDIENCES)[number];

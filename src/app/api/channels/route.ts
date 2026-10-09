@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { authenticateRequest, extractJWTFromRequest } from "@/lib/auth";
 import { syncChannelsToGcs } from "@/lib/sync-channels";
 
-const API_BASE = process.env.MAWADAO_API_URL;
+const API_BASE = process.env.MAAVADAO_API_URL;
 
 function fwd(req: NextRequest): Record<string, string> {
   const auth = req.headers.get("authorization");
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
         if (!gcsOk && data && typeof data === "object" && !Array.isArray(data)) {
           (data as Record<string, unknown>).gcsSyncWarning =
-            "Channel saved to DB but GCS sync failed. Ensure STORAGE_URL and STORAGE_API_SECRET are set correctly in the mawadao-frontend service.";
+            "Channel saved to DB but GCS sync failed. Ensure STORAGE_URL and STORAGE_API_SECRET are set correctly in the maavadao-frontend service.";
         }
       }
     }

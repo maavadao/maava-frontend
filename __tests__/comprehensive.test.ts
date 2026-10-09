@@ -54,10 +54,10 @@ describe('Cloud Store (Zustand)', () => {
     // Build a fake JWT with a valid base64url payload (no signature verification in store)
     const payload = {
       userId: 'user-123',
-      email: 'carol@mawadao.com',
+      email: 'carol@maavadao.com',
       subdomain: 'carol',
       tenantId: 'tenant-xyz',
-      iss: 'mawadao-auth',
+      iss: 'maavadao-auth',
       exp: Math.floor(Date.now() / 1000) + 3600,
     };
     const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
@@ -412,17 +412,17 @@ describe('Database Schema Constraints', () => {
 
 describe('Cloud Run Deployment Model', () => {
   it('each tenant gets unique service name', () => {
-    const serviceName = (subdomain: string) => `mawadao-${subdomain}`;
-    expect(serviceName('carol')).toBe('mawadao-carol');
-    expect(serviceName('alice')).toBe('mawadao-alice');
+    const serviceName = (subdomain: string) => `maavadao-${subdomain}`;
+    expect(serviceName('carol')).toBe('maavadao-carol');
+    expect(serviceName('alice')).toBe('maavadao-alice');
     // Should not collide
     expect(serviceName('carol')).not.toBe(serviceName('alice'));
   });
 
   it('backend URL follows Cloud Run pattern', () => {
-    const expectedPattern = /^https:\/\/mawadao-[a-z0-9-]+\.[a-z0-9-]+\.run\.app$/;
-    expect('https://mawadao-alice.europe-west1.run.app').toMatch(expectedPattern);
-    expect('https://mawadao-alice.us-central1.run.app').toMatch(expectedPattern);
+    const expectedPattern = /^https:\/\/maavadao-[a-z0-9-]+\.[a-z0-9-]+\.run\.app$/;
+    expect('https://maavadao-alice.europe-west1.run.app').toMatch(expectedPattern);
+    expect('https://maavadao-alice.us-central1.run.app').toMatch(expectedPattern);
   });
 
   it('provisioning status transitions are tracked', () => {

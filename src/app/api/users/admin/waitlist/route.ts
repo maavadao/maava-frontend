@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const CONFIG_API = (process.env.MAWADAO_API_URL || 'http://localhost:3003/api/v1').replace(/\/+$/, '');
+const CONFIG_API = (process.env.MAAVADAO_API_URL || 'http://localhost:3003/api/v1').replace(/\/+$/, '');
 
 /**
  * GET /api/users/admin/waitlist
- * Proxies to mawa-api GET /users/admin/waitlist
+ * Proxies to maava-api GET /users/admin/waitlist
  * Requires X-Admin-Secret header.
  */
 export async function GET(request: NextRequest) {

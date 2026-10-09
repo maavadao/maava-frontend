@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button, Input } from '@/components/ui';
-import { MawadaoLogo } from '@/components/layout';
+import { MaavadaoLogo } from '@/components/layout';
 import { INTEREST_CATEGORIES, ROUTES, STORAGE_KEYS, APP_NAME, CLOUD_MODE, MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
 import { useCloudStore } from '@/store/cloud';
 import {
@@ -140,7 +140,7 @@ export default function OnboardingPage() {
     1: [
       'Pulling AI runtime image...',
       'Deploying backend container...',
-      'Booting mawa engine...',
+      'Booting maava engine...',
       'Wiring up WebSocket gateway...',
     ],
     2: [
@@ -324,7 +324,7 @@ export default function OnboardingPage() {
         localStorage.setItem(STORAGE_KEYS.INTERESTS, JSON.stringify(selectedInterests));
         setStep('preferences');
       } else if (step === 'preferences') {
-        localStorage.setItem('mawadao_preferences', JSON.stringify(preferences));
+        localStorage.setItem('maavadao_preferences', JSON.stringify(preferences));
         // Now provision — interests and preferences already collected
         handleProvision();
       } else if (step === 'ready') {
@@ -342,7 +342,7 @@ export default function OnboardingPage() {
         localStorage.setItem(STORAGE_KEYS.INTERESTS, JSON.stringify(selectedInterests));
         setStep('preferences');
       } else if (step === 'preferences') {
-        localStorage.setItem('mawadao_preferences', JSON.stringify(preferences));
+        localStorage.setItem('maavadao_preferences', JSON.stringify(preferences));
         setStep('welcome');
       } else {
         localStorage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETE, 'true');
@@ -357,7 +357,7 @@ export default function OnboardingPage() {
     <div className="min-h-screen bg-white dark:bg-background flex flex-col">
       {/* Header */}
       <div className="border-b px-6 py-4">
-        <MawadaoLogo />
+        <MaavadaoLogo />
       </div>
 
       {/* Progress */}

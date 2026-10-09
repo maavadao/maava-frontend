@@ -6,8 +6,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // mawaDao brand palette
-        mawadao: {
+        // maavaDao brand palette
+        maavadao: {
           50: "#eff6ff",
           100: "#dbeafe",
           200: "#bfdbfe",
@@ -69,7 +69,7 @@ const config: Config = {
       },
       fontSize: {
         "2xs": ["0.625rem", { lineHeight: "0.875rem" }],  // 10px
-        // Type scale shared with mawadao.com. Each step sets size, leading, tracking and weight
+        // Type scale shared with maavadao.com. Each step sets size, leading, tracking and weight
         // together; large text gets tighter leading and negative tracking, small text the reverse.
         hero: ["clamp(2.5rem, 8vw, 4.5rem)", { lineHeight: "1.04", letterSpacing: "-0.035em", fontWeight: "600" }],
         display: ["clamp(2rem, 6vw, 3.25rem)", { lineHeight: "1.08", letterSpacing: "-0.028em", fontWeight: "600" }],

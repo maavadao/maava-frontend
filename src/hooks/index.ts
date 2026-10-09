@@ -384,7 +384,7 @@ export function isValidAgentName(name: string): boolean {
 }
 
 // ============================================================================
-// mawa Configuration API hooks
+// maava Configuration API hooks
 // ============================================================================
 
 /**
@@ -395,7 +395,7 @@ function gatewayKey(segments: string[]): string[] | null {
   return configApi.isUnavailable() ? null : segments;
 }
 
-/** Fetch the current mawa config (raw YAML + parsed + baseHash). */
+/** Fetch the current maava config (raw YAML + parsed + baseHash). */
 export function useConfig(config?: SWRConfiguration) {
   return useSWR<ConfigData>(
     gatewayKey(["openclaw", "config"]),
@@ -458,7 +458,7 @@ export function useSkills(config?: SWRConfiguration) {
   );
 }
 
-/** Get channel statuses from mawa gateway. */
+/** Get channel statuses from maava gateway. */
 export function useChannels(config?: SWRConfiguration) {
   return useSWR<ChannelStatus[]>(
     gatewayKey(["openclaw", "channels"]),
@@ -467,7 +467,7 @@ export function useChannels(config?: SWRConfiguration) {
   );
 }
 
-/** Get saved channel connections from the mawaDao DB (per-user). */
+/** Get saved channel connections from the maavaDao DB (per-user). */
 export function useSavedChannels(config?: SWRConfiguration) {
   const { isAuthenticated } = useAuth();
   return useSWR<SavedChannel[]>(

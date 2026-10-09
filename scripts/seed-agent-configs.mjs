@@ -390,7 +390,7 @@ async function main() {
       connConfig = {
         host: u.hostname,
         port: parseInt(u.port || '5432'),
-        database: u.pathname.replace(/^\//, '') || 'mawadao',
+        database: u.pathname.replace(/^\//, '') || 'maavadao',
         user: decodeURIComponent(u.username),
         password: decodeURIComponent(u.password),
         ssl: { rejectUnauthorized: false },
@@ -400,9 +400,9 @@ async function main() {
     }
   } else {
     connConfig = {
-      host: 'mawadao.db',
+      host: 'maavadao.db',
       port: 5432,
-      database: 'mawadao',
+      database: 'maavadao',
       user: 'postgres',
       password: 'Zh%F+obR$dp-6\\A-',
       ssl: { rejectUnauthorized: false },

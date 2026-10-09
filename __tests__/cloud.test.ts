@@ -27,7 +27,7 @@ describe('JWT Auth', () => {
   it('creates and validates a JWT round-trip', async () => {
     const payload = {
       userId: 'user-123',
-      email: 'test@mawadao.com',
+      email: 'test@maavadao.com',
       subdomain: 'testuser',
       tenantId: 'tenant-abc',
     };
@@ -39,7 +39,7 @@ describe('JWT Auth', () => {
     const decoded = await validateJWT(token);
     expect(decoded).not.toBeNull();
     expect(decoded!.userId).toBe('user-123');
-    expect(decoded!.email).toBe('test@mawadao.com');
+    expect(decoded!.email).toBe('test@maavadao.com');
     expect(decoded!.subdomain).toBe('testuser');
     expect(decoded!.tenantId).toBe('tenant-abc');
   });
@@ -233,8 +233,8 @@ describe('SSRF Backend URL Validation', () => {
   }
 
   it('allows valid Cloud Run URLs', () => {
-    expect(isAllowedBackendUrl('https://mawadao-alice.run.app')).toBe(true);
-    expect(isAllowedBackendUrl('https://mawadao-alice.run.app/')).toBe(true);
+    expect(isAllowedBackendUrl('https://maavadao-alice.run.app')).toBe(true);
+    expect(isAllowedBackendUrl('https://maavadao-alice.run.app/')).toBe(true);
     expect(isAllowedBackendUrl('https://service-123.a.run.app')).toBe(true);
   });
 
@@ -299,9 +299,9 @@ describe('Security Headers Configuration', () => {
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://avatars.mawadao.com https://images.mawadao.com https://*.githubusercontent.com",
+      "img-src 'self' data: blob: https://avatars.maavadao.com https://images.maavadao.com https://*.githubusercontent.com",
       "font-src 'self' data:",
-      "connect-src 'self' https://*.mawadao.com wss://*.mawadao.com https://accounts.google.com",
+      "connect-src 'self' https://*.maavadao.com wss://*.maavadao.com https://accounts.google.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

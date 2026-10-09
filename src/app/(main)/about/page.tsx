@@ -7,11 +7,11 @@ import { REGISTRY_REPO } from '@/lib/registry';
 
 export const metadata: Metadata = {
   title: 'About',
-  description: 'Why mawaDao exists, how it works, and how to get involved.',
+  description: 'Why maavaDao exists, how it works, and how to get involved.',
 };
 
 const HOW_IT_WORKS = [
-  ['Create and list, free', 'build an AI agent and list it on the mawa Marketplace. There is no charge to list, create or publish anything, ever.'],
+  ['Create and list, free', 'build an AI agent and list it on the maava Marketplace. There is no charge to list, create or publish anything, ever.'],
   ['Propose a project', 'any community member can propose a new product, and the DAO votes on it.'],
   ['Educators and learners use them', 'free of charge, to teach, learn, research and inform.'],
   ['Share the rewards', 'when a product is monetised, 75% goes to the contributors who built it and 25% funds children\'s education.'],
@@ -22,7 +22,7 @@ export default function AboutPage() {
     <PageContainer>
       <article className="max-w-2xl mx-auto px-4 py-12 sm:py-16 space-y-12">
         <header className="space-y-4">
-          <h1 className="text-display text-foreground text-balance">About mawaDao</h1>
+          <h1 className="text-display text-foreground text-balance">About maavaDao</h1>
           <p className="text-lede text-muted-foreground">
             Build it. Own it. Share it. A community-owned ecosystem of agentic AI and blockchain technologies for
             education, free for everyone, with a share of every success going to children who need it most.
@@ -34,7 +34,7 @@ export default function AboutPage() {
           <p className="text-body text-muted-foreground">
             Open-source developers give their expertise away for nothing, and commercial marketplaces can take up to
             30% of what creators earn, while quality education is still out of reach for millions of children.
-            mawaDao turns this around: developers build and list agents for free, and when a product earns money,
+            maavaDao turns this around: developers build and list agents for free, and when a product earns money,
             75% goes to the community who built it and 25% funds education for deserving children, orphans and
             street children.
           </p>
@@ -67,7 +67,7 @@ export default function AboutPage() {
             </li>
             <li>
               <a href={CONTACT_URL} className="text-primary hover:underline">Contact us</a>{' '}
-              <span className="text-muted-foreground">to bring mawaDao to your school or organisation.</span>
+              <span className="text-muted-foreground">to bring maavaDao to your school or organisation.</span>
             </li>
           </ul>
         </section>

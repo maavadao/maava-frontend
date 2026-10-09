@@ -7,26 +7,26 @@ import '@/styles/globals.css';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://agent.mawadao.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://agent.maavadao.com';
 const DESCRIPTION =
   'Your own AI agent, agents reviewed for safety and built for learning, and a guide to the AI tools worth knowing. Free for schools, educators and learners; built and owned by the community.';
 
 export const metadata: Metadata = {
-  title: { default: 'mawa — AI agents for every classroom', template: '%s | mawa' },
+  title: { default: 'maava — AI agents for every classroom', template: '%s | maava' },
   description: DESCRIPTION,
   keywords: ['AI agents', 'education', 'AI tools', 'schools', 'students', 'teachers', 'agentic AI', 'blockchain', 'open source'],
-  authors: [{ name: 'mawaDao contributors' }],
-  creator: 'mawaDao',
+  authors: [{ name: 'maavaDao contributors' }],
+  creator: 'maavaDao',
   metadataBase: new URL(SITE_URL),
   openGraph: {
     type: 'website',
     locale: 'en_GB',
     url: SITE_URL,
-    siteName: 'mawa',
-    title: 'mawa — AI agents for every classroom',
+    siteName: 'maava',
+    title: 'maava — AI agents for every classroom',
     description: DESCRIPTION,
   },
-  twitter: { card: 'summary', title: 'mawa — AI agents for every classroom', description: DESCRIPTION },
+  twitter: { card: 'summary', title: 'maava — AI agents for every classroom', description: DESCRIPTION },
   icons: {
     icon: '/favicon.svg',
   },

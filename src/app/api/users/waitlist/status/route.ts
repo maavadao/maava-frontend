@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const CONFIG_API = (process.env.MAWADAO_API_URL || 'http://localhost:3003/api/v1').replace(/\/+$/, '');
+const CONFIG_API = (process.env.MAAVADAO_API_URL || 'http://localhost:3003/api/v1').replace(/\/+$/, '');
 
 /**
  * GET /api/users/waitlist/status?email=...
- * Proxies to mawa-api GET /users/waitlist/status
+ * Proxies to maava-api GET /users/waitlist/status
  * Used by the auth callback to gate OAuth logins through the waitlist.
  */
 export async function GET(request: NextRequest) {

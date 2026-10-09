@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const CONFIG_API = (process.env.MAWADAO_API_URL || 'http://localhost:3003/api/v1').replace(/\/+$/, '');
+const CONFIG_API = (process.env.MAAVADAO_API_URL || 'http://localhost:3003/api/v1').replace(/\/+$/, '');
 
 /**
  * POST /api/users/waitlist/oauth-join
- * Proxies to mawa-api POST /users/waitlist/oauth-join
+ * Proxies to maava-api POST /users/waitlist/oauth-join
  * Auto-enrolls a Google/OAuth user onto the waitlist.
  * Body: { email: string, displayName?: string }
  */

@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button, Input } from '@/components/ui';
-import { MawadaoLogo } from '@/components/layout';
+import { MaavadaoLogo } from '@/components/layout';
 import { ROUTES, MEMBER_SPACE_HOST, memberSpaceUrl } from '@/lib/constants';
 import { CONTACT_URL } from '@/lib/pricing';
 import { REGISTRY_REPO } from '@/lib/registry';
@@ -37,7 +37,7 @@ import { SiTelegram, SiDiscord, SiSlack, SiWhatsapp } from 'react-icons/si';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
-const MISSION_URL = 'https://github.com/mawadao/mawadao/blob/main/MISSION.md';
+const MISSION_URL = 'https://github.com/maavadao/maavadao/blob/main/MISSION.md';
 
 // Content settles into place once as it scrolls in; critically damped, no bounce.
 const reveal = {
@@ -55,7 +55,7 @@ export function LandingNav() {
     <header className="material-nav sticky top-0 z-50 w-full border-b border-border/40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex h-14 items-center justify-between gap-4">
         <div className="flex items-center gap-8">
-          <MawadaoLogo />
+          <MaavadaoLogo />
           <nav aria-label="Main" className="hidden md:flex items-center gap-1">
             {[
               { href: ROUTES.MARKETPLACE, label: 'Marketplace' },
@@ -122,7 +122,7 @@ function RainbowBar() {
 
 // Provider options for step 3
 const PROVIDER_OPTIONS = [
-  { id: 'moonshot', name: 'Moonshot', description: 'Default — mawa optimised engine', badge: 'Default' },
+  { id: 'moonshot', name: 'Moonshot', description: 'Default — maava optimised engine', badge: 'Default' },
   { id: 'openai', name: 'OpenAI', description: 'GPT-4o and GPT-4.1 models', badge: null },
   { id: 'anthropic', name: 'Claude', description: 'Claude Sonnet and Opus models', badge: null },
   { id: 'google', name: 'Gemini', description: 'Google Gemini 2.5 models', badge: null },
@@ -639,7 +639,7 @@ function GuidedSetup() {
                   {authMode === 'register' ? 'Create your account' : 'Welcome back'}
                 </h3>
                 <p className="text-[13px] text-muted-foreground mb-5 text-center">
-                  {authMode === 'register' ? 'Set up your mawa account' : 'Sign in to your existing account'}
+                  {authMode === 'register' ? 'Set up your maava account' : 'Sign in to your existing account'}
                 </p>
 
                 {/* Mode toggle */}
@@ -1092,7 +1092,7 @@ const FEATURES = [
     icon: Lightbulb,
     title: 'Build and share',
     description:
-      'Built an agent or know a good tool? List it on mawa with a pull request and the community will review it.',
+      'Built an agent or know a good tool? List it on maava with a pull request and the community will review it.',
     href: REGISTRY_REPO,
     cta: 'List your work',
   },
@@ -1103,7 +1103,7 @@ export function LandingFeatures() {
     <section id="what-you-can-do" className="py-20 md:py-28 bg-background scroll-mt-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <motion.div {...reveal} className="max-w-2xl mb-12">
-          <h2 className="text-display text-foreground text-balance">What you can do on mawa</h2>
+          <h2 className="text-display text-foreground text-balance">What you can do on maava</h2>
         </motion.div>
         <ul className="grid gap-4 sm:grid-cols-2">
           {FEATURES.map((f) => (
@@ -1157,7 +1157,7 @@ export function LandingSafety() {
         <motion.div {...reveal} className="max-w-2xl mb-12">
           <h2 className="text-display text-foreground text-balance mb-4">Safe for children, by design.</h2>
           <p className="text-lede text-muted-foreground">
-            Because mawaDao serves children, safety isn’t a setting. Every agent is held to the same standards.
+            Because maavaDao serves children, safety isn’t a setting. Every agent is held to the same standards.
           </p>
         </motion.div>
         <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
@@ -1223,7 +1223,7 @@ export function LandingCTA() {
           Built by the community, for the children who need it most.
         </h2>
         <p className="text-lede text-muted-foreground mb-8">
-          mawaDao is community-owned: build it, own it, share it. Bring your school, your skills or your ideas.
+          maavaDao is community-owned: build it, own it, share it. Bring your school, your skills or your ideas.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
@@ -1259,7 +1259,7 @@ const FOOTER_LINKS = [
     title: 'Contribute',
     links: [
       { href: REGISTRY_REPO, label: 'List a tool or agent' },
-      { href: 'https://github.com/mawadao/mawa', label: 'Source code' },
+      { href: 'https://github.com/maavadao/maava', label: 'Source code' },
       { href: MISSION_URL, label: 'Mission' },
     ],
   },
@@ -1279,7 +1279,7 @@ export function LandingFooter() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
           <div className="col-span-2 md:col-span-1">
-            <MawadaoLogo />
+            <MaavadaoLogo />
             <p className="text-footnote text-muted-foreground mt-3 max-w-xs">
               A community-owned ecosystem of agentic AI and blockchain technologies for education. Build it, own it,
               share it.
@@ -1299,7 +1299,7 @@ export function LandingFooter() {
           ))}
         </div>
         <p className="pt-8 border-t border-border text-caption text-muted-foreground">
-          © {new Date().getFullYear()} mawaDao contributors. Open source under the Apache 2.0 licence.
+          © {new Date().getFullYear()} maavaDao contributors. Open source under the Apache 2.0 licence.
         </p>
       </div>
     </footer>

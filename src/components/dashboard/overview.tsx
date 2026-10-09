@@ -249,10 +249,10 @@ export function DashboardOverview() {
               <AlertCircle className="h-5 w-5 text-yellow-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-sm">mawa Gateway Not Configured</p>
+              <p className="font-medium text-sm">maava Gateway Not Configured</p>
               <p className="text-xs text-muted-foreground mt-1">
-                The dashboard cannot connect to your mawa gateway because no URL has been set.
-                Go to <strong>Settings → mawa Gateway</strong> and enter the URL of your running gateway instance.
+                The dashboard cannot connect to your maava gateway because no URL has been set.
+                Go to <strong>Settings → maava Gateway</strong> and enter the URL of your running gateway instance.
               </p>
               <Link href="/settings">
                 <Button variant="outline" size="sm" className="mt-3">

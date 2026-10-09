@@ -12,7 +12,7 @@ const authRoutes = ['/auth/login', '/auth/agent/login', '/auth/agent/register'];
 // Paths that stay on this site even for members who have a workspace
 const mainSitePaths = ['/workspace', '/auth', '/api', '/settings'];
 
-// The marketplace and the old, separate "Explore AI tools" page both moved to mawadao.com,
+// The marketplace and the old, separate "Explore AI tools" page both moved to maavadao.com,
 // merged into one. Anything still linking here gets sent on.
 const movedToMarketplace = ['/marketplace', '/tools'];
 
@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get('auth-token')?.value;
     const user = token ? await validateJWT(token) : null;
 
-    // Members with a workspace belong in their space, agent.mawadao.com/<username>.
+    // Members with a workspace belong in their space, agent.maavadao.com/<username>.
     // The auth cookie is scoped to the parent domain, so the member space shares the session.
     const onMemberSpace = resolveExternalHost(request) === MEMBER_SPACE_HOST;
     if (user?.subdomain && !onMemberSpace && !mainSitePaths.some(p => pathname.startsWith(p))) {
